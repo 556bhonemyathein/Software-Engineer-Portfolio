@@ -81,96 +81,96 @@ const SKILLS: {
   color: string;
   items: { name: string; note?: string }[];
 }[] = [
-  {
-    icon: <Layers size={15} />,
-    title: "State Management",
-    color: A,
-    items: [
-      { name: "setState", note: "Local state" },
-      { name: "Provider", note: "DI + ChangeNotifier" },
-      { name: "Riverpod", note: "Compile-safe" },
-      { name: "BLoC / Cubit", note: "Event-driven" },
-      { name: "GetX", note: "Lightweight reactive" },
-    ],
-  },
-  {
-    icon: <Database size={15} />,
-    title: "Networking & Data",
-    color: "#06B6D4",
-    items: [
-      { name: "HTTP package" },
-      { name: "Dio", note: "Interceptors" },
-      { name: "Retrofit", note: "Type-safe client" },
-      { name: "REST API integration" },
-      { name: "Image upload" },
-      { name: "Postman / Scalar" },
-    ],
-  },
-  {
-    icon: <Shield size={15} />,
-    title: "Authentication",
-    color: "#10B981",
-    items: [
-      { name: "Username & Password" },
-      { name: "Google Sign-In" },
-      { name: "Phone OTP" },
-      { name: "Activation Key" },
-      { name: "Firebase Auth" },
-      { name: "JWT Access Token" },
-      { name: "Refresh & Revoke", note: "Manual" },
-    ],
-  },
-  {
-    icon: <Code2 size={15} />,
-    title: "Firebase",
-    color: "#F59E0B",
-    items: [
-      { name: "Firestore real-time" },
-      { name: "Firebase Auth" },
-      { name: "Cloud Storage" },
-      { name: "Admin panel", note: "Role-based" },
-      { name: "User view", note: "Live sync" },
-    ],
-  },
-  {
-    icon: <Server size={15} />,
-    title: "Backend Collaboration",
-    color: "#38BDF8",
-    items: [
-      { name: "PHP backend team", note: "REST endpoints" },
-      { name: "Firebase backend", note: "Firestore + Auth" },
-      { name: "Odoo", note: "ERP modules" },
-      { name: "API contract alignment" },
-      { name: "Cross-team debugging" },
-    ],
-  },
-  {
-    icon: <GitBranch size={15} />,
-    title: "Architecture",
-    color: "#F472B6",
-    items: [
-      { name: "MVC" },
-      { name: "MVP" },
-      { name: "MVVM" },
-      { name: "Clean Architecture" },
-      { name: "Feature-first" },
-      { name: "Layer-first" },
-    ],
-  },
-  {
-    icon: <Smartphone size={15} />,
-    title: "Flutter & Dart",
-    color: A2,
-    items: [
-      { name: "Flutter (primary)" },
-      { name: "Responsive UI" },
-      { name: "Custom animations" },
-      { name: "Git / GitHub" },
-      { name: "json_serialization + build_runner" },
-      { name: "quicktype.io / jsontodart" },
-    ],
-  },
-];
+    {
+      icon: <Layers size={15} />,
+      title: "State Management",
+      color: A,
+      items: [
+        { name: "setState", note: "Local state" },
+        { name: "Provider", note: "DI + ChangeNotifier" },
+        { name: "Riverpod", note: "Compile-safe" },
+        { name: "BLoC / Cubit", note: "Event-driven" },
+        { name: "GetX", note: "Lightweight reactive" },
+      ],
+    },
+    {
+      icon: <Database size={15} />,
+      title: "Networking & Data",
+      color: "#06B6D4",
+      items: [
+        { name: "HTTP package" },
+        { name: "Dio", note: "Interceptors" },
+        { name: "Retrofit", note: "Type-safe client" },
+        { name: "REST API integration" },
+        { name: "Image upload" },
+        { name: "Postman / Scalar" },
+      ],
+    },
+    {
+      icon: <Shield size={15} />,
+      title: "Authentication",
+      color: "#10B981",
+      items: [
+        { name: "Username & Password" },
+        { name: "Google Sign-In" },
+        { name: "Phone OTP" },
+        { name: "Activation Key" },
+        { name: "Firebase Auth" },
+        { name: "JWT Access Token" },
+        { name: "Refresh & Revoke", note: "Manual" },
+      ],
+    },
+    {
+      icon: <Code2 size={15} />,
+      title: "Firebase",
+      color: "#F59E0B",
+      items: [
+        { name: "Firestore real-time" },
+        { name: "Firebase Auth" },
+        { name: "Cloud Storage" },
+        { name: "Admin panel", note: "Role-based" },
+        { name: "User view", note: "Live sync" },
+      ],
+    },
+    {
+      icon: <Server size={15} />,
+      title: "Backend Collaboration",
+      color: "#38BDF8",
+      items: [
+        { name: "PHP backend team", note: "REST endpoints" },
+        { name: "Firebase backend", note: "Firestore + Auth" },
+        { name: "Odoo", note: "ERP modules" },
+        { name: "API contract alignment" },
+        { name: "Cross-team debugging" },
+      ],
+    },
+    {
+      icon: <GitBranch size={15} />,
+      title: "Architecture",
+      color: "#F472B6",
+      items: [
+        { name: "MVC" },
+        { name: "MVP" },
+        { name: "MVVM" },
+        { name: "Clean Architecture" },
+        { name: "Feature-first" },
+        { name: "Layer-first" },
+      ],
+    },
+    {
+      icon: <Smartphone size={15} />,
+      title: "Flutter & Dart",
+      color: A2,
+      items: [
+        { name: "Flutter (primary)" },
+        { name: "Responsive UI" },
+        { name: "Custom animations" },
+        { name: "Git / GitHub" },
+        { name: "json_serialization + build_runner" },
+        { name: "quicktype.io / jsontodart" },
+      ],
+    },
+  ];
 
 const EXPERIENCE = [
   {
@@ -238,6 +238,7 @@ const PROJECTS: Project[] = [
     ],
     year: "2026",
     status: "In progress",
+    repo: "https://github.com/556bhonemyathein/pocket_pilot",
   },
   {
     featured: true,
@@ -1820,8 +1821,8 @@ function ProjectCardLarge({
                 (e.currentTarget.style.color = project.accent)
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.color =
-                  "var(--ink-faint)")
+              (e.currentTarget.style.color =
+                "var(--ink-faint)")
               }
             >
               <ExternalLink size={14} />
@@ -2125,9 +2126,17 @@ function CredentialsSection() {
                         <p className="text-sm text-ink-soft font-medium">
                           {l.lang}
                         </p>
-                        <span className="text-[10px] font-mono text-ink-dim">
-                          {l.level}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono text-ink-dim">
+                            {l.level}
+                          </span>
+                          <span
+                            className="text-[10px] font-mono font-semibold"
+                            style={{ color: i === 0 ? A : "#06B6D4" }}
+                          >
+                            {l.pct}%
+                          </span>
+                        </div>
                       </div>
                       <div className="h-1.5 rounded-full bg-elevate overflow-hidden">
                         <ProgressBar
@@ -2147,7 +2156,10 @@ function CredentialsSection() {
                         Burmese
                       </p>
                       <span className="text-[10px] font-mono text-ink-dim">
-                        Native
+                        <span>Native</span>
+                        <span className="ml-2 font-semibold text-[#10B981]">
+                          100%
+                        </span>
                       </span>
                     </div>
                     <div className="h-1.5 rounded-full bg-elevate overflow-hidden">
@@ -2185,7 +2197,7 @@ function ProgressBar({
       }}
       className="h-full rounded-full"
       style={{
-        background: `linear-gradient(90deg, ${color}90, ${color})`,
+        background: `linear-gradient(90deg, color-mix(in srgb, ${color} 56%, transparent), ${color})`,
       }}
     />
   );
@@ -2743,8 +2755,8 @@ function CField({
         className="rounded-xl bg-surface border border-hair text-ink-mute text-sm px-4 py-2.5 focus:outline-none placeholder:text-ink-faint transition-colors duration-150"
         onFocus={(e) => (e.target.style.borderColor = "var(--accent-soft)")}
         onBlur={(e) =>
-          (e.target.style.borderColor =
-            "var(--hair)")
+        (e.target.style.borderColor =
+          "var(--hair)")
         }
       />
     </div>
