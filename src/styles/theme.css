@@ -1,4 +1,4 @@
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 :root {
   --font-size: 16px;
@@ -39,46 +39,146 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* ── Portfolio surface + ink scale (dark) ───────────────────────────── */
+  --canvas: #09090F;
+  --surface: #111118;
+  --surface-2: #0d0d14;
+  --surface-3: #1a1a22;
+  --elevate: rgba(255, 255, 255, 0.03);
+  --ink-strong: #FFFFFF;
+  --ink: rgba(255, 255, 255, 0.9);
+  --ink-soft: rgba(255, 255, 255, 0.76);
+  --ink-mute: rgba(255, 255, 255, 0.55);
+  --ink-dim: rgba(255, 255, 255, 0.35);
+  --ink-faint: rgba(255, 255, 255, 0.18);
+  --hair: rgba(255, 255, 255, 0.07);
+  --hair-2: rgba(255, 255, 255, 0.13);
+  --nav-bg: rgba(9, 9, 15, 0.88);
+  --nav-solid: rgba(9, 9, 15, 0.97);
+  --nav-line: rgba(124, 92, 252, 0.12);
+  --dot: rgba(255, 255, 255, 0.7);
+  --scrim: rgba(0, 0, 0, 0.5);
+  --tint-bg: 7%;
+  --tint-line: 15%;
+  --tint-line-soft: 7%;
+  --tint-fill: 38%;
+  --tint-text: 62%;
+  --tint-text-soft: 50%;
+  --tint-text-into: transparent;
+  --accent-2: #A78BFA;
+  --hero-glow-1: rgba(124, 92, 252, 0.1);
+  --hero-glow-2: rgba(6, 182, 212, 0.05);
+  --grid-opacity: 0.015;
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --accent-dim: rgba(124, 92, 252, 0.55);
+  --accent-soft: rgba(124, 92, 252, 0.82);
+  --code-kw: #A78BFA;
+  --code-err: #F87171cc;
+  --code-ok: #34D399cc;
 }
+/* `:root` *is* the dark theme — light mode overrides it via [data-theme].
+ * The old shadcn `.dark` block was removed: it sat later in the cascade at the
+ * same specificity, so the `.dark` class on <html> was quietly replacing the
+ * portfolio's violet accent and card colours with neutral grays.
+ */
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+/* ── Light theme ───────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* ── Warm paper ────────────────────────────────────────────────────────
+   * Light mode is not the dark palette inverted. The ground is a warm ivory
+   * and the cards are a warm white, so surfaces separate by temperature as
+   * well as by value; ink is a plum-black rather than a neutral gray, and
+   * every hairline and shadow carries the same plum so nothing reads as
+   * off-the-shelf gray-on-white. The violet accent deepens to hold its own
+   * against cream, which pure #7C5CFC does not.
+   */
+  --background: #F5F1E8;
+  --foreground: #1C1622;
+  --card: #FFFDF8;
+  --card-foreground: #1C1622;
+  --popover: #FFFDF8;
+  --popover-foreground: #1C1622;
+  --primary: #6B3FE8;
+  --primary-foreground: #FFFDF8;
+  --secondary: #EDE7DA;
+  --secondary-foreground: #1C1622;
+  --muted: #EFEADF;
+  --muted-foreground: #6B6070;
+  --accent: #6B3FE8;
+  --accent-2: #7C4DEF;
+  --accent-foreground: #FFFDF8;
+  --destructive: #C2410C;
+  --destructive-foreground: #FFFDF8;
+  --border: rgba(60, 40, 80, 0.14);
+  --input: transparent;
+  --input-background: #FFFDF8;
+  --switch-background: #DDD4C4;
+  --ring: #6B3FE8;
+
+  --canvas: #F5F1E8;
+  --surface: #FFFDF8;
+  --surface-2: #FAF6EC;
+  --surface-3: #EDE7DA;
+  --elevate: rgba(60, 40, 80, 0.045);
+  --ink-strong: #140F1C;
+  --ink: #1C1622;
+  --ink-soft: rgba(28, 22, 34, 0.76);
+  --ink-mute: rgba(28, 22, 34, 0.6);
+  --ink-dim: rgba(28, 22, 34, 0.46);
+  --ink-faint: rgba(28, 22, 34, 0.32);
+  --hair: rgba(60, 40, 80, 0.14);
+  --hair-2: rgba(60, 40, 80, 0.26);
+  --nav-bg: rgba(245, 241, 232, 0.82);
+  --nav-solid: rgba(245, 241, 232, 0.97);
+  --nav-line: rgba(107, 63, 232, 0.18);
+  --dot: rgba(60, 40, 80, 0.55);
+  --scrim: rgba(255, 253, 248, 0.72);
+
+  /* Warm ambience: a lilac wash on the left, low sun on the right. */
+  --hero-glow-1: rgba(107, 63, 232, 0.1);
+  --hero-glow-2: rgba(214, 158, 92, 0.16);
+  --grid-opacity: 0.05;
+
+  /* Alpha over cream needs more weight than alpha over near-black, and
+   * labels get mixed toward the plum ink instead of fading to nothing. */
+  --tint-bg: 11%;
+  --tint-line: 32%;
+  --tint-line-soft: 17%;
+  --tint-fill: 58%;
+  --tint-text: 76%;
+  --tint-text-soft: 68%;
+  --tint-text-into: #1C1622;
+
+  /* Shadows are plum, never black — black on ivory reads as dirt. */
+  --shadow-card:
+    0 1px 2px rgba(60, 40, 80, 0.05),
+    0 6px 18px -8px rgba(60, 40, 80, 0.16);
+  --shadow-card-hover:
+    0 1px 2px rgba(60, 40, 80, 0.06),
+    0 14px 30px -12px rgba(60, 40, 80, 0.24);
+
+  --accent-dim: rgba(107, 63, 232, 0.72);
+  --accent-soft: rgba(90, 48, 210, 0.95);
+  --code-kw: #6B3FE8;
+  --code-err: #C2410C;
+  --code-ok: #0F7A5A;
 }
 
 @theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-elevate: var(--elevate);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-dim: var(--ink-dim);
+  --color-ink-faint: var(--ink-faint);
+  --color-hair: var(--hair);
+  --color-hair-2: var(--hair-2);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -178,4 +278,77 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+/* ── Smooth theme crossfade ────────────────────────────────────────────── */
+
+/*
+ * Every surface, hairline and ink value is a CSS variable, so a single
+ * transition on the properties that read them animates the whole page.
+ * `.theme-animating` is toggled by the theme controller so the transition
+ * only runs on an actual switch — never on hover, scroll or first paint.
+ */
+html.theme-animating,
+html.theme-animating *,
+html.theme-animating *::before,
+html.theme-animating *::after {
+  transition:
+    background-color 480ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 480ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 380ms cubic-bezier(0.4, 0, 0.2, 1),
+    fill 380ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 380ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 480ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-delay: 0ms !important;
+}
+
+/* View Transitions: the new theme wipes in as a circle from the toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-animating,
+  html.theme-animating *,
+  html.theme-animating *::before,
+  html.theme-animating *::after {
+    transition: none !important;
+  }
+}
+
+/* ── Card elevation (light only) ────────────────────────────────────────────
+ * Dark mode bounds a card with a lighter fill than the canvas; light mode has
+ * no such trick — white on near-white needs a shadow to read as a surface.
+ * Every card in the page is a rounded surface token, so one rule covers them.
+ */
+.rounded-xl.bg-surface,
+.rounded-xl.bg-surface-2,
+.rounded-2xl.bg-surface,
+.rounded-2xl.bg-surface-2 {
+  box-shadow: var(--shadow-card);
+}
+
+.rounded-xl.bg-surface:hover,
+.rounded-xl.bg-surface-2:hover,
+.rounded-2xl.bg-surface:hover,
+.rounded-2xl.bg-surface-2:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Inputs are surfaces too, but they should sit flat inside their card. */
+input.bg-surface,
+textarea.bg-surface {
+  box-shadow: none;
+}
+input.bg-surface:hover,
+textarea.bg-surface:hover {
+  box-shadow: none;
 }

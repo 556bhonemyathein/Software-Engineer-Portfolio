@@ -9,6 +9,26 @@
       <meta name="description" content="Create and showcase a professional software engineer portfolio to highlight skills, projects, and experience for career growth and job opportunities." />
       <meta name="robots" content="noindex, nofollow" />
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      <script>
+        // Resolve the theme before first paint so there is no flash.
+        (function () {
+          try {
+            var stored = localStorage.getItem("portfolio-theme");
+            var theme =
+              stored === "light" || stored === "dark"
+                ? stored
+                : window.matchMedia("(prefers-color-scheme: light)").matches
+                  ? "light"
+                  : "dark";
+            var root = document.documentElement;
+            root.setAttribute("data-theme", theme);
+            root.style.colorScheme = theme;
+            if (theme === "dark") root.classList.add("dark");
+          } catch (e) {
+            document.documentElement.setAttribute("data-theme", "dark");
+          }
+        })();
+      </script>
       
     </head>
 
