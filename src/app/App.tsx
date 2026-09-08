@@ -338,10 +338,14 @@ const PROJECTS: Project[] = [
 const EDUCATION = [
   {
     degree: "B.C.Sc — Bachelor of Computer Science",
-    school: "Meikhtila University of Computer Science",
-    period: "2017 – 2025",
+    school: "University of Computer Studies (Loikaw)",
+    period: "2017 – 2020",
+  },
+  {
+    school: "University of Computer Studies (Meiktila)",
+    period: "2022 – 2025",
     graduated: "Jan 2026",
-    gpa: "3.65 / 4.0",
+    gpa: "2.63 / 4.0",
   },
 ];
 
@@ -1969,11 +1973,13 @@ function CredentialsSection() {
                   Education
                 </p>
               </div>
-              {EDUCATION.map((e) => (
-                <div key={e.degree}>
-                  <p className="text-sm font-semibold text-ink-soft leading-snug mb-1">
-                    {e.degree}
-                  </p>
+              {EDUCATION.map((e, i) => (
+                <div key={e.school} className={i > 0 ? "mt-5" : ""}>
+                  {e.degree && (
+                    <p className="text-sm font-semibold text-ink-soft leading-snug mb-1">
+                      {e.degree}
+                    </p>
+                  )}
                   <p className="text-xs text-ink-dim mb-3">
                     {e.school}
                   </p>
@@ -1985,22 +1991,24 @@ function CredentialsSection() {
                         value: e.graduated,
                       },
                       { label: "GPA", value: e.gpa },
-                    ].map((row) => (
-                      <div
-                        key={row.label}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="text-[10px] font-mono text-ink-dim uppercase tracking-wider">
-                          {row.label}
-                        </span>
-                        <span
-                          className="text-xs font-mono"
-                          style={{ color: "var(--accent-soft)" }}
+                    ]
+                      .filter((row) => row.value)
+                      .map((row) => (
+                        <div
+                          key={row.label}
+                          className="flex items-center justify-between"
                         >
-                          {row.value}
-                        </span>
-                      </div>
-                    ))}
+                          <span className="text-[10px] font-mono text-ink-dim uppercase tracking-wider">
+                            {row.label}
+                          </span>
+                          <span
+                            className="text-xs font-mono"
+                            style={{ color: "var(--accent-soft)" }}
+                          >
+                            {row.value}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               ))}
