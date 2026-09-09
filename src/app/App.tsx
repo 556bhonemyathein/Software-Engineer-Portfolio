@@ -473,10 +473,19 @@ function useCount(
   return val;
 }
 
+/** Height of the fixed header — sections must clear it. */
+const NAV_H = 60;
+
+/*
+ * scrollIntoView() scrolls the nearest *scroll container*, and any ancestor
+ * with a non-visible overflow on either axis counts as one. Driving the
+ * viewport directly keeps this working no matter what the tree above does.
+ */
 function scrollTo(id: string) {
-  document
-    .getElementById(id)
-    ?.scrollIntoView({ behavior: "smooth" });
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - NAV_H;
+  window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
 }
 
 // ─── Animation presets ────────────────────────────────────────────────────────
@@ -771,6 +780,14 @@ function Nav() {
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
   const past = y > 80;
+
+  // Collapse the sheet first, then scroll on the next frame so the height
+  // animation and the smooth scroll never contend for the same tick.
+  const go = (id: string) => {
+    setOpen(false);
+    requestAnimationFrame(() => scrollTo(id));
+  };
+
   const links = [
     "About",
     "Experience",
@@ -857,9 +874,12 @@ function Nav() {
         <div className="md:hidden flex items-center gap-3">
           <ThemeToggle theme={theme} onToggle={toggle} />
           <button
+            type="button"
             className="text-ink-dim hover:text-ink-soft p-1"
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"
+            aria-expanded={open}
+            style={{ WebkitTapHighlightColor: "transparent" }}
           >
             <div className="space-y-[5px]">
               {[0, 1, 2].map((i) => (
@@ -884,28 +904,28 @@ function Nav() {
         }}
         transition={{ duration: 0.2 }}
         className="md:hidden overflow-hidden"
-        style={{ background: "var(--nav-solid)" }}
+        style={{
+          background: "var(--nav-solid)",
+          pointerEvents: open ? "auto" : "none",
+        }}
       >
         <div className="px-5 pt-2 pb-5 border-t border-hair flex flex-col gap-1">
           {links.map((l) => (
             <button
               key={l}
-              onClick={() => {
-                scrollTo(l.toLowerCase());
-                setOpen(false);
-              }}
+              type="button"
+              onClick={() => go(l.toLowerCase())}
               className="text-left py-2.5 px-3 text-xs font-mono text-ink-dim hover:text-ink-soft rounded-lg hover:bg-elevate transition-all"
+              style={{ WebkitTapHighlightColor: "transparent" }}
             >
               {l}
             </button>
           ))}
           <button
-            onClick={() => {
-              scrollTo("contact");
-              setOpen(false);
-            }}
+            type="button"
+            onClick={() => go("contact")}
             className="mt-2 py-2.5 px-3 text-xs font-semibold text-white rounded-lg"
-            style={{ background: A }}
+            style={{ background: A, WebkitTapHighlightColor: "transparent" }}
           >
             Hire me
           </button>
@@ -2768,7 +2788,7 @@ function CField({
 export default function App() {
   return (
     <div
-      className="min-h-screen antialiased overflow-x-hidden"
+      className="min-h-screen antialiased"
       style={{
         background: BG,
         color: "var(--foreground)",

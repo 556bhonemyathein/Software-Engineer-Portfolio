@@ -8,7 +8,12 @@
       <title>Software Engineer Portfolio</title>
       <meta name="description" content="Create and showcase a professional software engineer portfolio to highlight skills, projects, and experience for career growth and job opportunities." />
       <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      <style>
+        /* The viewport is the only scroller — an `overflow` on a wrapper div
+           would make it a scroll container and swallow programmatic scrolls. */
+        html, body { margin: 0; overflow-x: hidden; }
+        html, body, #root { min-height: 100%; }
+      </style>
       <script>
         // Resolve the theme before first paint so there is no flash.
         (function () {
