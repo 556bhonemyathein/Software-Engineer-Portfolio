@@ -70,9 +70,18 @@ const PROFILE = {
 const ABOUT_POINTS = [
   "Started Flutter in 2024 — building and shipping consistently since.",
   "Knows all major state management patterns; picks the right one for each project.",
-  "Uses code generation (quicktype, build_runner) when it helps — writes manually when it's cleaner.",
+  "Uses AI tools (Claude Code, Copilot, Codex) to move faster — reviews and understands every line before it ships.",
   "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.",
   "Worked alongside backend teams on PHP, Firebase, and Odoo — integrating their APIs into Flutter.",
+];
+
+const AI_TOOLS = [
+  "Claude Code",
+  "OpenAI Codex",
+  "GitHub Copilot",
+  "Gemini CLI",
+  "Cursor",
+  "ChatGPT",
 ];
 
 const SKILLS: {
@@ -118,6 +127,7 @@ const SKILLS: {
         { name: "Firebase Auth" },
         { name: "JWT Access Token" },
         { name: "Refresh & Revoke", note: "Manual" },
+        { name: "Biometric Login", note: "Fingerprint / Face" },
       ],
     },
     {
@@ -166,8 +176,10 @@ const SKILLS: {
         { name: "Responsive UI" },
         { name: "Custom animations" },
         { name: "Git / GitHub" },
-        { name: "json_serialization + build_runner" },
-        { name: "quicktype.io / jsontodart" },
+        { name: "Dart 3 records & patterns" },
+        { name: "Async / Futures / Streams" },
+        { name: "Material 3 + dark/light theming" },
+        { name: "Build flavours (dev / prod)" },
       ],
     },
   ];
@@ -188,8 +200,8 @@ const EXPERIENCE = [
       },
       {
         app: "Backend & Auth",
-        detail: "Self-studied JWT auth flows, token refresh/revoke, Firebase suite, and REST API design with Postman and Scalar.",
-        tags: ["Firebase", "JWT", "REST API", "Dio"],
+        detail: "Auth against Firebase, Odoo and PHP backends — username/password, Google Sign-In, phone OTP, activation key, and JWT access tokens with refresh and revoke.",
+        tags: ["Firebase", "Odoo", "PHP", "JWT", "OTP"],
       },
       {
         app: "Backend Team Collaboration",
@@ -272,7 +284,7 @@ const PROJECTS: Project[] = [
       "Chord diagram UI",
     ],
     tech: ["Flutter", "Firebase", "Firestore", "Provider"],
-    year: "2025",
+    year: "2026",
     status: "Completed",
     repo: "https://github.com/556bhonemyathein/guitercord",
   },
@@ -297,8 +309,9 @@ const PROJECTS: Project[] = [
       "BLoC",
       "Firebase Auth",
     ],
-    year: "2025",
+    year: "2026",
     status: "Completed",
+    repo: "https://github.com/556bhonemyathein/auth-with-firebase",
   },
   {
     featured: false,
@@ -314,8 +327,9 @@ const PROJECTS: Project[] = [
       "quicktype models",
     ],
     tech: ["Flutter", "Riverpod", "Dio", "REST API"],
-    year: "2024",
+    year: "2026",
     status: "Completed",
+    repo: "https://github.com/556bhonemyathein/api-integration-restapi",
   },
   {
     featured: false,
@@ -1302,8 +1316,8 @@ function ProfileCard() {
               />
               <StatCounter
                 target={5}
-                suffix="+"
-                label="sm tools"
+                suffix=""
+                label="state tools"
               />
               <StatCounter
                 target={10}
@@ -1384,16 +1398,10 @@ function AboutSection() {
                   className="text-[10px] font-mono tracking-widest uppercase mb-3"
                   style={{ color: "var(--accent-dim)" }}
                 >
-                  Code generation tools
+                  AI-assisted development
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {[
-                    "quicktype.io",
-                    "javiercbk jsontodart",
-                    "Paste JSON as Code",
-                    "json_serialization",
-                    "build_runner",
-                  ].map((t) => (
+                  {AI_TOOLS.map((t) => (
                     <Pill key={t} color={A2}>
                       {t}
                     </Pill>
