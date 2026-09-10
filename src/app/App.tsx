@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "motion/react";
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useScroll,
+  useSpring,
+  useReducedMotion,
+} from "motion/react";
 import { useTheme } from "./useTheme";
 import {
   Github,
@@ -789,6 +796,111 @@ function LocalTime() {
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
+// ─── Scroll chrome ────────────────────────────────────────────────────────────
+
+/**
+ * Reading progress across the whole document. `scaleX` on a
+ * transform-origin-left bar stays on the compositor, so this never costs a
+ * layout pass on scroll the way animating `width` would.
+ */
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const x = useSpring(scrollYProgress, {
+    stiffness: 260,
+    damping: 40,
+    restDelta: 0.001,
+  });
+  return (
+    <motion.div
+      aria-hidden
+      className="fixed top-0 inset-x-0 h-[2px] origin-left z-[60]"
+      style={{
+        scaleX: x,
+        background: `linear-gradient(90deg, ${A}, ${A2})`,
+      }}
+    />
+  );
+}
+
+/**
+ * Which section owns the viewport right now. rootMargin pins the trigger line
+ * just under the fixed header, so a section counts as active from the moment
+ * its heading clears the nav rather than when it happens to be centred.
+ */
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0]);
+
+  useEffect(() => {
+    const seen = new Map<string, number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          seen.set(e.target.id, e.intersectionRatio);
+        }
+        let best = "";
+        let ratio = 0;
+        for (const [id, r] of seen) {
+          if (r > ratio) {
+            ratio = r;
+            best = id;
+          }
+        }
+        if (best) setActive(best);
+      },
+      {
+        rootMargin: `-${NAV_H + 8}px 0px -55% 0px`,
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      },
+    );
+
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    }
+    return () => io.disconnect();
+  }, [ids.join(",")]);
+
+  return active;
+}
+
+/** Jump back to the top once the hero is well out of sight. */
+function BackToTop() {
+  const y = useScrollY();
+  const reduce = useReducedMotion();
+  const show = y > 700;
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.button
+          type="button"
+          aria-label="Back to top"
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: reduce ? "auto" : "smooth",
+            })
+          }
+          initial={{ opacity: 0, scale: 0.8, y: 8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 8 }}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.92 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed bottom-5 right-5 z-50 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md"
+          style={{
+            background: "var(--nav-bg)",
+            border: `1px solid ${tintLine(A)}`,
+            color: tintText(A),
+          }}
+        >
+          <ChevronDown size={15} className="rotate-180" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function Nav() {
   const y = useScrollY();
   const { theme, toggle } = useTheme();
@@ -810,6 +922,8 @@ function Nav() {
     "Credentials",
     "Contact",
   ];
+
+  const active = useActiveSection(links.map((l) => l.toLowerCase()));
 
   return (
     <motion.header
@@ -846,15 +960,39 @@ function Nav() {
         </button>
 
         <nav className="hidden md:flex items-center gap-0.5">
-          {links.map((l) => (
-            <button
-              key={l}
-              onClick={() => scrollTo(l.toLowerCase())}
-              className="px-3.5 py-1.5 text-xs font-mono text-ink-dim hover:text-ink-soft rounded-lg hover:bg-elevate transition-all duration-150"
-            >
-              {l}
-            </button>
-          ))}
+          {links.map((l) => {
+            const on = active === l.toLowerCase();
+            return (
+              <button
+                key={l}
+                onClick={() => scrollTo(l.toLowerCase())}
+                aria-current={on ? "true" : undefined}
+                className="relative px-3.5 py-1.5 text-xs font-mono rounded-lg transition-colors duration-150"
+                style={{
+                  color: on ? tintText(A) : "var(--ink-dim)",
+                }}
+              >
+                {/* one shared element slides between tabs instead of six
+                    independent fades */}
+                {on && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-0 rounded-lg -z-10"
+                    style={{
+                      background: tintBg(A),
+                      border: `1px solid ${tintLine(A)}`,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 32,
+                    }}
+                  />
+                )}
+                {l}
+              </button>
+            );
+          })}
           <div className="w-px h-4 bg-hair mx-2" />
           <a
             href={PROFILE.github}
@@ -1575,6 +1713,74 @@ function ExperienceSection() {
   );
 }
 
+// ─── Neon marquee ─────────────────────────────────────────────────────────────
+
+/** Brand colours — a neon tube reads as the language it names. */
+const OTHER_TECH: { name: string; neon: string }[] = [
+  { name: "Java", neon: "#F89820" },
+  { name: "Kotlin", neon: "#A97BFF" },
+  { name: "Swift", neon: "#F05138" },
+  { name: "Objective-C", neon: "#438EFF" },
+  { name: "C++", neon: "#00A3E0" },
+  { name: "HTML5", neon: "#E34F26" },
+  { name: "CSS3", neon: "#33A9DC" },
+  { name: "JavaScript", neon: "#F7DF1E" },
+  { name: "TypeScript", neon: "#3178C6" },
+  { name: "PHP / Laravel", neon: "#FF2D20" },
+  { name: "Odoo", neon: "#C77DB4" },
+  { name: "React", neon: "#61DAFB" },
+  { name: "Python", neon: "#4B8BBE" },
+  { name: ".NET", neon: "#8B5CF6" },
+];
+
+function NeonMarquee() {
+  return (
+    <FadeUp delay={0.35}>
+      <div className="mt-4 rounded-xl overflow-hidden neon-board">
+        <div className="px-5 pt-5 pb-4 flex items-center gap-2">
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{
+              background: "#4ADE80",
+              boxShadow: "0 0 8px #4ADE80",
+            }}
+          />
+          <p className="text-[10px] font-mono tracking-widest uppercase text-white/45">
+            Also worked with
+          </p>
+        </div>
+
+        <div className="neon-mask pb-6">
+          {/* The list is rendered twice; the second copy is what the first
+              scrolls into, and it is hidden from screen readers so the row is
+              announced once. */}
+          <div className="neon-track">
+            {[0, 1].map((copy) => (
+              <div
+                key={copy}
+                className="flex items-center gap-3 pr-3"
+                aria-hidden={copy === 1 || undefined}
+              >
+                {OTHER_TECH.map((t) => (
+                  <span
+                    key={t.name}
+                    className="neon-item shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-xs font-mono tracking-wide"
+                    style={
+                      { "--neon": t.neon } as React.CSSProperties
+                    }
+                  >
+                    {t.name}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </FadeUp>
+  );
+}
+
 function SkillsSection() {
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -1675,6 +1881,8 @@ function SkillsSection() {
             </div>
           </div>
         </FadeUp>
+
+        <NeonMarquee />
       </div>
     </section>
   );
@@ -1733,9 +1941,51 @@ function SkillCard({
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 
+/*
+ * Filter groups rather than raw tech strings: a chip per library would give
+ * fifteen chips, several matching a single project. Each group collects the
+ * tech names that answer the same question a visitor is actually asking —
+ * "has he done offline storage?", "has he touched Firebase?".
+ */
+const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
+  { label: "Riverpod", tech: ["Riverpod"] },
+  { label: "Firebase", tech: ["Firebase", "Firestore", "Firebase Auth"] },
+  { label: "Offline-first", tech: ["Isar", "Sqflite"] },
+  { label: "REST API", tech: ["Dio", "Retrofit", "REST API"] },
+  {
+    label: "Architecture",
+    tech: ["Clean Architecture", "MVVM", "GetX", "BLoC"],
+  },
+];
+
+const ALL = "All";
+
 function ProjectsSection() {
-  const featured = PROJECTS.filter((p) => p.featured);
-  const others = PROJECTS.filter((p) => !p.featured);
+  const [active, setActive] = useState(ALL);
+
+  // Count once per filter so a chip can show its tally and a group that
+  // matches nothing never renders.
+  const chips = PROJECT_FILTERS.map((f) => ({
+    ...f,
+    count: PROJECTS.filter((p) =>
+      p.tech.some((t) => f.tech.includes(t)),
+    ).length,
+  })).filter((f) => f.count > 0);
+
+  const shown =
+    active === ALL
+      ? PROJECTS
+      : PROJECTS.filter((p) =>
+          p.tech.some((t) =>
+            PROJECT_FILTERS.find(
+              (f) => f.label === active,
+            )!.tech.includes(t),
+          ),
+        );
+
+  const featured = shown.filter((p) => p.featured);
+  const others = shown.filter((p) => !p.featured);
+
   return (
     <section id="projects" className="py-24 md:py-32">
       <HR />
@@ -1746,20 +1996,56 @@ function ProjectsSection() {
           sub="Real projects with real functionality — still building."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          {featured.map((p, i) => (
-            <FadeUp key={p.title} delay={i * 0.1}>
-              <ProjectCardLarge project={p} />
-            </FadeUp>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {others.map((p, i) => (
-            <FadeUp key={p.title} delay={i * 0.1}>
-              <ProjectCardSmall project={p} />
-            </FadeUp>
-          ))}
-        </div>
+        {/* filter chips */}
+        <FadeUp className="mb-6">
+          <div
+            className="flex flex-wrap items-center gap-2"
+            role="group"
+            aria-label="Filter projects by technology"
+          >
+            <FilterChip
+              label={ALL}
+              count={PROJECTS.length}
+              active={active === ALL}
+              onClick={() => setActive(ALL)}
+            />
+            {chips.map((f) => (
+              <FilterChip
+                key={f.label}
+                label={f.label}
+                count={f.count}
+                active={active === f.label}
+                onClick={() => setActive(f.label)}
+              />
+            ))}
+          </div>
+        </FadeUp>
+
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+        >
+          <AnimatePresence mode="popLayout">
+            {featured.map((p) => (
+              <CardShell key={p.title}>
+                <ProjectCardLarge project={p} />
+              </CardShell>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
+        >
+          <AnimatePresence mode="popLayout">
+            {others.map((p) => (
+              <CardShell key={p.title}>
+                <ProjectCardSmall project={p} />
+              </CardShell>
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
         <FadeUp>
           <div className="flex items-center justify-between p-4 rounded-xl border border-dashed border-hair">
@@ -1792,6 +2078,57 @@ function ProjectsSection() {
         </FadeUp>
       </div>
     </section>
+  );
+}
+
+/** One card's entry/exit wrapper — `layout` keeps the re-flow continuous. */
+function CardShell({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      className="h-full"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function FilterChip({
+  label,
+  count,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className="flex items-center gap-1.5 text-[11px] font-mono px-3 py-1.5 rounded-full border transition-colors duration-200"
+      style={{
+        borderColor: active ? tintLine(A) : "var(--hair)",
+        background: active ? tintBg(A) : "transparent",
+        color: active ? tintText(A) : "var(--ink-dim)",
+      }}
+    >
+      {label}
+      <span
+        className="text-[9px]"
+        style={{ color: active ? tintText(A) : "var(--ink-faint)" }}
+      >
+        {count}
+      </span>
+    </button>
   );
 }
 
@@ -2803,6 +3140,7 @@ export default function App() {
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
+      <ScrollProgress />
       <Nav />
       <HeroSection />
       <AboutSection />
@@ -2811,6 +3149,7 @@ export default function App() {
       <ProjectsSection />
       <CredentialsSection />
       <ContactSection />
+      <BackToTop />
       <footer className="border-t border-hair py-8">
         <div className="max-w-6xl mx-auto px-5 md:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">

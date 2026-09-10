@@ -352,3 +352,93 @@ input.bg-surface:hover,
 textarea.bg-surface:hover {
   box-shadow: none;
 }
+
+/* ── Neon marquee ───────────────────────────────────────────────────────────
+ * A neon sign needs a dark board to read as neon, so this strip keeps its own
+ * near-black ground in both themes rather than following the canvas.
+ *
+ * The track holds the item list twice; translating it by exactly -50% (or +50%
+ * travelling the other way) lands the copy where the original started, so the
+ * loop has no seam. Because the offset is a percentage of the track, the item
+ * list can grow or shrink without retuning the animation.
+ */
+.neon-board {
+  background:
+    radial-gradient(
+      120% 140% at 50% 0%,
+      rgba(120, 90, 200, 0.16),
+      transparent 70%
+    ),
+    #0a0910;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Fade both ends so items enter and leave instead of popping at the edge. */
+.neon-mask {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+}
+
+.neon-track {
+  display: flex;
+  width: max-content;
+  animation: neon-scroll var(--neon-dur, 38s) linear infinite;
+}
+
+/* Left-to-right: start one copy back, travel forward to origin. */
+@keyframes neon-scroll {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.neon-board:hover .neon-track {
+  animation-play-state: paused;
+}
+
+.neon-item {
+  color: var(--neon);
+  border: 1px solid color-mix(in srgb, var(--neon) 45%, transparent);
+  background: color-mix(in srgb, var(--neon) 9%, transparent);
+  text-shadow:
+    0 0 4px color-mix(in srgb, var(--neon) 70%, transparent),
+    0 0 12px color-mix(in srgb, var(--neon) 45%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--neon) 22%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--neon) 10%, transparent);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.neon-item:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--neon) 40%, transparent),
+    inset 0 0 14px color-mix(in srgb, var(--neon) 16%, transparent);
+}
+
+/* A scrolling strip is exactly what this media query exists for: hold the
+ * track still and let the row scroll by hand instead. */
+@media (prefers-reduced-motion: reduce) {
+  .neon-track {
+    animation: none;
+    transform: none;
+  }
+  .neon-mask {
+    overflow-x: auto;
+  }
+}
