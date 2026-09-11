@@ -32,6 +32,9 @@ import {
   Moon,
   Copy,
   MessageCircle,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -230,6 +233,10 @@ type Project = {
   year: string;
   status: string;
   repo?: string;
+  /** App icon under /public/projects/<slug>/ — falls back to an accent tile. */
+  icon?: string;
+  /** Screenshots under /public/projects/<slug>/ shown in the details gallery. */
+  images?: string[];
 };
 
 const PROJECTS: Project[] = [
@@ -258,6 +265,9 @@ const PROJECTS: Project[] = [
     year: "2026",
     status: "In progress",
     repo: "https://github.com/556bhonemyathein/pocket_pilot",
+    icon: "/projects/pocket_pilot/icon.png",
+    // Drop screenshots into public/projects/pocket_pilot/ and list them here.
+    images: [],
   },
   {
     featured: true,
@@ -1962,6 +1972,7 @@ const ALL = "All";
 
 function ProjectsSection() {
   const [active, setActive] = useState(ALL);
+  const [open, setOpen] = useState<Project | null>(null);
 
   // Count once per filter so a chip can show its tally and a group that
   // matches nothing never renders.
@@ -2028,7 +2039,7 @@ function ProjectsSection() {
           <AnimatePresence mode="popLayout">
             {featured.map((p) => (
               <CardShell key={p.title}>
-                <ProjectCardLarge project={p} />
+                <ProjectCardLarge project={p} onOpen={() => setOpen(p)} />
               </CardShell>
             ))}
           </AnimatePresence>
@@ -2041,7 +2052,7 @@ function ProjectsSection() {
           <AnimatePresence mode="popLayout">
             {others.map((p) => (
               <CardShell key={p.title}>
-                <ProjectCardSmall project={p} />
+                <ProjectCardSmall project={p} onOpen={() => setOpen(p)} />
               </CardShell>
             ))}
           </AnimatePresence>
@@ -2077,6 +2088,12 @@ function ProjectsSection() {
           </div>
         </FadeUp>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <ProjectDetails project={open} onClose={() => setOpen(null)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -2132,15 +2149,167 @@ function FilterChip({
   );
 }
 
-function ProjectCardLarge({
+type CardProps = { project: Project; onOpen: () => void };
+
+/** Two-letter monogram for projects that ship no icon ("Data Explorer" → DE). */
+const monogram = (title: string) =>
+  title
+    .replace(/[—–-].*$/, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]!.toUpperCase())
+    .join("");
+
+/**
+ * A project's app icon. Missing files (or projects without one) render an
+ * accent-tinted monogram tile so every card has an image of its own.
+ */
+function ProjectIcon({
   project,
+  size,
+  className = "",
 }: {
-  project: (typeof PROJECTS)[number];
+  project: Project;
+  size: number;
+  className?: string;
 }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [project.icon]);
+  const radius = Math.round(size * 0.22);
+  if (!project.icon || failed) {
+    return (
+      <div
+        className={`flex items-center justify-center font-bold shrink-0 ${className}`}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: radius,
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: size * 0.4,
+          letterSpacing: "0.02em",
+          color: "#fff",
+          background: `linear-gradient(135deg, ${project.accent}, color-mix(in srgb, ${project.accent} 60%, #000))`,
+          boxShadow: `0 8px 24px -8px ${project.accent}`,
+        }}
+        aria-hidden
+      >
+        {monogram(project.title)}
+      </div>
+    );
+  }
+  return (
+    <img
+      src={project.icon}
+      alt={`${project.title} app icon`}
+      width={size}
+      height={size}
+      onError={() => setFailed(true)}
+      className={`shrink-0 object-cover ${className}`}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: radius,
+        boxShadow: `0 8px 24px -8px ${project.accent}`,
+      }}
+    />
+  );
+}
+
+/** A gallery screenshot; a missing file collapses to a soft placeholder. */
+function Screenshot({
+  src,
+  alt,
+  accent,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  accent: string;
+  className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
+  if (failed) {
+    return (
+      <div
+        className={`flex items-center justify-center text-[10px] font-mono ${className}`}
+        style={{
+          background: `linear-gradient(135deg, ${tintBg(accent)}, var(--surface))`,
+          color: tintTextSoft(accent),
+        }}
+      >
+        screenshot missing
+      </div>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={() => setFailed(true)}
+      className={`object-cover object-top ${className}`}
+    />
+  );
+}
+
+function CardActions({
+  project,
+  onOpen,
+  size,
+}: CardProps & { size: number }) {
+  return (
+    <div className="flex gap-2">
+      <motion.a
+        whileHover={{ scale: 1.15 }}
+        href={project.repo ?? PROFILE.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${project.title} on GitHub`}
+        onClick={(e) => e.stopPropagation()}
+        className="text-ink-faint hover:text-ink-mute transition-colors"
+      >
+        <Github size={size} />
+      </motion.a>
+      <motion.button
+        type="button"
+        whileHover={{ scale: 1.15 }}
+        aria-label={`View ${project.title} details`}
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen();
+        }}
+        className="text-ink-faint transition-colors"
+        onMouseEnter={(e) => (e.currentTarget.style.color = project.accent)}
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.color = "var(--ink-faint)")
+        }
+      >
+        <ExternalLink size={size} />
+      </motion.button>
+    </div>
+  );
+}
+
+/** Keyboard affordance shared by both clickable cards. */
+const openOnKey =
+  (onOpen: () => void) => (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onOpen();
+    }
+  };
+
+function ProjectCardLarge({ project, onOpen }: CardProps) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="rounded-xl border border-hair bg-surface overflow-hidden h-full transition-colors duration-200 hover:border-hair-2"
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={openOnKey(onOpen)}
+      className="rounded-xl border border-hair bg-surface overflow-hidden h-full transition-colors duration-200 hover:border-hair-2 cursor-pointer"
     >
       <div
         className="h-[3px]"
@@ -2150,49 +2319,27 @@ function ProjectCardLarge({
       />
       <div className="p-6 flex flex-col h-full">
         <div className="flex items-start justify-between mb-4">
-          <div>
-            <p
-              className="text-[10px] font-mono mb-2"
-              style={{ color: tintText(project.accent) }}
-            >
-              {project.tag}
-            </p>
-            <h3
-              className="font-bold text-ink"
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: "1.35rem",
-              }}
-            >
-              {project.title}
-            </h3>
+          <div className="flex items-start gap-4">
+            <ProjectIcon project={project} size={56} />
+            <div>
+              <p
+                className="text-[10px] font-mono mb-2"
+                style={{ color: tintText(project.accent) }}
+              >
+                {project.tag}
+              </p>
+              <h3
+                className="font-bold text-ink"
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "1.35rem",
+                }}
+              >
+                {project.title}
+              </h3>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <motion.a
-              whileHover={{ scale: 1.15 }}
-              href={project.repo ?? PROFILE.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ink-faint hover:text-ink-mute transition-colors"
-            >
-              <Github size={14} />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.15 }}
-              href="#"
-              className="text-ink-faint transition-colors"
-              style={{}}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = project.accent)
-              }
-              onMouseLeave={(e) =>
-              (e.currentTarget.style.color =
-                "var(--ink-faint)")
-              }
-            >
-              <ExternalLink size={14} />
-            </motion.a>
-          </div>
+          <CardActions project={project} onOpen={onOpen} size={14} />
         </div>
         <p className="text-xs text-ink-dim leading-relaxed mb-5">
           {project.description}
@@ -2228,52 +2375,38 @@ function ProjectCardLarge({
   );
 }
 
-function ProjectCardSmall({
-  project,
-}: {
-  project: (typeof PROJECTS)[number];
-}) {
+function ProjectCardSmall({ project, onOpen }: CardProps) {
   return (
     <motion.div
       whileHover={{ y: -3 }}
-      className="rounded-xl border border-hair bg-surface p-5 hover:border-hair-2 transition-colors duration-200"
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={openOnKey(onOpen)}
+      className="rounded-xl border border-hair bg-surface p-5 hover:border-hair-2 transition-colors duration-200 cursor-pointer"
     >
       <div className="flex items-start justify-between mb-3">
-        <div>
-          <p
-            className="text-[10px] font-mono mb-1.5"
-            style={{ color: tintTextSoft(project.accent) }}
-          >
-            {project.tag}
-          </p>
-          <h3
-            className="font-bold text-ink-soft"
-            style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "1.2rem",
-            }}
-          >
-            {project.title}
-          </h3>
+        <div className="flex items-start gap-3">
+          <ProjectIcon project={project} size={44} />
+          <div>
+            <p
+              className="text-[10px] font-mono mb-1.5"
+              style={{ color: tintTextSoft(project.accent) }}
+            >
+              {project.tag}
+            </p>
+            <h3
+              className="font-bold text-ink-soft"
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "1.2rem",
+              }}
+            >
+              {project.title}
+            </h3>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <motion.a
-            whileHover={{ scale: 1.15 }}
-            href={project.repo ?? PROFILE.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-ink-faint hover:text-ink-mute transition-colors"
-          >
-            <Github size={13} />
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.15 }}
-            href="#"
-            className="text-ink-faint hover:text-[#54C5F8] transition-colors"
-          >
-            <ExternalLink size={13} />
-          </motion.a>
-        </div>
+        <CardActions project={project} onOpen={onOpen} size={13} />
       </div>
       <p className="text-xs text-ink-dim leading-relaxed mb-4">
         {project.description}
@@ -2290,6 +2423,260 @@ function ProjectCardSmall({
           {project.status}
         </span>
       </div>
+    </motion.div>
+  );
+}
+
+/** Full details in a modal: icon + screenshot gallery on the left, write-up on the right. */
+function ProjectDetails({
+  project,
+  onClose,
+}: {
+  project: Project;
+  onClose: () => void;
+}) {
+  const images = project.images ?? [];
+  const total = images.length;
+  const [idx, setIdx] = useState(0);
+  const prev = () => setIdx((i) => (i - 1 + total) % total);
+  const next = () => setIdx((i) => (i + 1) % total);
+
+  // Escape / arrows drive the modal; page scroll is locked while it is open.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (total > 1 && e.key === "ArrowLeft") prev();
+      if (total > 1 && e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      style={{ background: "color-mix(in srgb, var(--canvas) 75%, black)" }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${project.title} details`}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 24, scale: 0.98 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-hair bg-surface"
+      >
+        <div
+          className="h-[3px]"
+          style={{
+            background: `linear-gradient(90deg, ${project.accent}, transparent)`,
+          }}
+        />
+
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full border border-hair bg-surface flex items-center justify-center text-ink-faint hover:text-ink transition-colors"
+        >
+          <X size={14} />
+        </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+          {/* media */}
+          <div className="p-5 md:p-6 md:border-r border-hair flex flex-col items-center">
+            <div
+              className="w-full rounded-xl border border-hair flex flex-col items-center justify-center gap-4 py-8 px-5"
+              style={{
+                background: `radial-gradient(120% 90% at 50% 0%, ${tintBg(project.accent)}, var(--canvas))`,
+              }}
+            >
+              <ProjectIcon project={project} size={112} />
+              <div className="text-center">
+                <p
+                  className="font-bold text-ink"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  {project.title.replace(/\s*[—–-].*$/, "")}
+                </p>
+                <p className="text-[10px] font-mono text-ink-faint mt-1">
+                  {project.tag}
+                </p>
+              </div>
+            </div>
+
+            {total > 0 && (
+              <div className="w-full mt-4">
+                <div className="relative rounded-xl overflow-hidden border border-hair aspect-[9/16] max-h-[52vh] mx-auto bg-canvas">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={images[idx]}
+                      initial={{ opacity: 0, x: 12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -12 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute inset-0"
+                    >
+                      <Screenshot
+                        src={images[idx]}
+                        alt={`${project.title} screenshot ${idx + 1} of ${total}`}
+                        accent={project.accent}
+                        className="w-full h-full"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                  {total > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={prev}
+                        aria-label="Previous screenshot"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-hair bg-surface flex items-center justify-center text-ink-dim hover:text-ink transition-colors"
+                      >
+                        <ChevronLeft size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={next}
+                        aria-label="Next screenshot"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-hair bg-surface flex items-center justify-center text-ink-dim hover:text-ink transition-colors"
+                      >
+                        <ChevronRight size={14} />
+                      </button>
+                    </>
+                  )}
+                </div>
+                {total > 1 && (
+                  <div className="flex justify-center gap-2 mt-3">
+                    {images.map((src, i) => (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setIdx(i)}
+                        aria-label={`Screenshot ${i + 1}`}
+                        aria-current={i === idx}
+                        className="w-10 aspect-[9/16] rounded-md overflow-hidden border transition-all"
+                        style={{
+                          borderColor:
+                            i === idx ? project.accent : "var(--hair)",
+                          opacity: i === idx ? 1 : 0.55,
+                        }}
+                      >
+                        <Screenshot
+                          src={src}
+                          alt=""
+                          accent={project.accent}
+                          className="w-full h-full"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* details */}
+          <div className="p-5 md:p-6 flex flex-col">
+            <p
+              className="text-[10px] font-mono mb-2"
+              style={{ color: tintText(project.accent) }}
+            >
+              {project.tag}
+            </p>
+            <h3
+              className="font-bold text-ink mb-3 pr-8"
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "1.8rem",
+                lineHeight: 1.1,
+              }}
+            >
+              {project.title}
+            </h3>
+            <div className="flex items-center gap-3 text-[10px] font-mono text-ink-faint mb-5">
+              <span>{project.year}</span>
+              <span className="w-1 h-1 rounded-full bg-current" />
+              <span>{project.status}</span>
+            </div>
+            <p className="text-sm text-ink-dim leading-relaxed mb-6">
+              {project.description}
+            </p>
+
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
+              Highlights
+            </p>
+            <ul className="space-y-2 mb-6">
+              {project.highlights.map((h) => (
+                <li
+                  key={h}
+                  className="flex items-start gap-2 text-xs text-ink-dim font-mono"
+                >
+                  <span
+                    className="mt-[6px] w-1 h-1 rounded-full shrink-0"
+                    style={{ background: tintFill(project.accent) }}
+                  />
+                  {h}
+                </li>
+              ))}
+            </ul>
+
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
+              Tech stack
+            </p>
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {project.tech.map((t) => (
+                <Pill key={t} color={project.accent}>
+                  {t}
+                </Pill>
+              ))}
+            </div>
+
+            <div className="mt-auto pt-5 border-t border-hair flex flex-wrap gap-3">
+              {project.repo && (
+                <motion.a
+                  whileHover={{ y: -2 }}
+                  href={project.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-mono px-4 py-2 rounded-full border transition-colors"
+                  style={{
+                    borderColor: tintLine(project.accent),
+                    background: tintBg(project.accent),
+                    color: tintText(project.accent),
+                  }}
+                >
+                  <Github size={13} /> View source
+                  <ArrowUpRight size={11} />
+                </motion.a>
+              )}
+              <button
+                type="button"
+                onClick={onClose}
+                className="inline-flex items-center text-xs font-mono px-4 py-2 rounded-full border border-hair text-ink-dim hover:text-ink transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
