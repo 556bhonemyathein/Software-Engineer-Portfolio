@@ -10,6 +10,7 @@ import {
 import { useTheme } from "./useTheme";
 import {
   Github,
+  Gitlab,
   Mail,
   Linkedin,
   ArrowUpRight,
@@ -35,6 +36,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Globe,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -72,8 +74,7 @@ const PROFILE = {
   gitlab: "https://gitlab.com/556bhonemyathein",
   linkedin:
     "https://www.linkedin.com/in/556bhonemyathein/",
-  photo:
-    "https://th.bing.com/th/id/R.97f2dcaf4201ecc11142b46b6514f47f?rik=9yUB20NfvHAarw&riu=http%3a%2f%2fwww.hdwallpapers.in%2fwalls%2frango-HD.jpg&ehk=RcOrMq3rIATUp1h%2fURORrOcc50ab26dEbpTQ5c6zQDE%3d&risl=&pid=ImgRaw&r=0",
+  photo: "/profile.jpg",
   available: true,
 };
 
@@ -238,6 +239,7 @@ type Project = {
   status: string;
   repo?: string;
   apkPure?: string;
+  live?: string;
   /** App icon under /public/projects/<slug>/ — falls back to an accent tile. */
   icon?: string;
   /** Screenshots under /public/projects/<slug>/ shown in the details gallery. */
@@ -387,46 +389,71 @@ const PROJECTS: Project[] = [
   },
   {
     featured: true,
-    tag: "Flutter · Firebase",
-    accent: "#F59E0B",
-    title: "Guitar Chord App",
+    tag: "Flutter · Firebase · Web & Mobile",
+    accent: "#7C3AED",
+    title: "Guitar Chords — Library & Admin",
     description:
-      "Admin panel where admins add chord diagrams and lesson content. Users browse lessons in real time via Firestore with role-based navigation and Firebase Auth access control.",
+      "Cross-platform guitar chord library and lyrics viewer with real-time Firebase backend. Features role-based access control (Admin CMS for publishing songs, artists, chord sheets & lyrics vs. User explorer), Google Sign-In & Firebase Auth, offline favorites via SharedPreferences, Android 12+ Splash Screen API, animated in-app splash, adaptive launcher icons, and live PWA deployment on Firebase Hosting.",
     highlights: [
-      "Admin + User roles",
-      "Firestore real-time",
-      "Firebase Auth",
-      "Chord diagram UI",
-    ],
-    tech: ["Flutter", "Firebase", "Firestore", "Provider"],
-    year: "2026",
-    status: "Completed",
-    repo: "https://github.com/556bhonemyathein/guitercord",
-  },
-  {
-    featured: true,
-    tag: "Flutter · Auth",
-    accent: "#10B981",
-    title: "Full Auth System",
-    description:
-      "Complete auth covering username/password, Google Sign-In, phone OTP, activation key, and Firebase Auth. Manual JWT access token, refresh rotation, and revoke endpoint with Dio interceptors.",
-    highlights: [
-      "5 auth methods",
-      "Activation key login",
-      "JWT + Refresh + Revoke",
-      "Dio interceptors",
-      "Token storage",
+      "Role-based auth (Admin CMS vs User)",
+      "Real-time Firestore song & artist catalog",
+      "Android 12+ Splash API & in-app splash",
+      "Adaptive launcher icons (cross-platform)",
+      "Offline favorites & dark / light theming",
+      "Live web PWA on Firebase Hosting",
     ],
     tech: [
       "Flutter",
-      "Dio",
-      "Retrofit",
-      "BLoC",
       "Firebase Auth",
+      "Firestore",
+      "Provider",
+      "Web / PWA",
+      "Firebase Hosting",
+    ],
+    year: "2026",
+    status: "Live Web & Mobile",
+    repo: "https://github.com/556bhonemyathein/guitercord",
+    live: "https://cord-library.web.app",
+    icon: "/projects/guitercord/icon.png",
+    images: [
+      "/projects/guitercord/splash-preview.png",
+      "/projects/guitercord/splash-dark-preview.png",
+    ],
+  },
+  {
+    featured: true,
+    tag: "Flutter · Game Engine · Logic Puzzles",
+    accent: "#4F46E5",
+    title: "Quick Puz — 6-in-1 Puzzle Games",
+    description:
+      "Cross-platform puzzle game suite built in Flutter and Dart featuring 6 distinct puzzle engines and 100 levels each (600 levels total). Features Sliding Tiles (solvable parity shuffle algorithm), Lights Out, Memory Match, Flood It, Picross / Nonogram, and Pipe Rotate. Engineered with polymorphic puzzle architecture, move counters, par targets, star ratings, fluid staggered entrance animations, and pixel-matched native-to-Flutter splash handover.",
+    highlights: [
+      "6 puzzle game engines (600 levels total, 100 per game)",
+      "Sliding tiles solvable inversion parity shuffle algorithm",
+      "Polymorphic game state architecture (moves, par, stars)",
+      "Fluid staggered entrance & spring physics animations",
+      "Seamless native splash handover (zero blank frame)",
+      "Adaptive cross-platform app icons (Android, iOS, Web, Desktop)",
+    ],
+    tech: [
+      "Flutter",
+      "Dart",
+      "Material 3",
+      "Custom Animations",
+      "OOP Game Engine",
+      "Cross-Platform",
     ],
     year: "2026",
     status: "Completed",
-    repo: "https://github.com/556bhonemyathein/auth-with-firebase",
+    repo: "https://gitlab.com/556bhonemyathein/quick_puz",
+    icon: "/projects/quick_puz/icon.png",
+    images: [
+      "/projects/quick_puz/screenshot-1.png",
+      "/projects/quick_puz/screenshot-2.png",
+      "/projects/quick_puz/screenshot-3.png",
+      "/projects/quick_puz/screenshot-4.png",
+      "/projects/quick_puz/screenshot-5.png",
+    ],
   },
 ];
 
@@ -2020,9 +2047,12 @@ function SkillCard({
 const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
   { label: "Published", tech: ["APKPure"] },
   { label: "IoT & AI", tech: ["ESP32 / IoT", "Gemini AI", "Blynk API"] },
-  { label: "Full-Stack", tech: ["Laravel", "PHP / MySQL"] },
+  { label: "Full-Stack", tech: ["Laravel", "PHP / MySQL", "Web / PWA"] },
   { label: "Riverpod", tech: ["Riverpod"] },
-  { label: "Firebase", tech: ["Firebase", "Firestore", "Firebase Auth"] },
+  {
+    label: "Firebase",
+    tech: ["Firebase", "Firestore", "Firebase Auth", "Firebase Hosting"],
+  },
   { label: "Offline-first", tech: ["Isar", "Sqflite"] },
   { label: "REST API", tech: ["Dio", "Retrofit", "REST API", "Laravel"] },
   {
@@ -2341,16 +2371,35 @@ function CardActions({
           <Smartphone size={size} />
         </motion.a>
       )}
+      {project.live && (
+        <motion.a
+          whileHover={{ scale: 1.15 }}
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${project.title} Live Demo`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-indigo-400 hover:text-indigo-300 transition-colors"
+          title="Live Web Demo"
+        >
+          <Globe size={size} />
+        </motion.a>
+      )}
       <motion.a
         whileHover={{ scale: 1.15 }}
         href={project.repo ?? PROFILE.github}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${project.title} on GitHub`}
+        aria-label={`${project.title} on ${project.repo?.includes("gitlab") ? "GitLab" : "GitHub"}`}
         onClick={(e) => e.stopPropagation()}
         className="text-ink-faint hover:text-ink-mute transition-colors"
+        title={project.repo?.includes("gitlab") ? "GitLab Repository" : "GitHub Repository"}
       >
-        <Github size={size} />
+        {project.repo?.includes("gitlab") ? (
+          <Gitlab size={size} />
+        ) : (
+          <Github size={size} />
+        )}
       </motion.a>
       <motion.button
         type="button"
@@ -2420,6 +2469,19 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Live on APKPure
+                  </span>
+                )}
+                {project.live && !project.apkPure && (
+                  <span
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono border"
+                    style={{
+                      borderColor: "rgba(124, 58, 237, 0.4)",
+                      background: "rgba(124, 58, 237, 0.12)",
+                      color: "#A78BFA",
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                    Live Web App
                   </span>
                 )}
               </div>
@@ -2709,6 +2771,19 @@ function ProjectDetails({
                   Live on APKPure
                 </span>
               )}
+              {project.live && !project.apkPure && (
+                <span
+                  className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono border"
+                  style={{
+                    borderColor: "rgba(124, 58, 237, 0.4)",
+                    background: "rgba(124, 58, 237, 0.12)",
+                    color: "#A78BFA",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                  Live Web App
+                </span>
+              )}
             </div>
             <h3
               className="font-bold text-ink mb-3 pr-8"
@@ -2729,6 +2804,14 @@ function ProjectDetails({
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="text-emerald-500 font-medium">
                     v1.0.0 · Android 7.0+ · 65.9 MB
+                  </span>
+                </>
+              )}
+              {project.live && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-current" />
+                  <span className="text-violet-400 font-medium">
+                    Live on Firebase Hosting
                   </span>
                 </>
               )}
@@ -2824,6 +2907,23 @@ function ProjectDetails({
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
+              {project.live && (
+                <motion.a
+                  whileHover={{ y: -2 }}
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-mono px-4 py-2 rounded-full border transition-colors font-semibold"
+                  style={{
+                    borderColor: "rgba(124, 58, 237, 0.5)",
+                    background: "rgba(124, 58, 237, 0.15)",
+                    color: "#A78BFA",
+                  }}
+                >
+                  <Globe size={13} /> Live Demo
+                  <ArrowUpRight size={11} />
+                </motion.a>
+              )}
               {project.repo && (
                 <motion.a
                   whileHover={{ y: -2 }}
@@ -2837,7 +2937,12 @@ function ProjectDetails({
                     color: tintText(project.accent),
                   }}
                 >
-                  <Github size={13} /> View source
+                  {project.repo.includes("gitlab") ? (
+                    <Gitlab size={13} />
+                  ) : (
+                    <Github size={13} />
+                  )}{" "}
+                  {project.repo.includes("gitlab") ? "View on GitLab" : "View source"}
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
