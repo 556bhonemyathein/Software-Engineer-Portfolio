@@ -62,9 +62,9 @@ const tintTextSoft = (c: string) =>
 
 const PROFILE = {
   name: "Bhone Myat Hein",
-  role: "Flutter Developer",
+  role: "Flutter Specialist",
   tagline:
-    "Building mobile apps with clean architecture, real-time Firebase & robust auth flows.",
+    "I build production-grade Flutter apps — scalable clean architecture, predictable state management, and secure, real-time backends that ship.",
   location: "Yangon, Myanmar",
   email: "556bhonemyathein@gmail.com",
   viber: "+959775386728",
@@ -79,19 +79,18 @@ const PROFILE = {
 
 const ABOUT_POINTS = [
   "Started Flutter in 2024 — building and shipping consistently since.",
+  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.",
   "Knows all major state management patterns; picks the right one for each project.",
-  "Uses AI tools (Claude Code, Copilot, Codex) to move faster — reviews and understands every line before it ships.",
+  "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.",
   "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.",
   "Worked alongside backend teams on PHP, Firebase, and Odoo — integrating their APIs into Flutter.",
 ];
 
 const AI_TOOLS = [
-  "Claude Code",
-  "OpenAI Codex",
-  "GitHub Copilot",
-  "Gemini CLI",
-  "Cursor",
-  "ChatGPT",
+  "Copilot",
+  "Claude",
+  "Gemini",
+  "Codex",
 ];
 
 const SKILLS: {
@@ -201,8 +200,13 @@ const EXPERIENCE = [
     period: "2024 – Present",
     type: "Ongoing",
     accent: "#10B981",
-    description: "Continuously exploring the Flutter ecosystem — architecture patterns, state management, and real-world app building.",
+    description: "Continuously exploring the Flutter ecosystem — architecture patterns, state management, and shipping production-grade mobile apps.",
     highlights: [
+      {
+        app: "Store Distribution & Publishing",
+        detail: "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.",
+        tags: ["APKPure", "Release Signing", "Android 7.0+", "Distribution"],
+      },
       {
         app: "Architecture & Patterns",
         detail: "Deep-diving Clean Architecture, feature-first structure, and various state management approaches (BLoC, Riverpod, GetX).",
@@ -233,6 +237,7 @@ type Project = {
   year: string;
   status: string;
   repo?: string;
+  apkPure?: string;
   /** App icon under /public/projects/<slug>/ — falls back to an accent tile. */
   icon?: string;
   /** Screenshots under /public/projects/<slug>/ shown in the details gallery. */
@@ -242,16 +247,51 @@ type Project = {
 const PROJECTS: Project[] = [
   {
     featured: true,
-    tag: "Flutter · Offline-First",
+    tag: "Flutter · IoT & AI",
+    accent: "#10B981",
+    title: "Plant Monitoring — Rice Paddy Monitor",
+    description:
+      "Intelligent rice-paddy monitoring assistant turning an ESP32 + ESP32-CAM field station into an automated crop health system. Real-time telemetry (temperature, humidity, soil moisture), live MJPEG camera stream, and Gemini AI diagnosis (disease, spray advice, care plan) with bilingual English / မြန်မာ support and Blynk pump automation.",
+    highlights: [
+      "ESP32 + ESP32-CAM live stream (MJPEG)",
+      "Gemini AI plant & disease diagnosis",
+      "Threshold-first agronomy rules engine",
+      "Bilingual Cupertino iOS UI (English / မြန်မာ)",
+      "Blynk Cloud HTTP API pump control",
+      "Offline-first sensor grading fallback",
+    ],
+    tech: [
+      "Flutter",
+      "ESP32 / IoT",
+      "Gemini AI",
+      "Blynk API",
+      "MJPEG Stream",
+      "Cupertino",
+      "Firebase",
+    ],
+    year: "2026",
+    status: "Completed",
+    repo: "https://github.com/556bhonemyathein/plant_monitoring",
+    icon: "/projects/plant_monitoring/icon.png",
+    images: [
+      "/projects/plant_monitoring/hardware-prototype-1.png",
+      "/projects/plant_monitoring/hardware-prototype-2.png",
+    ],
+  },
+  {
+    featured: true,
+    tag: "Flutter · Offline-First · Store Release",
     accent: "#3B82F6",
     title: "PocketPilot — Finance Tracker",
     description:
-      "Offline-first personal finance tracker. Every write lands in Isar first and reconciles with the server later, so accounts, transactions, categories and reports all work with no backend at all. Clean architecture, feature-first, with a local token issuer powering the dev flavour.",
+      "Production offline-first personal finance tracker published on APKPure. Every write lands in Isar first and reconciles with the server later, so accounts, transactions, categories and reports all work seamlessly with no backend at all. Features feature-first Clean Architecture, Riverpod 3 compile-safe state, sealed error handling, and dual dev/prod flavours.",
     highlights: [
-      "Isar offline-first + sync",
-      "Riverpod 3 + GoRouter",
-      "fl_chart reports + PDF export",
-      "Dio auth/retry interceptors",
+      "Published on APKPure (v1.0.0 · Partner Developer)",
+      "Universal Android 7.0+ release (65.9 MB APK)",
+      "Isar offline-first local database + sync",
+      "Riverpod 3 compile-safe state + GoRouter",
+      "fl_chart analytics + PDF report export",
+      "Dio auth/retry interceptors & sealed failures",
       "Multi-language (easy_localization)",
     ],
     tech: [
@@ -261,13 +301,17 @@ const PROJECTS: Project[] = [
       "Dio",
       "Freezed",
       "GoRouter",
+      "APKPure",
     ],
     year: "2026",
-    status: "In progress",
+    status: "Published on APKPure",
+    apkPure: "https://apkpure.com/p/app.pocketpilot",
     repo: "https://github.com/556bhonemyathein/pocket_pilot",
     icon: "/projects/pocket_pilot/icon.png",
-    // Drop screenshots into public/projects/pocket_pilot/ and list them here.
-    images: [],
+    images: [
+      "/projects/pocket_pilot/apkpure-app-card.png",
+      "/projects/pocket_pilot/apkpure-store.png",
+    ],
   },
   {
     featured: true,
@@ -275,17 +319,71 @@ const PROJECTS: Project[] = [
     accent: "#8B5CF6",
     title: "Offline Inventory Logger",
     description:
-      "Offline-first inventory manager that stores items locally in SQLite while fetching suppliers from a REST API. Full CRUD with swipe actions, form validation, and loading/network error handling.",
+      "Offline-first mobile inventory management system that stores and manages stock locally in SQLite while fetching suppliers from a remote REST API. Features full CRUD with swipe actions, strict form validation, robust network error handling, and a clean layered architecture powered by Riverpod.",
     highlights: [
-      "SQLite offline storage",
-      "REST supplier sync",
-      "Full CRUD + swipe actions",
-      "Clean architecture",
+      "SQLite offline-first local storage",
+      "REST supplier sync with Dio",
+      "Full CRUD with Slidable swipe actions",
+      "Layered Clean Architecture (UI → Provider → Repo → Service)",
+      "Form validation & network error handling",
     ],
-    tech: ["Flutter", "Riverpod", "Dio", "Sqflite"],
+    tech: [
+      "Flutter",
+      "Riverpod",
+      "Sqflite",
+      "Dio",
+      "Slidable",
+      "Clean Architecture",
+    ],
     year: "2026",
     status: "Completed",
     repo: "https://github.com/556bhonemyathein/offline_inventory_logger",
+    icon: "/projects/offline_inventory_logger/icon.png",
+    images: [
+      "/projects/offline_inventory_logger/screenshot-1.png",
+      "/projects/offline_inventory_logger/screenshot-2.png",
+      "/projects/offline_inventory_logger/screenshot-3.png",
+      "/projects/offline_inventory_logger/screenshot-4.png",
+      "/projects/offline_inventory_logger/screenshot-5.png",
+    ],
+  },
+  {
+    featured: true,
+    tag: "Flutter · Full-Stack",
+    accent: "#2563EB",
+    title: "Airline Ticket System",
+    description:
+      "Full-stack airline flight booking and ticketing platform developed as the B.C.Sc graduation thesis project for University of Computer Studies (Meiktila). Features flight search across domestic routes, interactive seat selection, trip review, multi-wallet payment (KPay, WavePay, AYA Pay, CB Pay), PDF e-ticket generation with physical printing, and a comprehensive Laravel web administration portal for airline and flight scheduling.",
+    highlights: [
+      "Flutter client + Laravel REST backend",
+      "Interactive real-time seat selection grid",
+      "Multi-wallet payments (KPay, WavePay, AYA)",
+      "PDF ticket generation & physical printing",
+      "Laravel Admin Dashboard & route management",
+      "Final Year University B.C.Sc Thesis project",
+    ],
+    tech: [
+      "Flutter",
+      "Laravel",
+      "PHP / MySQL",
+      "REST API",
+      "PDF / Printing",
+      "Payment Integration",
+    ],
+    year: "2025",
+    status: "Graduation project",
+    repo: "https://github.com/556bhonemyathein/ticket_system_full_version",
+    icon: "/projects/ticket_system/icon.svg",
+    images: [
+      "/projects/ticket_system/screenshot-1.png",
+      "/projects/ticket_system/screenshot-2.png",
+      "/projects/ticket_system/screenshot-3.png",
+      "/projects/ticket_system/screenshot-4.png",
+      "/projects/ticket_system/screenshot-5.png",
+      "/projects/ticket_system/screenshot-6.png",
+      "/projects/ticket_system/screenshot-7.png",
+      "/projects/ticket_system/screenshot-8.png",
+    ],
   },
   {
     featured: true,
@@ -329,41 +427,6 @@ const PROJECTS: Project[] = [
     year: "2026",
     status: "Completed",
     repo: "https://github.com/556bhonemyathein/auth-with-firebase",
-  },
-  {
-    featured: false,
-    tag: "Flutter · REST API",
-    accent: "#06B6D4",
-    title: "Data Explorer",
-    description:
-      "Paginated REST API client with search and filter. Riverpod for state, models from quicktype.io, image upload with progress indicator and error handling.",
-    highlights: [
-      "Riverpod state",
-      "Paginated fetch",
-      "Image upload",
-      "quicktype models",
-    ],
-    tech: ["Flutter", "Riverpod", "Dio", "REST API"],
-    year: "2026",
-    status: "Completed",
-    repo: "https://github.com/556bhonemyathein/api-integration-restapi",
-  },
-  {
-    featured: false,
-    tag: "Flutter · Architecture",
-    accent: "#F472B6",
-    title: "Clean Arch Starter",
-    description:
-      "Reference project with clean architecture, feature-first folders, MVVM + GetX for navigation and state, dark/light theming, and responsive layout.",
-    highlights: [
-      "Feature-first",
-      "Clean Architecture",
-      "MVVM + GetX",
-      "Responsive",
-    ],
-    tech: ["Flutter", "GetX", "Clean Architecture", "MVVM"],
-    year: "2024",
-    status: "Learning project",
   },
 ];
 
@@ -1477,11 +1540,10 @@ function ProfileCard() {
             {/* pills */}
             <div className="flex flex-wrap gap-1.5">
               {[
-                "Flutter",
-                "Firebase",
-                "BLoC",
-                "Riverpod",
-                "REST",
+                "Architecture",
+                "State Management",
+                "API",
+                "Git",
               ].map((s) => (
                 <Pill key={s}>{s}</Pill>
               ))}
@@ -1513,7 +1575,7 @@ function AboutSection() {
         <SectionLabel
           index="01 — About"
           title="Who I am"
-          sub="A Flutter developer building real, functional apps — not just UI samples."
+          sub="A Flutter specialist building real, functional apps — not just UI samples."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -1723,7 +1785,7 @@ function ExperienceSection() {
   );
 }
 
-// ─── Neon marquee ─────────────────────────────────────────────────────────────
+// ─── Neon board ─────────────────────────────────────────────────────────────
 
 /** Brand colours — a neon tube reads as the language it names. */
 const OTHER_TECH: { name: string; neon: string }[] = [
@@ -1743,11 +1805,11 @@ const OTHER_TECH: { name: string; neon: string }[] = [
   { name: ".NET", neon: "#8B5CF6" },
 ];
 
-function NeonMarquee() {
+function NeonBoard() {
   return (
     <FadeUp delay={0.35}>
       <div className="mt-4 rounded-xl overflow-hidden neon-board">
-        <div className="px-5 pt-5 pb-4 flex items-center gap-2">
+        <div className="px-5 pt-5 pb-1 flex items-center gap-2">
           <span
             className="w-1.5 h-1.5 rounded-full"
             style={{
@@ -1755,15 +1817,15 @@ function NeonMarquee() {
               boxShadow: "0 0 8px #4ADE80",
             }}
           />
-          <p className="text-[10px] font-mono tracking-widest uppercase text-white/45">
+          <p className="neon-label text-[10px] font-mono tracking-widest uppercase text-white/45">
             Also worked with
           </p>
         </div>
 
-        <div className="neon-mask pb-6">
-          {/* The list is rendered twice; the second copy is what the first
-              scrolls into, and it is hidden from screen readers so the row is
-              announced once. */}
+        {/* Full-bleed marquee: the row spans the whole card edge to edge and
+            scrolls continuously. The list is rendered twice; the second copy
+            is what the first scrolls into and is hidden from screen readers. */}
+        <div className="neon-mask">
           <div className="neon-track">
             {[0, 1].map((copy) => (
               <div
@@ -1775,9 +1837,7 @@ function NeonMarquee() {
                   <span
                     key={t.name}
                     className="neon-item shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-xs font-mono tracking-wide"
-                    style={
-                      { "--neon": t.neon } as React.CSSProperties
-                    }
+                    style={{ "--neon": t.neon } as React.CSSProperties}
                   >
                     {t.name}
                   </span>
@@ -1892,7 +1952,7 @@ function SkillsSection() {
           </div>
         </FadeUp>
 
-        <NeonMarquee />
+        <NeonBoard />
       </div>
     </section>
   );
@@ -1958,10 +2018,13 @@ function SkillCard({
  * "has he done offline storage?", "has he touched Firebase?".
  */
 const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
+  { label: "Published", tech: ["APKPure"] },
+  { label: "IoT & AI", tech: ["ESP32 / IoT", "Gemini AI", "Blynk API"] },
+  { label: "Full-Stack", tech: ["Laravel", "PHP / MySQL"] },
   { label: "Riverpod", tech: ["Riverpod"] },
   { label: "Firebase", tech: ["Firebase", "Firestore", "Firebase Auth"] },
   { label: "Offline-first", tech: ["Isar", "Sqflite"] },
-  { label: "REST API", tech: ["Dio", "Retrofit", "REST API"] },
+  { label: "REST API", tech: ["Dio", "Retrofit", "REST API", "Laravel"] },
   {
     label: "Architecture",
     tech: ["Clean Architecture", "MVVM", "GetX", "BLoC"],
@@ -1987,12 +2050,12 @@ function ProjectsSection() {
     active === ALL
       ? PROJECTS
       : PROJECTS.filter((p) =>
-          p.tech.some((t) =>
-            PROJECT_FILTERS.find(
-              (f) => f.label === active,
-            )!.tech.includes(t),
-          ),
-        );
+        p.tech.some((t) =>
+          PROJECT_FILTERS.find(
+            (f) => f.label === active,
+          )!.tech.includes(t),
+        ),
+      );
 
   const featured = shown.filter((p) => p.featured);
   const others = shown.filter((p) => !p.featured);
@@ -2243,13 +2306,16 @@ function Screenshot({
       </div>
     );
   }
+  const fitClass = className.includes("object-")
+    ? ""
+    : "object-cover object-top";
   return (
     <img
       src={src}
       alt={alt}
       loading="lazy"
       onError={() => setFailed(true)}
-      className={`object-cover object-top ${className}`}
+      className={`${fitClass} ${className}`}
     />
   );
 }
@@ -2260,7 +2326,21 @@ function CardActions({
   size,
 }: CardProps & { size: number }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
+      {project.apkPure && (
+        <motion.a
+          whileHover={{ scale: 1.15 }}
+          href={project.apkPure}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${project.title} on APKPure`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-emerald-500 hover:text-emerald-400 transition-colors"
+          title="Download on APKPure"
+        >
+          <Smartphone size={size} />
+        </motion.a>
+      )}
       <motion.a
         whileHover={{ scale: 1.15 }}
         href={project.repo ?? PROFILE.github}
@@ -2322,12 +2402,27 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
           <div className="flex items-start gap-4">
             <ProjectIcon project={project} size={56} />
             <div>
-              <p
-                className="text-[10px] font-mono mb-2"
-                style={{ color: tintText(project.accent) }}
-              >
-                {project.tag}
-              </p>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <p
+                  className="text-[10px] font-mono"
+                  style={{ color: tintText(project.accent) }}
+                >
+                  {project.tag}
+                </p>
+                {project.apkPure && (
+                  <span
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono border"
+                    style={{
+                      borderColor: "rgba(16, 185, 129, 0.4)",
+                      background: "rgba(16, 185, 129, 0.12)",
+                      color: "#10B981",
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live on APKPure
+                  </span>
+                )}
+              </div>
               <h3
                 className="font-bold text-ink"
                 style={{
@@ -2523,7 +2618,7 @@ function ProjectDetails({
 
             {total > 0 && (
               <div className="w-full mt-4">
-                <div className="relative rounded-xl overflow-hidden border border-hair aspect-[9/16] max-h-[52vh] mx-auto bg-canvas">
+                <div className="relative rounded-xl overflow-hidden border border-hair aspect-[9/16] max-h-[52vh] mx-auto bg-canvas flex items-center justify-center">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={images[idx]}
@@ -2531,13 +2626,13 @@ function ProjectDetails({
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -12 }}
                       transition={{ duration: 0.18 }}
-                      className="absolute inset-0"
+                      className="absolute inset-0 flex items-center justify-center"
                     >
                       <Screenshot
                         src={images[idx]}
                         alt={`${project.title} screenshot ${idx + 1} of ${total}`}
                         accent={project.accent}
-                        className="w-full h-full"
+                        className="w-full h-full object-contain"
                       />
                     </motion.div>
                   </AnimatePresence>
@@ -2571,7 +2666,7 @@ function ProjectDetails({
                         onClick={() => setIdx(i)}
                         aria-label={`Screenshot ${i + 1}`}
                         aria-current={i === idx}
-                        className="w-10 aspect-[9/16] rounded-md overflow-hidden border transition-all"
+                        className="w-12 aspect-[9/16] rounded-md overflow-hidden border transition-all flex items-center justify-center bg-canvas"
                         style={{
                           borderColor:
                             i === idx ? project.accent : "var(--hair)",
@@ -2582,7 +2677,7 @@ function ProjectDetails({
                           src={src}
                           alt=""
                           accent={project.accent}
-                          className="w-full h-full"
+                          className="w-full h-full object-contain"
                         />
                       </button>
                     ))}
@@ -2594,12 +2689,27 @@ function ProjectDetails({
 
           {/* details */}
           <div className="p-5 md:p-6 flex flex-col">
-            <p
-              className="text-[10px] font-mono mb-2"
-              style={{ color: tintText(project.accent) }}
-            >
-              {project.tag}
-            </p>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <p
+                className="text-[10px] font-mono"
+                style={{ color: tintText(project.accent) }}
+              >
+                {project.tag}
+              </p>
+              {project.apkPure && (
+                <span
+                  className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono border"
+                  style={{
+                    borderColor: "rgba(16, 185, 129, 0.4)",
+                    background: "rgba(16, 185, 129, 0.12)",
+                    color: "#10B981",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Live on APKPure
+                </span>
+              )}
+            </div>
             <h3
               className="font-bold text-ink mb-3 pr-8"
               style={{
@@ -2610,11 +2720,59 @@ function ProjectDetails({
             >
               {project.title}
             </h3>
-            <div className="flex items-center gap-3 text-[10px] font-mono text-ink-faint mb-5">
+            <div className="flex items-center gap-3 text-[10px] font-mono text-ink-faint mb-5 flex-wrap">
               <span>{project.year}</span>
               <span className="w-1 h-1 rounded-full bg-current" />
               <span>{project.status}</span>
+              {project.apkPure && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-current" />
+                  <span className="text-emerald-500 font-medium">
+                    v1.0.0 · Android 7.0+ · 65.9 MB
+                  </span>
+                </>
+              )}
             </div>
+
+            {project.apkPure && (
+              <div
+                className="mb-5 p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                style={{
+                  borderColor: "rgba(16, 185, 129, 0.35)",
+                  background: "rgba(16, 185, 129, 0.08)",
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Smartphone size={18} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-ink">Official APKPure Release</span>
+                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        Partner Developer
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-ink-dim">
+                      Package: <span className="text-ink font-medium">app.pocketpilot</span> · v1.0.0 · 65.9 MB
+                    </p>
+                  </div>
+                </div>
+                <motion.a
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  href={project.apkPure}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-sm shrink-0"
+                >
+                  <Download size={12} />
+                  Download APK
+                  <ArrowUpRight size={10} />
+                </motion.a>
+              </div>
+            )}
+
             <p className="text-sm text-ink-dim leading-relaxed mb-6">
               {project.description}
             </p>
@@ -2649,6 +2807,23 @@ function ProjectDetails({
             </div>
 
             <div className="mt-auto pt-5 border-t border-hair flex flex-wrap gap-3">
+              {project.apkPure && (
+                <motion.a
+                  whileHover={{ y: -2 }}
+                  href={project.apkPure}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-mono px-4 py-2 rounded-full border transition-colors font-semibold"
+                  style={{
+                    borderColor: "rgba(16, 185, 129, 0.5)",
+                    background: "rgba(16, 185, 129, 0.15)",
+                    color: "#10B981",
+                  }}
+                >
+                  <Download size={13} /> Download APK
+                  <ArrowUpRight size={11} />
+                </motion.a>
+              )}
               {project.repo && (
                 <motion.a
                   whileHover={{ y: -2 }}
@@ -3550,7 +3725,7 @@ export default function App() {
               <Smartphone size={10} style={{ color: A }} />
             </div>
             <p className="text-[11px] font-mono text-ink-faint">
-              {PROFILE.name} · Flutter Developer
+              {PROFILE.name} · Flutter Specialist
             </p>
           </div>
           <p

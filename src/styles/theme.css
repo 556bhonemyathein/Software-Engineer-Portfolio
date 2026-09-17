@@ -353,14 +353,9 @@ textarea.bg-surface:hover {
   box-shadow: none;
 }
 
-/* ── Neon marquee ───────────────────────────────────────────────────────────
- * A neon sign needs a dark board to read as neon, so this strip keeps its own
- * near-black ground in both themes rather than following the canvas.
- *
- * The track holds the item list twice; translating it by exactly -50% (or +50%
- * travelling the other way) lands the copy where the original started, so the
- * loop has no seam. Because the offset is a percentage of the track, the item
- * list can grow or shrink without retuning the animation.
+/* ── Neon board ─────────────────────────────────────────────────────────────
+ * "Also worked with" chips. Dark mode is a near-black board so the chips read
+ * as neon tubes; light mode swaps to a warm card with tinted ink (below).
  */
 .neon-board {
   background:
@@ -373,42 +368,35 @@ textarea.bg-surface:hover {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Fade both ends so items enter and leave instead of popping at the edge. */
+/* Soft fade at both card edges so chips slide in/out instead of hard-cutting.
+ * The mask clips to this box, so it carries vertical padding: room for the
+ * -2px hover lift and the glow, which would otherwise be cut off at the top. */
 .neon-mask {
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 9%,
-    #000 91%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 9%,
-    #000 91%,
-    transparent
-  );
+  padding: 14px 0 22px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
+/* The track holds the list twice; translating by exactly 50% lands the copy
+ * where the original started, so the loop has no seam. */
 .neon-track {
   display: flex;
   width: max-content;
   animation: neon-scroll var(--neon-dur, 38s) linear infinite;
 }
 
-/* Left-to-right: start one copy back, travel forward to origin. */
 @keyframes neon-scroll {
-  from {
-    transform: translate3d(-50%, 0, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-  }
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
 }
 
 .neon-board:hover .neon-track {
   animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-track { animation: none; transform: none; }
+  .neon-mask { overflow-x: auto; }
 }
 
 .neon-item {
@@ -431,14 +419,36 @@ textarea.bg-surface:hover {
     inset 0 0 14px color-mix(in srgb, var(--neon) 16%, transparent);
 }
 
-/* A scrolling strip is exactly what this media query exists for: hold the
- * track still and let the row scroll by hand instead. */
-@media (prefers-reduced-motion: reduce) {
-  .neon-track {
-    animation: none;
-    transform: none;
-  }
-  .neon-mask {
-    overflow-x: auto;
-  }
+/* Light mode: the board becomes a warm card and the "neon" reads as tinted
+ * ink instead of glow. Pure neon hues (cyan, yellow) vanish on cream, so each
+ * chip's text is the hue darkened toward the ink colour, with the hue kept
+ * only in the tint and border. */
+[data-theme="light"] .neon-board {
+  background:
+    radial-gradient(
+      120% 140% at 50% 0%,
+      rgba(107, 63, 232, 0.08),
+      transparent 70%
+    ),
+    var(--surface);
+  border-color: var(--hair);
 }
+
+[data-theme="light"] .neon-label {
+  color: var(--ink-dim);
+}
+
+[data-theme="light"] .neon-item {
+  color: color-mix(in srgb, var(--neon) 55%, #1C1622);
+  border-color: color-mix(in srgb, var(--neon) 45%, transparent);
+  background: color-mix(in srgb, var(--neon) 14%, #FFFDF8);
+  text-shadow: none;
+  box-shadow: 0 1px 2px rgba(60, 40, 80, 0.06);
+}
+
+[data-theme="light"] .neon-item:hover {
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--neon) 28%, transparent),
+    0 1px 2px rgba(60, 40, 80, 0.06);
+}
+
