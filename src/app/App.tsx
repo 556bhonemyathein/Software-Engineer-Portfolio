@@ -74,7 +74,7 @@ const PROFILE = {
   gitlab: "https://gitlab.com/556bhonemyathein",
   linkedin:
     "https://www.linkedin.com/in/556bhonemyathein/",
-  photo: "/profile.jpg",
+  photo: "/profile.jpg?v=2",
   available: true,
 };
 
@@ -1578,16 +1578,6 @@ function ProfileCard() {
           </div>
         </div>
       </motion.div>
-
-      {/* decorative rings */}
-      <div
-        className="absolute -bottom-4 -left-4 -z-10 w-full h-full rounded-2xl border"
-        style={{ borderColor: tintLineSoft(A) }}
-      />
-      <div
-        className="absolute -bottom-8 -left-8 -z-20 w-full h-full rounded-2xl border"
-        style={{ borderColor: tintLineSoft(A) }}
-      />
     </motion.div>
   );
 }
