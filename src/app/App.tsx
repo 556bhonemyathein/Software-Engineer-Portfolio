@@ -41,6 +41,9 @@ import {
   CheckCircle2,
   HardDrive,
   Package,
+  Lock,
+  Play,
+  RotateCcw,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -614,6 +617,24 @@ const CODE_LINES = [
   { t: "normal", s: "    );" },
   { t: "normal", s: "  }" },
   { t: "kw", s: "}" },
+];
+
+const STATE_CODE_LINES = [
+  { t: "comment", s: "// Immutable BLoC States (Dart 3 Sealed)" },
+  { t: "kw", s: "sealed class AuthState {}" },
+  { t: "blank", s: "" },
+  { t: "normal", s: "final class AuthInitial extends AuthState {}" },
+  { t: "normal", s: "final class AuthLoading extends AuthState {}" },
+  { t: "blank", s: "" },
+  { t: "ok", s: "final class AuthSuccess extends AuthState {" },
+  { t: "normal", s: "  final User user;" },
+  { t: "normal", s: "  const AuthSuccess(this.user);" },
+  { t: "ok", s: "}" },
+  { t: "blank", s: "" },
+  { t: "err", s: "final class AuthFailure extends AuthState {" },
+  { t: "normal", s: "  final String message;" },
+  { t: "normal", s: "  const AuthFailure(this.message);" },
+  { t: "err", s: "}" },
 ];
 
 const LINE_COLOR: Record<string, string> = {
@@ -1655,6 +1676,353 @@ function ProfileCard() {
   );
 }
 
+// ─── BLoC & Auth Form Showcase ────────────────────────────────────────────────
+
+function BlocAuthShowcase() {
+  const [activeTab, setActiveTab] = useState<"ui" | "bloc" | "state">("ui");
+  const [authState, setAuthState] = useState<"initial" | "loading" | "success">("initial");
+  const [email, setEmail] = useState("556bhonemyathein@gmail.com");
+  const [password, setPassword] = useState("••••••••");
+  const [copied, setCopied] = useState(false);
+
+  const simulateLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authState === "loading") return;
+    setAuthState("loading");
+    setTimeout(() => {
+      setAuthState("success");
+    }, 850);
+  };
+
+  const resetAuth = () => {
+    setAuthState("initial");
+  };
+
+  const handleCopy = (lines: { s: string }[]) => {
+    const raw = lines.map((l) => l.s).join("\n");
+    navigator.clipboard.writeText(raw);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="rounded-2xl border border-hair bg-surface-2 overflow-hidden shadow-sm">
+      {/* Window Titlebar */}
+      <div
+        className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-3 border-b border-hair"
+        style={{ background: "var(--surface)" }}
+      >
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+        </div>
+
+        {/* Tab Switcher */}
+        <div className="flex items-center gap-1 bg-elevate p-1 rounded-lg border border-hair">
+          <button
+            type="button"
+            onClick={() => setActiveTab("ui")}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+              activeTab === "ui"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
+            style={activeTab === "ui" ? { color: "var(--accent-soft)" } : {}}
+          >
+            <Smartphone size={12} />
+            <span>Auth Form UI</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("bloc")}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+              activeTab === "bloc"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
+            style={activeTab === "bloc" ? { color: "var(--accent-soft)" } : {}}
+          >
+            <Code2 size={12} />
+            <span>auth_bloc.dart</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("state")}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+              activeTab === "state"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
+            style={activeTab === "state" ? { color: "var(--accent-soft)" } : {}}
+          >
+            <Layers size={12} />
+            <span>auth_state.dart</span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+          {activeTab !== "ui" && (
+            <button
+              type="button"
+              onClick={() =>
+                handleCopy(activeTab === "bloc" ? CODE_LINES : STATE_CODE_LINES)
+              }
+              className="p-1 rounded-md hover:bg-elevate text-ink-dim hover:text-ink-mute transition-colors"
+              title="Copy code"
+              aria-label="Copy code"
+            >
+              {copied ? (
+                <Check size={12} className="text-emerald-500" />
+              ) : (
+                <Copy size={12} />
+              )}
+            </button>
+          )}
+          <Pill color={A}>BLoC</Pill>
+        </div>
+      </div>
+
+      {/* Tab 1: Interactive Flutter Auth Form UI */}
+      {activeTab === "ui" && (
+        <div className="p-4 sm:p-5 flex flex-col items-center">
+          {/* Simulated Mobile Device Screen */}
+          <div
+            className="w-full max-w-sm rounded-xl border border-hair bg-surface p-4 sm:p-5 shadow-inner"
+            style={{ borderColor: tintLine(A) }}
+          >
+            {/* Mobile Status Bar */}
+            <div className="flex items-center justify-between text-[10px] font-mono text-ink-faint pb-2.5 mb-3 border-b border-hair">
+              <span>9:41 AM</span>
+              <div className="flex items-center gap-1.5">
+                <span>Flutter BLoC</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+            </div>
+
+            {/* Mobile Header */}
+            <div className="text-center mb-4">
+              <div
+                className="w-9 h-9 rounded-xl mx-auto flex items-center justify-center mb-2"
+                style={{
+                  background: tintBg(A),
+                  border: `1px solid ${tintLine(A)}`,
+                }}
+              >
+                <Lock size={16} style={{ color: A }} />
+              </div>
+              <h4 className="text-sm font-bold text-ink-strong">
+                Mobile Authentication
+              </h4>
+              <p className="text-[11px] text-ink-dim">
+                Event-driven state machine with flutter_bloc
+              </p>
+            </div>
+
+            {/* Live State Badge */}
+            <div className="mb-4 flex items-center justify-between p-2 rounded-lg bg-elevate border border-hair text-xs">
+              <span className="text-[10px] font-mono text-ink-dim">
+                State:
+              </span>
+              <span
+                className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full transition-all"
+                style={
+                  authState === "initial"
+                    ? {
+                        background: tintBg(A),
+                        color: tintText(A),
+                        border: `1px solid ${tintLine(A)}`,
+                      }
+                    : authState === "loading"
+                      ? {
+                          background: "rgba(245, 158, 11, 0.15)",
+                          color: "#F59E0B",
+                          border: "1px solid rgba(245, 158, 11, 0.3)",
+                        }
+                      : {
+                          background: "rgba(16, 185, 129, 0.15)",
+                          color: "#10B981",
+                          border: "1px solid rgba(16, 185, 129, 0.3)",
+                        }
+                }
+              >
+                {authState === "initial" && "AuthInitial()"}
+                {authState === "loading" && "AuthLoading()..."}
+                {authState === "success" && "AuthSuccess(user)"}
+              </span>
+            </div>
+
+            {/* Form or Success State */}
+            {authState !== "success" ? (
+              <form onSubmit={simulateLogin} className="space-y-3">
+                <div>
+                  <label className="block text-[10px] font-mono text-ink-dim mb-1">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail
+                      size={13}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"
+                    />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full bg-surface-2 border border-hair rounded-lg py-2 pl-9 pr-3 text-xs font-mono text-ink-strong focus:outline-none focus:border-violet-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-ink-dim mb-1">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock
+                      size={13}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"
+                    />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full bg-surface-2 border border-hair rounded-lg py-2 pl-9 pr-3 text-xs font-mono text-ink-strong focus:outline-none focus:border-violet-500"
+                    />
+                  </div>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  disabled={authState === "loading"}
+                  className="w-full py-2.5 rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-2 transition-all shadow-sm"
+                  style={{
+                    background:
+                      authState === "loading" ? "var(--ink-faint)" : A,
+                  }}
+                >
+                  {authState === "loading" ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>emit(AuthLoading())...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play size={12} fill="white" />
+                      <span>Dispatch LoginRequested</span>
+                    </>
+                  )}
+                </motion.button>
+              </form>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-center space-y-2.5"
+              >
+                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto">
+                  <Check size={16} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-ink-strong">
+                    Authenticated as Bhone Myat Hein
+                  </p>
+                  <p className="text-[10px] font-mono text-ink-dim mt-0.5">
+                    Session token cached in SecureStorage
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={resetAuth}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-hair bg-surface text-[10px] font-mono text-ink-dim hover:text-ink-mute transition-colors"
+                >
+                  <RotateCcw size={11} />
+                  <span>Reset to AuthInitial</span>
+                </button>
+              </motion.div>
+            )}
+
+            {/* Micro Architecture Details */}
+            <div className="mt-4 pt-3 border-t border-hair space-y-1 text-[10px] font-mono text-ink-faint">
+              <div className="flex items-center justify-between">
+                <span>Pattern:</span>
+                <span className="text-ink-dim">BlocProvider + BlocConsumer</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Security:</span>
+                <span className="text-ink-dim">Dio Interceptor + Keystore</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 2: auth_bloc.dart */}
+      {activeTab === "bloc" && (
+        <div className="p-3.5 sm:p-4 overflow-x-auto max-h-[460px]">
+          {CODE_LINES.map((line, i) => (
+            <div
+              key={i}
+              className="flex gap-2.5 sm:gap-3 leading-[1.6] text-[11px] sm:text-xs font-mono"
+            >
+              <span className="text-[10px] text-ink-faint w-5 text-right shrink-0 select-none">
+                {i + 1}
+              </span>
+              <span
+                className="whitespace-pre"
+                style={{
+                  color:
+                    LINE_COLOR[line.t] ?? LINE_COLOR.normal,
+                }}
+              >
+                {line.s || " "}
+              </span>
+            </div>
+          ))}
+          <div className="px-0 pt-2 pb-2 flex items-center gap-3">
+            <span className="font-mono text-[10px] text-ink-faint w-5 text-right">
+              {CODE_LINES.length + 1}
+            </span>
+            <AnimatedCursor />
+          </div>
+        </div>
+      )}
+
+      {/* Tab 3: auth_state.dart */}
+      {activeTab === "state" && (
+        <div className="p-3.5 sm:p-4 overflow-x-auto max-h-[460px]">
+          {STATE_CODE_LINES.map((line, i) => (
+            <div
+              key={i}
+              className="flex gap-2.5 sm:gap-3 leading-[1.6] text-[11px] sm:text-xs font-mono"
+            >
+              <span className="text-[10px] text-ink-faint w-5 text-right shrink-0 select-none">
+                {i + 1}
+              </span>
+              <span
+                className="whitespace-pre"
+                style={{
+                  color:
+                    LINE_COLOR[line.t] ?? LINE_COLOR.normal,
+                }}
+              >
+                {line.s || " "}
+              </span>
+            </div>
+          ))}
+          <div className="px-0 pt-2 pb-2 flex items-center gap-3">
+            <span className="font-mono text-[10px] text-ink-faint w-5 text-right">
+              {STATE_CODE_LINES.length + 1}
+            </span>
+            <AnimatedCursor />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── About ────────────────────────────────────────────────────────────────────
 
 function AboutSection() {
@@ -1668,8 +2036,8 @@ function AboutSection() {
           sub="A Flutter specialist building real, functional apps — not just UI samples."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-3 space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7 space-y-3">
             {ABOUT_POINTS.map((pt, i) => (
               <SlideIn key={i} delay={i * 0.08}>
                 <div className="flex items-start gap-4 p-4 rounded-xl border border-hair bg-elevate hover:border-hair-2 hover:bg-elevate transition-all duration-200">
@@ -1742,59 +2110,8 @@ function AboutSection() {
             </FadeUp>
           </div>
 
-          <FadeUp className="lg:col-span-2" delay={0.15}>
-            <div className="rounded-xl border border-hair bg-surface-2 overflow-hidden h-full">
-              {/* editor bar */}
-              <div
-                className="flex items-center gap-2 px-4 py-3 border-b border-hair"
-                style={{ background: "var(--surface)" }}
-              >
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-                <span className="ml-3 text-[11px] font-mono text-ink-faint">
-                  auth_bloc.dart
-                </span>
-                <Pill color={A} className="ml-auto">
-                  BLoC
-                </Pill>
-              </div>
-              <div className="p-4 overflow-x-auto">
-                {CODE_LINES.map((line, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      delay: 0.4 + i * 0.04,
-                      duration: 0.3,
-                    }}
-                    className="flex gap-3 leading-[1.6]"
-                  >
-                    <span className="font-mono text-[10px] text-ink-faint w-4 text-right shrink-0 select-none">
-                      {i + 1}
-                    </span>
-                    <span
-                      className="font-mono text-[11px] whitespace-pre"
-                      style={{
-                        color:
-                          LINE_COLOR[line.t] ??
-                          LINE_COLOR.normal,
-                      }}
-                    >
-                      {line.s || " "}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-              {/* cursor blink at end */}
-              <div className="px-4 pb-4 flex items-center gap-3">
-                <span className="font-mono text-[10px] text-ink-faint w-4 text-right">
-                  {CODE_LINES.length + 1}
-                </span>
-                <AnimatedCursor />
-              </div>
-            </div>
+          <FadeUp className="lg:col-span-5 lg:sticky lg:top-24 self-start w-full" delay={0.15}>
+            <BlocAuthShowcase />
           </FadeUp>
         </div>
       </div>
