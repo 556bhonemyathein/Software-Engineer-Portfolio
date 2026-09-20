@@ -1,47 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Software Engineer Portfolio</title>
-      <meta name="description" content="Create and showcase a professional software engineer portfolio to highlight skills, projects, and experience for career growth and job opportunities." />
-      <meta name="robots" content="noindex, nofollow" />
-      <style>
-        /* The viewport is the only scroller — an `overflow` on a wrapper div
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhone Myat Hein | Mobile Software Engineer (Flutter)</title>
+  <meta name="description"
+    content="Portfolio of Bhone Myat Hein — Mobile Software Engineer specializing in Flutter, Dart, Clean Architecture, Offline-First, and IoT systems. Shipped Pocket Pilot on APKPure, 600-level game engines, and full-stack solutions." />
+  <meta name="keywords"
+    content="Flutter, Dart, Mobile Developer, Bhone Myat Hein, Software Engineer, Offline-First, Riverpod, BLoC, IoT, APKPure" />
+  <meta name="author" content="Bhone Myat Hein" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate icon" type="image/jpeg" href="/profile.jpg" />
+
+  <!-- Open Graph / Social Previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bhone Myat Hein | Mobile Software Engineer (Flutter)" />
+  <meta property="og:description"
+    content="Mobile Software Engineer specializing in Flutter, Clean Architecture, Offline-First systems, and IoT. Check out projects and live demos." />
+  <meta property="og:image" content="/profile.jpg" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bhone Myat Hein | Mobile Software Engineer (Flutter)" />
+  <meta name="twitter:description"
+    content="Mobile Software Engineer specializing in Flutter, Clean Architecture, Offline-First systems, and IoT." />
+  <meta name="twitter:image" content="/profile.jpg" />
+  <style>
+    /* The viewport is the only scroller — an `overflow` on a wrapper div
            would make it a scroll container and swallow programmatic scrolls. */
-        html, body { margin: 0; overflow-x: hidden; }
-        html, body, #root { min-height: 100%; }
-      </style>
-      <script>
-        // Resolve the theme before first paint so there is no flash.
-        (function () {
-          try {
-            var stored = localStorage.getItem("portfolio-theme");
-            var theme =
-              stored === "light" || stored === "dark"
-                ? stored
-                : window.matchMedia("(prefers-color-scheme: light)").matches
-                  ? "light"
-                  : "dark";
-            var root = document.documentElement;
-            root.setAttribute("data-theme", theme);
-            root.style.colorScheme = theme;
-            if (theme === "dark") root.classList.add("dark");
-          } catch (e) {
-            document.documentElement.setAttribute("data-theme", "dark");
-          }
-        })();
-      </script>
-      
-    </head>
+    html,
+    body {
+      margin: 0;
+      overflow-x: hidden;
+    }
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+    html,
+    body,
+    #root {
+      min-height: 100%;
+    }
+  </style>
+  <script>
+    // Resolve the theme before first paint so there is no flash.
+    (function () {
+      try {
+        var stored = localStorage.getItem("portfolio-theme");
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+        var root = document.documentElement;
+        root.setAttribute("data-theme", theme);
+        root.style.colorScheme = theme;
+        if (theme === "dark") root.classList.add("dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+
+</head>
+
+<body>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
+
+</html>

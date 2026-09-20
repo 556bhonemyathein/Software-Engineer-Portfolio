@@ -2079,8 +2079,9 @@ function SkillCard({
  * "has he done offline storage?", "has he touched Firebase?".
  */
 const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
-  { label: "Published", tech: ["APKPure"] },
+  { label: "Published & Live", tech: ["APKPure", "Firebase Hosting", "Web / PWA"] },
   { label: "IoT & AI", tech: ["ESP32 / IoT", "Gemini AI", "Blynk API"] },
+  { label: "Games & Logic", tech: ["OOP Game Engine", "Custom Animations"] },
   { label: "Full-Stack", tech: ["Laravel", "PHP / MySQL", "Web / PWA"] },
   { label: "Riverpod", tech: ["Riverpod"] },
   {
@@ -2091,7 +2092,7 @@ const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
   { label: "REST API", tech: ["Dio", "Retrofit", "REST API", "Laravel"] },
   {
     label: "Architecture",
-    tech: ["Clean Architecture", "MVVM", "GetX", "BLoC"],
+    tech: ["Clean Architecture", "OOP Game Engine", "MVVM", "GetX", "BLoC"],
   },
 ];
 
