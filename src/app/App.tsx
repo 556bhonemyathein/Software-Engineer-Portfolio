@@ -81,6 +81,7 @@ const PROFILE = {
   gitlab: "https://gitlab.com/556bhonemyathein",
   linkedin:
     "https://www.linkedin.com/in/556bhonemyathein/",
+  website: "https://556bhonemyathein.tech",
   photo: "/profile.jpg?v=2",
   available: true,
 };
