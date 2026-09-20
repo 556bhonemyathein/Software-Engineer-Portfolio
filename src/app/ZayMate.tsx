@@ -393,7 +393,7 @@ function CaseNav() {
           </div>
           <span className="text-sm font-bold text-slate-800">ZayMate</span>
         </div>
-        <a href="mailto:556bonemyathein@example.com"
+        <a href="mailto:556bhonemyathein@gmail.com"
           className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg text-white transition-all hover:brightness-105"
           style={{ background: T }}>
           <Mail size={12} /> Contact
@@ -734,7 +734,7 @@ export function ZayMatePage() {
                     style={{ color: T2 }}>
                     <ArrowLeft size={14} /> View more projects
                   </a>
-                  <a href="mailto:556bonemyathein@example.com"
+                  <a href="mailto:556bhonemyathein@gmail.com"
                     className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white border border-white/30 hover:bg-white/10 transition-all">
                     <Mail size={14} /> Get in touch <ArrowUpRight size={13} />
                   </a>

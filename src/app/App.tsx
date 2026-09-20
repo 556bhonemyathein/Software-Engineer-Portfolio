@@ -228,6 +228,29 @@ const SKILLS: {
 
 const EXPERIENCE = [
   {
+    company: "San Dev",
+    role: "Flutter Developer Intern",
+    period: "2025",
+    type: "Internship",
+    accent: "#3B82F6",
+    description:
+      "Collaborated on production-style mobile development workflows — translating Figma designs into responsive Flutter interfaces, integrating RESTful APIs, managing reactive state, and adhering to team code review standards.",
+    highlights: [
+      {
+        app: "Clean UI & Figma Implementation",
+        detail:
+          "Implemented modular, pixel-perfect Flutter UI components from Figma design specs, utilizing responsive layouts and custom theme configurations.",
+        tags: ["Flutter", "Dart", "Figma", "Responsive Design"],
+      },
+      {
+        app: "API & State Management",
+        detail:
+          "Connected client screens with backend REST services using Dio, handled asynchronous data streams, and managed application state cleanly.",
+        tags: ["REST API", "Dio", "State Management", "Git"],
+      },
+    ],
+  },
+  {
     company: "Self Learning",
     role: "Independent Study",
     period: "2024 – Present",
@@ -506,6 +529,7 @@ const EDUCATION = [
     period: "2017 – 2020",
   },
   {
+    degree: "B.C.Sc — Bachelor of Computer Science",
     school: "University of Computer Studies (Meiktila)",
     period: "2022 – 2025",
     graduated: "Jan 2026",
@@ -535,6 +559,11 @@ const TRAINING = [
 ];
 
 const LANGUAGES = [
+  {
+    lang: "Burmese",
+    level: "Native / Mother Tongue",
+    pct: 100,
+  },
   {
     lang: "English",
     level: "B2 — Upper Intermediate",
