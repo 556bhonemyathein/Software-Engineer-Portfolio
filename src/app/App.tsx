@@ -86,14 +86,14 @@ const PROFILE = {
 };
 
 const ABOUT_POINTS = [
-  "Started Flutter in 2024 — building and shipping consistently since.",
-  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.",
-  "Knows all major state management patterns; picks the right one for each project.",
-  "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.",
-  "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.",
-  "Worked alongside backend teams on PHP, Firebase, and Odoo — integrating their APIs into Flutter.",
-  "Engineered 600-level multi-game engine (Quick Puz) with solvable parity algorithms & 38 passing automated widget tests.",
-  "Built real-world IoT telemetry solutions connecting ESP32 hardware, MQTT protocols, MJPEG video streaming, and hardware printing.",
+  "Architecting clean, modular Flutter codebases with strict separation between UI, business logic, and data layers.",
+  "Pragmatic approach to state management — selecting Riverpod, BLoC, or Provider based on domain complexity.",
+  "Prioritizing offline-first resilience so mobile users never encounter blocked interfaces during connection drops.",
+  "Practical experience connecting mobile clients with IoT hardware, sensor telemetry, and live camera streaming.",
+  "Committed to code reliability through automated testing — maintaining unit and widget test suites for core logic.",
+  "Experienced in cross-functional collaboration — aligning REST API schemas with backend teams (PHP, Laravel, Firebase).",
+  "Productive workflow incorporating modern AI tools (Copilot, Claude, Gemini) while thoroughly reviewing every line.",
+  "Obsessed with polished mobile UX — 60fps physics animations, native splash handovers, and pixel-precise design delivery.",
 ];
 
 const AI_TOOLS = [
@@ -262,34 +262,40 @@ const EXPERIENCE = [
     description: "Continuously exploring the Flutter ecosystem — architecture patterns, state management, and shipping production-grade mobile apps.",
     highlights: [
       {
-        app: "Store Distribution & Publishing",
-        detail: "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.",
-        tags: ["APKPure", "Release Signing", "Android 7.0+", "Distribution"],
+        app: "Release Engineering & App Store Ops",
+        detail:
+          "Managed production keystore signing, ProGuard minification, adaptive vector icons, and backwards-compatible Android bundling for live releases.",
+        tags: ["APKPure", "R8 / ProGuard", "Keystore Signing", "Release Engineering"],
       },
       {
-        app: "Architecture & Patterns",
-        detail: "Deep-diving Clean Architecture, feature-first structure, and various state management approaches (BLoC, Riverpod, GetX).",
-        tags: ["Clean Architecture", "BLoC", "Riverpod", "GetX"],
+        app: "Clean Architecture & State Isolation",
+        detail:
+          "Engineered layered feature-first architectures separating presentation from domain rules, utilizing Riverpod, BLoC, and GetX across varying project scales.",
+        tags: ["Clean Architecture", "Riverpod", "BLoC", "Domain Layer"],
       },
       {
-        app: "Backend & Auth",
-        detail: "Auth against Firebase, Odoo and PHP backends — username/password, Google Sign-In, phone OTP, activation key, and JWT access tokens with refresh and revoke.",
-        tags: ["Firebase", "Odoo", "PHP", "JWT", "OTP"],
+        app: "Secure Authentication Pipelines",
+        detail:
+          "Implemented secure token lifecycle handling (JWT rotation, biometric unlock, and secure storage) with OAuth and phone OTP verification.",
+        tags: ["JWT Lifecycles", "OAuth", "Encrypted Storage", "Security"],
       },
       {
-        app: "Backend Team Collaboration",
-        detail: "Worked with backend developers on PHP, Firebase, and Odoo services — aligning request/response contracts, integrating endpoints into Flutter, and debugging issues across both sides.",
-        tags: ["PHP", "Firebase", "Odoo", "REST API"],
+        app: "API Schema & Contract Alignment",
+        detail:
+          "Partnered with backend engineers across PHP, Laravel, and Odoo to define typed contract schemas, serialize nested JSON, and handle network error resilience.",
+        tags: ["API Contracts", "Laravel", "Odoo", "Dio Client"],
       },
       {
-        app: "IoT, Telemetry & Hardware",
-        detail: "Bridged Flutter with ESP32 microcontrollers over MQTT (Adafruit IO) and Blynk Cloud APIs — handled live MJPEG camera streams, sensor telemetry, and hardware PDF ticket printing.",
-        tags: ["ESP32", "MQTT", "MJPEG", "Hardware Printing"],
+        app: "Hardware & Edge Telemetry",
+        detail:
+          "Connected mobile clients to ESP32 microcontrollers over MQTT brokers and Blynk Cloud HTTP APIs to capture live sensor telemetry and render MJPEG video streams.",
+        tags: ["ESP32", "MQTT Broker", "MJPEG Video", "Sensor Telemetry"],
       },
       {
-        app: "Game Engines & Automated Testing",
-        detail: "Designed a 6-puzzle logic game suite with 600 levels, mathematical solvable inversion parity shuffle, fluid staggered animations, and 38 passing automated widget tests.",
-        tags: ["Widget Testing", "Algorithms", "Animations", "GitLab"],
+        app: "Mathematical Algorithms & Testing",
+        detail:
+          "Engineered solvable parity validation algorithms for puzzle engines, verified with 38 passing automated widget and unit test suites.",
+        tags: ["Widget Testing", "Unit Testing", "flutter_test", "Algorithms"],
       },
     ],
   },
@@ -321,14 +327,14 @@ const PROJECTS: Project[] = [
     accent: "#10B981",
     title: "Plant Monitoring — Rice Paddy Monitor",
     description:
-      "Intelligent rice-paddy monitoring assistant turning an ESP32 + ESP32-CAM field station into an automated crop health system. Real-time telemetry (temperature, humidity, soil moisture), live MJPEG camera stream, and Gemini AI diagnosis (disease, spray advice, care plan) with bilingual English / မြန်မာ support and Blynk pump automation.",
+      "Automated field assistant transforming ESP32 and ESP32-CAM microcontrollers into an edge crop health monitoring station. Combines environmental sensor processing, live video feeds, and bilingual agronomy advice powered by Gemini multimodal vision models.",
     highlights: [
-      "ESP32 + ESP32-CAM live stream (MJPEG)",
-      "Gemini AI plant & disease diagnosis",
-      "Threshold-first agronomy rules engine",
-      "Bilingual Cupertino iOS UI (English / မြန်မာ)",
-      "Blynk Cloud HTTP API pump control",
-      "Offline-first sensor grading fallback",
+      "Real-time sensor telemetry loop streaming humidity, soil, and temperature data",
+      "Direct MJPEG video decode rendered inside a responsive Cupertino iOS interface",
+      "Multimodal Gemini 1.5 Flash diagnosis for crop disease detection and spray schedules",
+      "Offline threshold grading rules engine running autonomously without internet",
+      "Blynk Cloud REST webhook integration triggering field irrigation pumps on demand",
+      "Bilingual typography handling seamless English and Myanmar Unicode font scaling",
     ],
     tech: [
       "Flutter",
@@ -354,15 +360,14 @@ const PROJECTS: Project[] = [
     accent: "#3B82F6",
     title: "PocketPilot — Finance Tracker",
     description:
-      "Production offline-first personal finance tracker published on APKPure. Every write lands in Isar first and reconciles with the server later, so accounts, transactions, categories and reports all work seamlessly with no backend at all. Features feature-first Clean Architecture, Riverpod 3 compile-safe state, sealed error handling, and dual dev/prod flavours.",
+      "Production financial management application published to APKPure. Engineered around an offline-first transactional pipeline where ledger updates persist locally before reconciling with upstream servers, ensuring fluid responsiveness regardless of network latency.",
     highlights: [
-      "Published on APKPure (v1.0.0 · Partner Developer)",
-      "Universal Android 7.0+ release (65.9 MB APK)",
-      "Isar offline-first local database + sync",
-      "Riverpod 3 compile-safe state + GoRouter",
-      "fl_chart analytics + PDF report export",
-      "Dio auth/retry interceptors & sealed failures",
-      "Multi-language (easy_localization)",
+      "Live release on APKPure Partner Console supporting Android 7.0 through 14",
+      "High-throughput local NoSQL document storage powered by Isar Database",
+      "Compile-safe reactive state flow and declarative routing with Riverpod 3 & GoRouter",
+      "Financial analytics and trend visualization using fl_chart with PDF report export",
+      "Network resilience stack with Dio automatic retry interceptors and sealed failures",
+      "Dual flavor architecture separating development sandbox from production releases",
     ],
     tech: [
       "Flutter",
@@ -389,13 +394,13 @@ const PROJECTS: Project[] = [
     accent: "#8B5CF6",
     title: "Offline Inventory Logger",
     description:
-      "Offline-first mobile inventory management system that stores and manages stock locally in SQLite while fetching suppliers from a remote REST API. Features full CRUD with swipe actions, strict form validation, robust network error handling, and a clean layered architecture powered by Riverpod.",
+      "Mobile warehouse stock management solution designed for fast-paced catalog counts. Maintains local inventory availability offline while asynchronously synchronizing supplier orders and pricing adjustments with upstream REST services.",
     highlights: [
-      "SQLite offline-first local storage",
-      "REST supplier sync with Dio",
-      "Full CRUD with Slidable swipe actions",
-      "Layered Clean Architecture (UI → Provider → Repo → Service)",
-      "Form validation & network error handling",
+      "Embedded relational database layer backed by Sqflite for zero-latency lookups",
+      "Supplier synchronization engine using Dio with error interceptors and token cache",
+      "Interactive stock mutations with flutter_slidable directional swipe actions",
+      "Decoupled 4-tier Clean Architecture (UI → Provider → Repository → Remote Service)",
+      "Strict client-side form validation guarding SKU patterns and inventory thresholds",
     ],
     tech: [
       "Flutter",
@@ -423,14 +428,13 @@ const PROJECTS: Project[] = [
     accent: "#2563EB",
     title: "Airline Ticket System",
     description:
-      "Full-stack airline flight booking and ticketing platform developed as the B.C.Sc graduation thesis project for University of Computer Studies (Meiktila). Features flight search across domestic routes, interactive seat selection, trip review, multi-wallet payment (KPay, WavePay, AYA Pay, CB Pay), PDF e-ticket generation with physical printing, and a comprehensive Laravel web administration portal for airline and flight scheduling.",
+      "Comprehensive domestic flight reservation and ticketing system engineered as the B.C.Sc graduation thesis project for University of Computer Studies (Meiktila). Features a customer-facing Flutter mobile app connected to a Laravel administrative management backend.",
     highlights: [
-      "Flutter client + Laravel REST backend",
-      "Interactive real-time seat selection grid",
-      "Multi-wallet payments (KPay, WavePay, AYA)",
-      "PDF ticket generation & physical printing",
-      "Laravel Admin Dashboard & route management",
-      "Final Year University B.C.Sc Thesis project",
+      "Interactive cabin seat map supporting real-time seat locks and class tier pricing",
+      "Multi-wallet payment reconciliation supporting KPay, WavePay, AYA Pay, and CB Pay",
+      "Automated PDF boarding pass generation formatted for thermal and standard printing",
+      "Laravel RESTful administration portal for flight routes and fleet scheduling",
+      "Final Year University B.C.Sc Capstone thesis successfully defended at UCS Meiktila",
     ],
     tech: [
       "Flutter",
@@ -461,14 +465,14 @@ const PROJECTS: Project[] = [
     accent: "#7C3AED",
     title: "Guitar Chords — Library & Admin",
     description:
-      "Cross-platform guitar chord library and lyrics viewer with real-time Firebase backend. Features role-based access control (Admin CMS for publishing songs, artists, chord sheets & lyrics vs. User explorer), Google Sign-In & Firebase Auth, offline favorites via SharedPreferences, Android 12+ Splash Screen API, animated in-app splash, adaptive launcher icons, and live PWA deployment on Firebase Hosting.",
+      "Cross-platform music chord and lyrics platform powered by Firebase. Implements a dual-portal experience: an administrative CMS for musicians to author chord charts, alongside an offline-first songbook for performers.",
     highlights: [
-      "Role-based auth (Admin CMS vs User)",
-      "Real-time Firestore song & artist catalog",
-      "Android 12+ Splash API & in-app splash",
-      "Adaptive launcher icons (cross-platform)",
-      "Offline favorites & dark / light theming",
-      "Live web PWA on Firebase Hosting",
+      "Role-based Firestore security rules enforcing publishing permissions",
+      "Multi-provider authentication via Google Sign-In and Firebase Auth",
+      "Dual-phase native splash handover conforming to Android 12+ Splash API specs",
+      "Adaptive launcher icons tailored across mobile, desktop, and web platforms",
+      "Client-side key transposition and offline favorites stored in SharedPreferences",
+      "Published as a responsive Progressive Web App hosted on Firebase Hosting",
     ],
     tech: [
       "Flutter",
@@ -494,14 +498,14 @@ const PROJECTS: Project[] = [
     accent: "#4F46E5",
     title: "Quick Puz — 6-in-1 Puzzle Games",
     description:
-      "Cross-platform puzzle game suite built in Flutter and Dart featuring 6 distinct puzzle engines and 100 levels each (600 levels total). Features Sliding Tiles (solvable parity shuffle algorithm), Lights Out, Memory Match, Flood It, Picross / Nonogram, and Pipe Rotate. Engineered with polymorphic puzzle architecture, move counters, par targets, star ratings, fluid staggered entrance animations, and pixel-matched native-to-Flutter splash handover.",
+      "Modular puzzle game suite engineered in Dart and Flutter featuring six discrete puzzle engines and 100 progressive difficulty levels each. Designed around mathematical solvability guarantees, custom physics animations, and strict test coverage.",
     highlights: [
-      "6 puzzle game engines (600 levels total, 100 per game)",
-      "Sliding tiles solvable inversion parity shuffle algorithm",
-      "Polymorphic game state architecture (moves, par, stars)",
-      "Fluid staggered entrance & spring physics animations",
-      "Seamless native splash handover (zero blank frame)",
-      "Adaptive cross-platform app icons (Android, iOS, Web, Desktop)",
+      "600 total hand-crafted and procedurally verified puzzle challenges",
+      "Inversion-count parity algorithm guaranteeing 100% solvable tile configurations",
+      "Polymorphic engine structure sharing timer, move count, and star evaluation logic",
+      "38 passing automated widget tests validating puzzle mechanics and state transitions",
+      "Staggered entrance sequences and spring physics built without third-party game frameworks",
+      "Seamless native OS splash screen handover eliminating blank startup frames",
     ],
     tech: [
       "Flutter",
@@ -2033,7 +2037,7 @@ function AboutSection() {
         <SectionLabel
           index="01 — About"
           title="Who I am"
-          sub="A Flutter specialist building real, functional apps — not just UI samples."
+          sub="Core engineering philosophy, architectural discipline, and professional standards."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -2478,7 +2482,7 @@ function ProjectsSection() {
         <SectionLabel
           index="04 — Projects"
           title="What I've built"
-          sub="Real projects with real functionality — still building."
+          sub="Production mobile architectures, offline storage engines, and published store applications."
         />
 
         {/* filter chips */}
@@ -3934,18 +3938,15 @@ function ContactSection() {
                 }}
               >
                 <p className="text-[10px] font-mono tracking-widest uppercase mb-3 text-[#10B981]/50">
-                  Auth I&apos;ve built
+                  Collaboration &amp; Availability
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {[
-                    "Username/Password",
-                    "Google Sign-In",
-                    "Phone OTP",
-                    "Activation Key",
-                    "Firebase Auth",
-                    "Access Token",
-                    "Refresh",
-                    "Revoke",
+                    "Full-Time Roles",
+                    "Contract & Freelance",
+                    "Remote / On-Site",
+                    "Fast Turnaround",
+                    "Clean Handoff",
                   ].map((a) => (
                     <Pill key={a} color="#10B981">
                       {a}
