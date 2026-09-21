@@ -46,6 +46,10 @@ import {
   Play,
   RotateCcw,
   Languages,
+  Eye,
+  EyeOff,
+  Wifi,
+  Battery,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -1720,7 +1724,8 @@ function BlocAuthShowcase() {
   const [activeTab, setActiveTab] = useState<"ui" | "bloc" | "state">("ui");
   const [authState, setAuthState] = useState<"initial" | "loading" | "success">("initial");
   const [email, setEmail] = useState("556bhonemyathein@gmail.com");
-  const [password, setPassword] = useState("••••••••");
+  const [password, setPassword] = useState("flutter_dev_2026");
+  const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const simulateLogin = (e: React.FormEvent) => {
@@ -1744,249 +1749,305 @@ function BlocAuthShowcase() {
   };
 
   return (
-    <div className="rounded-2xl border border-hair bg-surface-2 overflow-hidden shadow-sm">
+    <div className="rounded-2xl border border-hair bg-surface-2 overflow-hidden shadow-sm transition-all">
       {/* Window Titlebar */}
       <div
-        className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-3 border-b border-hair"
+        className="px-3 py-2.5 sm:px-4 sm:py-3 border-b border-hair flex flex-col gap-2.5"
         style={{ background: "var(--surface)" }}
       >
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+        {/* Row 1: Window Controls + File Label + Pill */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+            </div>
+            <span className="text-[11px] font-mono text-ink-faint hidden xs:inline">
+              flutter_auth_simulation
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            {activeTab !== "ui" && (
+              <button
+                type="button"
+                onClick={() =>
+                  handleCopy(activeTab === "bloc" ? CODE_LINES : STATE_CODE_LINES)
+                }
+                className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-elevate text-ink-dim hover:text-ink-mute text-[10px] font-mono transition-colors"
+                title="Copy code"
+                aria-label="Copy code"
+              >
+                {copied ? (
+                  <Check size={12} className="text-emerald-500" />
+                ) : (
+                  <Copy size={12} />
+                )}
+                <span className="hidden sm:inline">{copied ? "Copied" : "Copy"}</span>
+              </button>
+            )}
+            <Pill color={A}>BLoC 8.1</Pill>
+          </div>
         </div>
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-elevate p-1 rounded-lg border border-hair">
+        {/* Row 2: Responsive Segmented Control Tabs */}
+        <div className="grid grid-cols-3 gap-1 bg-elevate p-1 rounded-xl border border-hair text-[11px] sm:text-xs font-mono">
           <button
             type="button"
             onClick={() => setActiveTab("ui")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "ui"
-              ? "bg-surface text-ink-strong shadow-xs font-semibold"
-              : "text-ink-dim hover:text-ink-mute"
-              }`}
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
+              activeTab === "ui"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
             style={activeTab === "ui" ? { color: "var(--accent-soft)" } : {}}
           >
-            <Smartphone size={12} />
-            <span>Auth Form UI</span>
+            <Smartphone size={12} className="shrink-0" />
+            <span className="truncate">Auth UI</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("bloc")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "bloc"
-              ? "bg-surface text-ink-strong shadow-xs font-semibold"
-              : "text-ink-dim hover:text-ink-mute"
-              }`}
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
+              activeTab === "bloc"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
             style={activeTab === "bloc" ? { color: "var(--accent-soft)" } : {}}
           >
-            <Code2 size={12} />
-            <span>auth_bloc.dart</span>
+            <Code2 size={12} className="shrink-0" />
+            <span className="truncate">auth_bloc</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("state")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "state"
-              ? "bg-surface text-ink-strong shadow-xs font-semibold"
-              : "text-ink-dim hover:text-ink-mute"
-              }`}
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
+              activeTab === "state"
+                ? "bg-surface text-ink-strong shadow-xs font-semibold"
+                : "text-ink-dim hover:text-ink-mute"
+            }`}
             style={activeTab === "state" ? { color: "var(--accent-soft)" } : {}}
           >
-            <Layers size={12} />
-            <span>auth_state.dart</span>
+            <Layers size={12} className="shrink-0" />
+            <span className="truncate">auth_state</span>
           </button>
-        </div>
-
-        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-          {activeTab !== "ui" && (
-            <button
-              type="button"
-              onClick={() =>
-                handleCopy(activeTab === "bloc" ? CODE_LINES : STATE_CODE_LINES)
-              }
-              className="p-1 rounded-md hover:bg-elevate text-ink-dim hover:text-ink-mute transition-colors"
-              title="Copy code"
-              aria-label="Copy code"
-            >
-              {copied ? (
-                <Check size={12} className="text-emerald-500" />
-              ) : (
-                <Copy size={12} />
-              )}
-            </button>
-          )}
-          <Pill color={A}>BLoC</Pill>
         </div>
       </div>
 
       {/* Tab 1: Interactive Flutter Auth Form UI */}
       {activeTab === "ui" && (
-        <div className="p-4 sm:p-5 flex flex-col items-center">
+        <div className="p-3 sm:p-5 flex flex-col items-center justify-center">
           {/* Simulated Mobile Device Screen */}
           <div
-            className="w-full max-w-sm rounded-xl border border-hair bg-surface p-4 sm:p-5 shadow-inner"
+            className="w-full max-w-[360px] rounded-2xl border border-hair bg-surface shadow-md overflow-hidden transition-all"
             style={{ borderColor: tintLine(A) }}
           >
             {/* Mobile Status Bar */}
-            <div className="flex items-center justify-between text-[10px] font-mono text-ink-faint pb-2.5 mb-3 border-b border-hair">
-              <span>9:41 AM</span>
-              <div className="flex items-center gap-1.5">
-                <span>Flutter BLoC</span>
+            <div className="px-4 pt-3 pb-2 flex items-center justify-between text-[11px] font-mono text-ink-faint border-b border-hair/60 bg-surface">
+              <span className="font-semibold text-ink-dim text-[11px]">9:41</span>
+              {/* Dynamic Island / Notch */}
+              <div className="w-16 h-3.5 bg-elevate rounded-full border border-hair/80 flex items-center justify-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               </div>
-            </div>
-
-            {/* Mobile Header */}
-            <div className="text-center mb-4">
-              <div
-                className="w-9 h-9 rounded-xl mx-auto flex items-center justify-center mb-2"
-                style={{
-                  background: tintBg(A),
-                  border: `1px solid ${tintLine(A)}`,
-                }}
-              >
-                <Lock size={16} style={{ color: A }} />
+              <div className="flex items-center gap-1.5 text-ink-dim">
+                <Wifi size={11} />
+                <Battery size={13} />
               </div>
-              <h4 className="text-sm font-bold text-ink-strong">
-                Mobile Authentication
-              </h4>
-              <p className="text-[11px] text-ink-dim">
-                Event-driven state machine with flutter_bloc
-              </p>
             </div>
 
-            {/* Live State Badge */}
-            <div className="mb-4 flex items-center justify-between p-2 rounded-lg bg-elevate border border-hair text-xs">
-              <span className="text-[10px] font-mono text-ink-dim">
-                State:
-              </span>
-              <span
-                className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full transition-all"
-                style={
-                  authState === "initial"
-                    ? {
-                      background: tintBg(A),
-                      color: tintText(A),
-                      border: `1px solid ${tintLine(A)}`,
-                    }
-                    : authState === "loading"
-                      ? {
-                        background: "rgba(245, 158, 11, 0.15)",
-                        color: "#F59E0B",
-                        border: "1px solid rgba(245, 158, 11, 0.3)",
-                      }
-                      : {
-                        background: "rgba(16, 185, 129, 0.15)",
-                        color: "#10B981",
-                        border: "1px solid rgba(16, 185, 129, 0.3)",
-                      }
-                }
-              >
-                {authState === "initial" && "AuthInitial()"}
-                {authState === "loading" && "AuthLoading()..."}
-                {authState === "success" && "AuthSuccess(user)"}
-              </span>
-            </div>
-
-            {/* Form or Success State */}
-            {authState !== "success" ? (
-              <form onSubmit={simulateLogin} className="space-y-3">
-                <div>
-                  <label className="block text-[10px] font-mono text-ink-dim mb-1">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail
-                      size={13}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"
-                    />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-surface-2 border border-hair rounded-lg py-2 pl-9 pr-3 text-xs font-mono text-ink-strong focus:outline-none focus:border-violet-500"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-mono text-ink-dim mb-1">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <Lock
-                      size={13}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint"
-                    />
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full bg-surface-2 border border-hair rounded-lg py-2 pl-9 pr-3 text-xs font-mono text-ink-strong focus:outline-none focus:border-violet-500"
-                    />
-                  </div>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={authState === "loading"}
-                  className="w-full py-2.5 rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-2 transition-all shadow-sm"
+            {/* Screen Content */}
+            <div className="p-4 sm:p-5">
+              {/* Mobile Header */}
+              <div className="text-center mb-4">
+                <div
+                  className="w-10 h-10 rounded-2xl mx-auto flex items-center justify-center mb-2 shadow-xs"
                   style={{
-                    background:
-                      authState === "loading" ? "var(--ink-faint)" : A,
+                    background: tintBg(A),
+                    border: `1px solid ${tintLine(A)}`,
                   }}
                 >
-                  {authState === "loading" ? (
-                    <>
-                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>emit(AuthLoading())...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play size={12} fill="white" />
-                      <span>Dispatch LoginRequested</span>
-                    </>
-                  )}
-                </motion.button>
-              </form>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-center space-y-2.5"
-              >
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto">
-                  <Check size={16} />
+                  <Lock size={18} style={{ color: A }} />
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-ink-strong">
-                    Authenticated as Bhone Myat Hein
-                  </p>
-                  <p className="text-[10px] font-mono text-ink-dim mt-0.5">
-                    Session token cached in SecureStorage
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={resetAuth}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-hair bg-surface text-[10px] font-mono text-ink-dim hover:text-ink-mute transition-colors"
-                >
-                  <RotateCcw size={11} />
-                  <span>Reset to AuthInitial</span>
-                </button>
-              </motion.div>
-            )}
-
-            {/* Micro Architecture Details */}
-            <div className="mt-4 pt-3 border-t border-hair space-y-1 text-[10px] font-mono text-ink-faint">
-              <div className="flex items-center justify-between">
-                <span>Pattern:</span>
-                <span className="text-ink-dim">BlocProvider + BlocConsumer</span>
+                <h4 className="text-sm sm:text-base font-bold text-ink-strong tracking-tight">
+                  Mobile Authentication
+                </h4>
+                <p className="text-[11px] text-ink-dim mt-0.5">
+                  BlocProvider · Event-driven Architecture
+                </p>
               </div>
-              <div className="flex items-center justify-between">
-                <span>Security:</span>
-                <span className="text-ink-dim">Dio Interceptor + Keystore</span>
+
+              {/* Live State Badge */}
+              <div className="mb-4 flex items-center justify-between p-2.5 rounded-xl bg-surface-2 border border-hair text-xs">
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-ink-dim">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                  <span>State:</span>
+                </div>
+                <span
+                  className="font-mono text-[10px] font-semibold px-2.5 py-0.5 rounded-md transition-all duration-200"
+                  style={
+                    authState === "initial"
+                      ? {
+                          background: tintBg(A),
+                          color: tintText(A),
+                          border: `1px solid ${tintLine(A)}`,
+                        }
+                      : authState === "loading"
+                        ? {
+                            background: "rgba(245, 158, 11, 0.15)",
+                            color: "#F59E0B",
+                            border: "1px solid rgba(245, 158, 11, 0.3)",
+                          }
+                        : {
+                            background: "rgba(16, 185, 129, 0.15)",
+                            color: "#10B981",
+                            border: "1px solid rgba(16, 185, 129, 0.3)",
+                          }
+                  }
+                >
+                  {authState === "initial" && "AuthInitial()"}
+                  {authState === "loading" && "AuthLoading()..."}
+                  {authState === "success" && "AuthSuccess(user)"}
+                </span>
+              </div>
+
+              {/* Form or Success State with AnimatePresence */}
+              <AnimatePresence mode="wait">
+                {authState !== "success" ? (
+                  <motion.form
+                    key="auth-form"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15 }}
+                    onSubmit={simulateLogin}
+                    className="space-y-3"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-[11px] font-medium text-ink-dim">
+                          Email Address
+                        </label>
+                        <span className="text-[10px] font-mono text-ink-faint">
+                          valid format
+                        </span>
+                      </div>
+                      <div className="relative">
+                        <Mail
+                          size={14}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint pointer-events-none"
+                        />
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="w-full h-10 bg-surface-2 border border-hair rounded-xl pl-9 pr-3 text-xs sm:text-sm text-ink-strong focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 focus:border-[var(--accent)] transition-all"
+                          placeholder="you@example.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-[11px] font-medium text-ink-dim">
+                          Password
+                        </label>
+                        <span className="text-[10px] font-mono text-ink-faint">
+                          min 6 chars
+                        </span>
+                      </div>
+                      <div className="relative">
+                        <Lock
+                          size={14}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint pointer-events-none"
+                        />
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          className="w-full h-10 bg-surface-2 border border-hair rounded-xl pl-9 pr-10 text-xs sm:text-sm text-ink-strong focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 focus:border-[var(--accent)] transition-all"
+                          placeholder="Password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-ink-faint hover:text-ink-dim transition-colors"
+                          title={showPassword ? "Hide password" : "Show password"}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={authState === "loading"}
+                      className="w-full h-10 sm:h-11 rounded-xl text-xs sm:text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all shadow-sm active:opacity-90 mt-1"
+                      style={{
+                        background:
+                          authState === "loading" ? "var(--ink-faint)" : A,
+                      }}
+                    >
+                      {authState === "loading" ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>Emitting AuthLoading()...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={13} fill="white" />
+                          <span>Dispatch LoginRequested</span>
+                        </>
+                      )}
+                    </motion.button>
+                  </motion.form>
+                ) : (
+                  <motion.div
+                    key="auth-success"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.2 }}
+                    className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-center space-y-2.5"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto shadow-xs">
+                      <Check size={18} />
+                    </div>
+                    <div>
+                      <p className="text-xs sm:text-sm font-bold text-ink-strong">
+                        Authenticated as Bhone Myat Hein
+                      </p>
+                      <p className="text-[10px] font-mono text-ink-dim mt-0.5">
+                        Session token cached in SecureStorage
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={resetAuth}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-hair bg-surface text-[10px] font-mono text-ink-dim hover:text-ink-mute transition-colors shadow-xs"
+                    >
+                      <RotateCcw size={11} />
+                      <span>Reset to AuthInitial</span>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Micro Architecture Details */}
+              <div className="mt-4 pt-3 border-t border-hair space-y-1 text-[10px] font-mono text-ink-faint">
+                <div className="flex items-center justify-between">
+                  <span>Pattern:</span>
+                  <span className="text-ink-dim">BlocProvider + BlocConsumer</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Security:</span>
+                  <span className="text-ink-dim">Dio Interceptor + Keystore</span>
+                </div>
               </div>
             </div>
           </div>
@@ -4126,13 +4187,7 @@ function ContactSection() {
                     value={brief.message}
                     onChange={(e) => set("message")(e.target.value)}
                     required
-                    className="rounded-xl bg-surface border border-hair text-ink-mute text-sm px-4 py-3 focus:outline-none placeholder:text-ink-faint resize-none transition-colors duration-150"
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = "var(--accent-soft)")
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = "var(--hair)")
-                    }
+                    className="rounded-xl bg-surface border border-hair text-ink-strong text-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 focus:border-[var(--accent)] placeholder:text-ink-faint resize-none transition-all duration-200"
                   />
                 </div>
 
@@ -4145,10 +4200,10 @@ function ContactSection() {
 
                 <div className="flex flex-col gap-2">
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-white transition-all"
+                    className="h-12 flex items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white transition-all shadow-sm"
                     style={{ background: A }}
                   >
                     {channel === "Email"
@@ -4195,12 +4250,7 @@ function CField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="rounded-xl bg-surface border border-hair text-ink-mute text-sm px-4 py-2.5 focus:outline-none placeholder:text-ink-faint transition-colors duration-150"
-        onFocus={(e) => (e.target.style.borderColor = "var(--accent-soft)")}
-        onBlur={(e) =>
-        (e.target.style.borderColor =
-          "var(--hair)")
-        }
+        className="h-11 rounded-xl bg-surface border border-hair text-ink-strong text-sm px-4 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 focus:border-[var(--accent)] placeholder:text-ink-faint transition-all duration-200"
       />
     </div>
   );
