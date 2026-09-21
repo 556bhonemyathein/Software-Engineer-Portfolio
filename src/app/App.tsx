@@ -8,7 +8,6 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useTheme } from "./useTheme";
-import { LangProvider, useLang } from "./i18n";
 import {
   Github,
   Gitlab,
@@ -45,7 +44,6 @@ import {
   Lock,
   Play,
   RotateCcw,
-  Languages,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -83,20 +81,19 @@ const PROFILE = {
   gitlab: "https://gitlab.com/556bhonemyathein",
   linkedin:
     "https://www.linkedin.com/in/556bhonemyathein/",
-  website: "https://556bhonemyathein.tech",
   photo: "/profile.jpg?v=2",
   available: true,
 };
 
 const ABOUT_POINTS = [
-  "Architecting clean, modular Flutter codebases with strict separation between UI, business logic, and data layers.",
-  "Pragmatic approach to state management — selecting Riverpod, BLoC, or Provider based on domain complexity.",
-  "Prioritizing offline-first resilience so mobile users never encounter blocked interfaces during connection drops.",
-  "Practical experience connecting mobile clients with IoT hardware, sensor telemetry, and live camera streaming.",
-  "Committed to code reliability through automated testing — maintaining unit and widget test suites for core logic.",
-  "Experienced in cross-functional collaboration — aligning REST API schemas with backend teams (PHP, Laravel, Firebase).",
-  "Productive workflow incorporating modern AI tools (Copilot, Claude, Gemini) while thoroughly reviewing every line.",
-  "Obsessed with polished mobile UX — 60fps physics animations, native splash handovers, and pixel-precise design delivery.",
+  "Started Flutter in 2024 — building and shipping consistently since.",
+  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.",
+  "Knows all major state management patterns; picks the right one for each project.",
+  "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.",
+  "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.",
+  "Worked alongside backend teams on PHP, Firebase, and Odoo — integrating their APIs into Flutter.",
+  "Engineered 600-level multi-game engine (Quick Puz) with solvable parity algorithms & 38 passing automated widget tests.",
+  "Built real-world IoT telemetry solutions connecting ESP32 hardware, MQTT protocols, MJPEG video streaming, and hardware printing.",
 ];
 
 const AI_TOOLS = [
@@ -265,40 +262,34 @@ const EXPERIENCE = [
     description: "Continuously exploring the Flutter ecosystem — architecture patterns, state management, and shipping production-grade mobile apps.",
     highlights: [
       {
-        app: "Release Engineering & App Store Ops",
-        detail:
-          "Managed production keystore signing, ProGuard minification, adaptive vector icons, and backwards-compatible Android bundling for live releases.",
-        tags: ["APKPure", "R8 / ProGuard", "Keystore Signing", "Release Engineering"],
+        app: "Store Distribution & Publishing",
+        detail: "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.",
+        tags: ["APKPure", "Release Signing", "Android 7.0+", "Distribution"],
       },
       {
-        app: "Clean Architecture & State Isolation",
-        detail:
-          "Engineered layered feature-first architectures separating presentation from domain rules, utilizing Riverpod, BLoC, and GetX across varying project scales.",
-        tags: ["Clean Architecture", "Riverpod", "BLoC", "Domain Layer"],
+        app: "Architecture & Patterns",
+        detail: "Deep-diving Clean Architecture, feature-first structure, and various state management approaches (BLoC, Riverpod, GetX).",
+        tags: ["Clean Architecture", "BLoC", "Riverpod", "GetX"],
       },
       {
-        app: "Secure Authentication Pipelines",
-        detail:
-          "Implemented secure token lifecycle handling (JWT rotation, biometric unlock, and secure storage) with OAuth and phone OTP verification.",
-        tags: ["JWT Lifecycles", "OAuth", "Encrypted Storage", "Security"],
+        app: "Backend & Auth",
+        detail: "Auth against Firebase, Odoo and PHP backends — username/password, Google Sign-In, phone OTP, activation key, and JWT access tokens with refresh and revoke.",
+        tags: ["Firebase", "Odoo", "PHP", "JWT", "OTP"],
       },
       {
-        app: "API Schema & Contract Alignment",
-        detail:
-          "Partnered with backend engineers across PHP, Laravel, and Odoo to define typed contract schemas, serialize nested JSON, and handle network error resilience.",
-        tags: ["API Contracts", "Laravel", "Odoo", "Dio Client"],
+        app: "Backend Team Collaboration",
+        detail: "Worked with backend developers on PHP, Firebase, and Odoo services — aligning request/response contracts, integrating endpoints into Flutter, and debugging issues across both sides.",
+        tags: ["PHP", "Firebase", "Odoo", "REST API"],
       },
       {
-        app: "Hardware & Edge Telemetry",
-        detail:
-          "Connected mobile clients to ESP32 microcontrollers over MQTT brokers and Blynk Cloud HTTP APIs to capture live sensor telemetry and render MJPEG video streams.",
-        tags: ["ESP32", "MQTT Broker", "MJPEG Video", "Sensor Telemetry"],
+        app: "IoT, Telemetry & Hardware",
+        detail: "Bridged Flutter with ESP32 microcontrollers over MQTT (Adafruit IO) and Blynk Cloud APIs — handled live MJPEG camera streams, sensor telemetry, and hardware PDF ticket printing.",
+        tags: ["ESP32", "MQTT", "MJPEG", "Hardware Printing"],
       },
       {
-        app: "Mathematical Algorithms & Testing",
-        detail:
-          "Engineered solvable parity validation algorithms for puzzle engines, verified with 38 passing automated widget and unit test suites.",
-        tags: ["Widget Testing", "Unit Testing", "flutter_test", "Algorithms"],
+        app: "Game Engines & Automated Testing",
+        detail: "Designed a 6-puzzle logic game suite with 600 levels, mathematical solvable inversion parity shuffle, fluid staggered animations, and 38 passing automated widget tests.",
+        tags: ["Widget Testing", "Algorithms", "Animations", "GitLab"],
       },
     ],
   },
@@ -330,14 +321,14 @@ const PROJECTS: Project[] = [
     accent: "#10B981",
     title: "Plant Monitoring — Rice Paddy Monitor",
     description:
-      "Automated field assistant transforming ESP32 and ESP32-CAM microcontrollers into an edge crop health monitoring station. Combines environmental sensor processing, live video feeds, and bilingual agronomy advice powered by Gemini multimodal vision models.",
+      "Intelligent rice-paddy monitoring assistant turning an ESP32 + ESP32-CAM field station into an automated crop health system. Real-time telemetry (temperature, humidity, soil moisture), live MJPEG camera stream, and Gemini AI diagnosis (disease, spray advice, care plan) with bilingual English / မြန်မာ support and Blynk pump automation.",
     highlights: [
-      "Real-time sensor telemetry loop streaming humidity, soil, and temperature data",
-      "Direct MJPEG video decode rendered inside a responsive Cupertino iOS interface",
-      "Multimodal Gemini 1.5 Flash diagnosis for crop disease detection and spray schedules",
-      "Offline threshold grading rules engine running autonomously without internet",
-      "Blynk Cloud REST webhook integration triggering field irrigation pumps on demand",
-      "Bilingual typography handling seamless English and Myanmar Unicode font scaling",
+      "ESP32 + ESP32-CAM live stream (MJPEG)",
+      "Gemini AI plant & disease diagnosis",
+      "Threshold-first agronomy rules engine",
+      "Bilingual Cupertino iOS UI (English / မြန်မာ)",
+      "Blynk Cloud HTTP API pump control",
+      "Offline-first sensor grading fallback",
     ],
     tech: [
       "Flutter",
@@ -363,14 +354,15 @@ const PROJECTS: Project[] = [
     accent: "#3B82F6",
     title: "PocketPilot — Finance Tracker",
     description:
-      "Production financial management application published to APKPure. Engineered around an offline-first transactional pipeline where ledger updates persist locally before reconciling with upstream servers, ensuring fluid responsiveness regardless of network latency.",
+      "Production offline-first personal finance tracker published on APKPure. Every write lands in Isar first and reconciles with the server later, so accounts, transactions, categories and reports all work seamlessly with no backend at all. Features feature-first Clean Architecture, Riverpod 3 compile-safe state, sealed error handling, and dual dev/prod flavours.",
     highlights: [
-      "Live release on APKPure Partner Console supporting Android 7.0 through 14",
-      "High-throughput local NoSQL document storage powered by Isar Database",
-      "Compile-safe reactive state flow and declarative routing with Riverpod 3 & GoRouter",
-      "Financial analytics and trend visualization using fl_chart with PDF report export",
-      "Network resilience stack with Dio automatic retry interceptors and sealed failures",
-      "Dual flavor architecture separating development sandbox from production releases",
+      "Published on APKPure (v1.0.0 · Partner Developer)",
+      "Universal Android 7.0+ release (65.9 MB APK)",
+      "Isar offline-first local database + sync",
+      "Riverpod 3 compile-safe state + GoRouter",
+      "fl_chart analytics + PDF report export",
+      "Dio auth/retry interceptors & sealed failures",
+      "Multi-language (easy_localization)",
     ],
     tech: [
       "Flutter",
@@ -397,13 +389,13 @@ const PROJECTS: Project[] = [
     accent: "#8B5CF6",
     title: "Offline Inventory Logger",
     description:
-      "Mobile warehouse stock management solution designed for fast-paced catalog counts. Maintains local inventory availability offline while asynchronously synchronizing supplier orders and pricing adjustments with upstream REST services.",
+      "Offline-first mobile inventory management system that stores and manages stock locally in SQLite while fetching suppliers from a remote REST API. Features full CRUD with swipe actions, strict form validation, robust network error handling, and a clean layered architecture powered by Riverpod.",
     highlights: [
-      "Embedded relational database layer backed by Sqflite for zero-latency lookups",
-      "Supplier synchronization engine using Dio with error interceptors and token cache",
-      "Interactive stock mutations with flutter_slidable directional swipe actions",
-      "Decoupled 4-tier Clean Architecture (UI → Provider → Repository → Remote Service)",
-      "Strict client-side form validation guarding SKU patterns and inventory thresholds",
+      "SQLite offline-first local storage",
+      "REST supplier sync with Dio",
+      "Full CRUD with Slidable swipe actions",
+      "Layered Clean Architecture (UI → Provider → Repo → Service)",
+      "Form validation & network error handling",
     ],
     tech: [
       "Flutter",
@@ -431,13 +423,14 @@ const PROJECTS: Project[] = [
     accent: "#2563EB",
     title: "Airline Ticket System",
     description:
-      "Comprehensive domestic flight reservation and ticketing system engineered as the B.C.Sc graduation thesis project for University of Computer Studies (Meiktila). Features a customer-facing Flutter mobile app connected to a Laravel administrative management backend.",
+      "Full-stack airline flight booking and ticketing platform developed as the B.C.Sc graduation thesis project for University of Computer Studies (Meiktila). Features flight search across domestic routes, interactive seat selection, trip review, multi-wallet payment (KPay, WavePay, AYA Pay, CB Pay), PDF e-ticket generation with physical printing, and a comprehensive Laravel web administration portal for airline and flight scheduling.",
     highlights: [
-      "Interactive cabin seat map supporting real-time seat locks and class tier pricing",
-      "Multi-wallet payment reconciliation supporting KPay, WavePay, AYA Pay, and CB Pay",
-      "Automated PDF boarding pass generation formatted for thermal and standard printing",
-      "Laravel RESTful administration portal for flight routes and fleet scheduling",
-      "Final Year University B.C.Sc Capstone thesis successfully defended at UCS Meiktila",
+      "Flutter client + Laravel REST backend",
+      "Interactive real-time seat selection grid",
+      "Multi-wallet payments (KPay, WavePay, AYA)",
+      "PDF ticket generation & physical printing",
+      "Laravel Admin Dashboard & route management",
+      "Final Year University B.C.Sc Thesis project",
     ],
     tech: [
       "Flutter",
@@ -468,14 +461,14 @@ const PROJECTS: Project[] = [
     accent: "#7C3AED",
     title: "Guitar Chords — Library & Admin",
     description:
-      "Cross-platform music chord and lyrics platform powered by Firebase. Implements a dual-portal experience: an administrative CMS for musicians to author chord charts, alongside an offline-first songbook for performers.",
+      "Cross-platform guitar chord library and lyrics viewer with real-time Firebase backend. Features role-based access control (Admin CMS for publishing songs, artists, chord sheets & lyrics vs. User explorer), Google Sign-In & Firebase Auth, offline favorites via SharedPreferences, Android 12+ Splash Screen API, animated in-app splash, adaptive launcher icons, and live PWA deployment on Firebase Hosting.",
     highlights: [
-      "Role-based Firestore security rules enforcing publishing permissions",
-      "Multi-provider authentication via Google Sign-In and Firebase Auth",
-      "Dual-phase native splash handover conforming to Android 12+ Splash API specs",
-      "Adaptive launcher icons tailored across mobile, desktop, and web platforms",
-      "Client-side key transposition and offline favorites stored in SharedPreferences",
-      "Published as a responsive Progressive Web App hosted on Firebase Hosting",
+      "Role-based auth (Admin CMS vs User)",
+      "Real-time Firestore song & artist catalog",
+      "Android 12+ Splash API & in-app splash",
+      "Adaptive launcher icons (cross-platform)",
+      "Offline favorites & dark / light theming",
+      "Live web PWA on Firebase Hosting",
     ],
     tech: [
       "Flutter",
@@ -501,14 +494,14 @@ const PROJECTS: Project[] = [
     accent: "#4F46E5",
     title: "Quick Puz — 6-in-1 Puzzle Games",
     description:
-      "Modular puzzle game suite engineered in Dart and Flutter featuring six discrete puzzle engines and 100 progressive difficulty levels each. Designed around mathematical solvability guarantees, custom physics animations, and strict test coverage.",
+      "Cross-platform puzzle game suite built in Flutter and Dart featuring 6 distinct puzzle engines and 100 levels each (600 levels total). Features Sliding Tiles (solvable parity shuffle algorithm), Lights Out, Memory Match, Flood It, Picross / Nonogram, and Pipe Rotate. Engineered with polymorphic puzzle architecture, move counters, par targets, star ratings, fluid staggered entrance animations, and pixel-matched native-to-Flutter splash handover.",
     highlights: [
-      "600 total hand-crafted and procedurally verified puzzle challenges",
-      "Inversion-count parity algorithm guaranteeing 100% solvable tile configurations",
-      "Polymorphic engine structure sharing timer, move count, and star evaluation logic",
-      "38 passing automated widget tests validating puzzle mechanics and state transitions",
-      "Staggered entrance sequences and spring physics built without third-party game frameworks",
-      "Seamless native OS splash screen handover eliminating blank startup frames",
+      "6 puzzle game engines (600 levels total, 100 per game)",
+      "Sliding tiles solvable inversion parity shuffle algorithm",
+      "Polymorphic game state architecture (moves, par, stars)",
+      "Fluid staggered entrance & spring physics animations",
+      "Seamless native splash handover (zero blank frame)",
+      "Adaptive cross-platform app icons (Android, iOS, Web, Desktop)",
     ],
     tech: [
       "Flutter",
@@ -838,7 +831,7 @@ function SectionLabel({
       <h2
         className="font-bold leading-tight mb-3 text-ink"
         style={{
-          fontFamily: "var(--font-display)",
+          fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
         }}
       >
@@ -926,35 +919,6 @@ function ThemeToggle({
           )}
         </motion.span>
       </motion.span>
-    </button>
-  );
-}
-
-// ─── Language toggle ─────────────────────────────────────────────────────────
-
-function LangToggle({ className = "" }: { className?: string }) {
-  const { lang, toggle, t } = useLang();
-  const mm = lang === "mm";
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={t(mm ? "Switch to English" : "Switch to Myanmar")}
-      title={mm ? "English" : "မြန်မာ"}
-      className={`flex h-[26px] shrink-0 items-center gap-1.5 rounded-full border border-hair bg-elevate px-2.5 text-[10px] font-mono transition-colors duration-200 hover:border-hair-2 active:scale-95 ${className}`}
-      style={{ WebkitTapHighlightColor: "transparent" }}
-    >
-      <Languages size={11} style={{ color: "var(--ink-dim)" }} />
-      <span style={{ color: mm ? "var(--ink-faint)" : A }}>EN</span>
-      <span className="text-ink-faint">/</span>
-      <span
-        style={{
-          color: mm ? A : "var(--ink-faint)",
-          fontFamily: "var(--font-myanmar)",
-        }}
-      >
-        မြန်မာ
-      </span>
     </button>
   );
 }
@@ -1131,7 +1095,6 @@ function BackToTop() {
 
 function Nav() {
   const y = useScrollY();
-  const { t } = useLang();
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
   const past = y > 80;
@@ -1218,7 +1181,7 @@ function Nav() {
                     }}
                   />
                 )}
-                {t(l)}
+                {l}
               </button>
             );
           })}
@@ -1241,7 +1204,6 @@ function Nav() {
           >
             <GitLabIcon size={14} />
           </a>
-          <LangToggle className="ml-2" />
           <ThemeToggle theme={theme} onToggle={toggle} className="ml-2" />
         </nav>
 
@@ -1250,11 +1212,10 @@ function Nav() {
           className="hidden md:flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg font-semibold text-white transition-all duration-200 hover:brightness-110 active:scale-95"
           style={{ background: A }}
         >
-          {t("Hire me")} <ArrowUpRight size={11} />
+          Hire me <ArrowUpRight size={11} />
         </button>
 
         <div className="md:hidden flex items-center gap-3">
-          <LangToggle />
           <ThemeToggle theme={theme} onToggle={toggle} />
           <button
             type="button"
@@ -1301,7 +1262,7 @@ function Nav() {
               className="text-left py-2.5 px-3 text-xs font-mono text-ink-dim hover:text-ink-soft rounded-lg hover:bg-elevate transition-all"
               style={{ WebkitTapHighlightColor: "transparent" }}
             >
-              {t(l)}
+              {l}
             </button>
           ))}
           <button
@@ -1310,7 +1271,7 @@ function Nav() {
             className="mt-2 py-2.5 px-3 text-xs font-semibold text-white rounded-lg"
             style={{ background: A, WebkitTapHighlightColor: "transparent" }}
           >
-            {t("Hire me")}
+            Hire me
           </button>
         </div>
       </motion.div>
@@ -1343,7 +1304,6 @@ function StatCounter({
   suffix?: string;
   label: string;
 }) {
-  const { t } = useLang();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const val = useCount(target, inView);
@@ -1355,7 +1315,7 @@ function StatCounter({
       <p
         className="font-bold text-ink-strong"
         style={{
-          fontFamily: "var(--font-display)",
+          fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: "1.5rem",
           lineHeight: 1,
         }}
@@ -1364,14 +1324,13 @@ function StatCounter({
         {suffix}
       </p>
       <p className="text-[9px] font-mono text-ink-dim mt-1">
-        {t(label)}
+        {label}
       </p>
     </div>
   );
 }
 
 function HeroSection() {
-  const { t } = useLang();
   return (
     <section
       id="hero"
@@ -1427,7 +1386,7 @@ function HeroSection() {
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
                   <span className="font-mono text-[11px] text-[#10B981]/80">
-                    {t("Available for work")}
+                    Available for work
                   </span>
                 </div>
               </motion.div>
@@ -1437,7 +1396,7 @@ function HeroSection() {
                 variants={fadeUp}
                 className="leading-[0.86] tracking-tight mb-5"
                 style={{
-                  fontFamily: "var(--font-display)",
+                  fontFamily: "'Barlow Condensed', sans-serif",
                   fontSize: "clamp(3.8rem, 10vw, 7.5rem)",
                   fontWeight: 800,
                 }}
@@ -1474,7 +1433,7 @@ function HeroSection() {
                   className="font-mono text-sm"
                   style={{ color: A }}
                 >
-                  {t(PROFILE.role)}
+                  {PROFILE.role}
                 </p>
               </motion.div>
 
@@ -1482,14 +1441,14 @@ function HeroSection() {
                 variants={fadeUp}
                 className="text-sm text-ink-mute leading-relaxed mb-6 max-w-md"
               >
-                {t(PROFILE.tagline)}
+                {PROFILE.tagline}
               </motion.p>
 
               <motion.div
                 variants={fadeUp}
                 className="flex items-center gap-1.5 mb-8 font-mono text-[11px] text-ink-dim"
               >
-                <MapPin size={11} /> {t(PROFILE.location)}
+                <MapPin size={11} /> {PROFILE.location}
               </motion.div>
 
               {/* CTAs */}
@@ -1504,7 +1463,7 @@ function HeroSection() {
                   className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all"
                   style={{ background: A }}
                 >
-                  {t("View projects")} <ArrowUpRight size={14} />
+                  View projects <ArrowUpRight size={14} />
                 </motion.button>
                 <motion.a
                   whileHover={{ scale: 1.03 }}
@@ -1516,7 +1475,7 @@ function HeroSection() {
                     borderColor: "var(--hair-2)",
                   }}
                 >
-                  <Download size={14} /> {t("Resume")}
+                  <Download size={14} /> Resume
                 </motion.a>
               </motion.div>
 
@@ -1584,7 +1543,7 @@ function HeroSection() {
             size={13}
             className="group-hover:translate-y-0.5 transition-transform"
           />
-          {t("scroll to explore")}
+          scroll to explore
         </motion.button>
       </div>
     </section>
@@ -1592,7 +1551,6 @@ function HeroSection() {
 }
 
 function ProfileCard() {
-  const { t } = useLang();
   const [tick, setTick] = useState(true);
   useEffect(() => {
     const t = setInterval(() => setTick((b) => !b), 540);
@@ -1656,7 +1614,7 @@ function ProfileCard() {
                 }}
               />
               <span className="text-[10px] font-mono text-ink-mute">
-                {t("online")}
+                online
               </span>
             </div>
           </div>
@@ -1666,7 +1624,7 @@ function ProfileCard() {
             <h3
               className="text-ink-strong font-bold mb-0.5"
               style={{
-                fontFamily: "var(--font-display)",
+                fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: "1.3rem",
               }}
             >
@@ -1676,7 +1634,7 @@ function ProfileCard() {
               className="text-xs font-mono mb-4"
               style={{ color: "var(--accent-soft)" }}
             >
-              {t(PROFILE.role)}
+              {PROFILE.role}
             </p>
 
             {/* stats */}
@@ -1765,11 +1723,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("ui")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
-              activeTab === "ui"
-                ? "bg-surface text-ink-strong shadow-xs font-semibold"
-                : "text-ink-dim hover:text-ink-mute"
-            }`}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "ui"
+              ? "bg-surface text-ink-strong shadow-xs font-semibold"
+              : "text-ink-dim hover:text-ink-mute"
+              }`}
             style={activeTab === "ui" ? { color: "var(--accent-soft)" } : {}}
           >
             <Smartphone size={12} />
@@ -1778,11 +1735,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("bloc")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
-              activeTab === "bloc"
-                ? "bg-surface text-ink-strong shadow-xs font-semibold"
-                : "text-ink-dim hover:text-ink-mute"
-            }`}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "bloc"
+              ? "bg-surface text-ink-strong shadow-xs font-semibold"
+              : "text-ink-dim hover:text-ink-mute"
+              }`}
             style={activeTab === "bloc" ? { color: "var(--accent-soft)" } : {}}
           >
             <Code2 size={12} />
@@ -1791,11 +1747,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("state")}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
-              activeTab === "state"
-                ? "bg-surface text-ink-strong shadow-xs font-semibold"
-                : "text-ink-dim hover:text-ink-mute"
-            }`}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${activeTab === "state"
+              ? "bg-surface text-ink-strong shadow-xs font-semibold"
+              : "text-ink-dim hover:text-ink-mute"
+              }`}
             style={activeTab === "state" ? { color: "var(--accent-soft)" } : {}}
           >
             <Layers size={12} />
@@ -1871,21 +1826,21 @@ function BlocAuthShowcase() {
                 style={
                   authState === "initial"
                     ? {
-                        background: tintBg(A),
-                        color: tintText(A),
-                        border: `1px solid ${tintLine(A)}`,
-                      }
+                      background: tintBg(A),
+                      color: tintText(A),
+                      border: `1px solid ${tintLine(A)}`,
+                    }
                     : authState === "loading"
                       ? {
-                          background: "rgba(245, 158, 11, 0.15)",
-                          color: "#F59E0B",
-                          border: "1px solid rgba(245, 158, 11, 0.3)",
-                        }
+                        background: "rgba(245, 158, 11, 0.15)",
+                        color: "#F59E0B",
+                        border: "1px solid rgba(245, 158, 11, 0.3)",
+                      }
                       : {
-                          background: "rgba(16, 185, 129, 0.15)",
-                          color: "#10B981",
-                          border: "1px solid rgba(16, 185, 129, 0.3)",
-                        }
+                        background: "rgba(16, 185, 129, 0.15)",
+                        color: "#10B981",
+                        border: "1px solid rgba(16, 185, 129, 0.3)",
+                      }
                 }
               >
                 {authState === "initial" && "AuthInitial()"}
@@ -2068,15 +2023,14 @@ function BlocAuthShowcase() {
 // ─── About ────────────────────────────────────────────────────────────────────
 
 function AboutSection() {
-  const { t } = useLang();
   return (
     <section id="about" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("01 — About")}
-          title={t("Who I am")}
-          sub={t("Core engineering philosophy, architectural discipline, and professional standards.")}
+          index="01 — About"
+          title="Who I am"
+          sub="A Flutter specialist building real, functional apps — not just UI samples."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -2094,7 +2048,7 @@ function AboutSection() {
                     <Check size={11} style={{ color: A }} />
                   </div>
                   <p className="text-sm text-ink-mute leading-relaxed">
-                    {t(pt)}
+                    {pt}
                   </p>
                 </div>
               </SlideIn>
@@ -2109,7 +2063,7 @@ function AboutSection() {
                   className="text-[10px] font-mono tracking-widest uppercase mb-3"
                   style={{ color: "var(--accent-dim)" }}
                 >
-                  {t("AI-assisted development")}
+                  AI-assisted development
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {AI_TOOLS.map((t) => (
@@ -2167,15 +2121,14 @@ function AboutSection() {
 // ─── Experience ───────────────────────────────────────────────────────────────
 
 function ExperienceSection() {
-  const { t } = useLang();
   return (
     <section id="experience" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("02 — Experience")}
-          title={t("Where I've worked")}
-          sub={t("Professional experience and ongoing self-directed learning.")}
+          index="02 — Experience"
+          title="Where I've worked"
+          sub="Professional experience and ongoing self-directed learning."
         />
 
         <div className="space-y-5">
@@ -2193,22 +2146,22 @@ function ExperienceSection() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-ink">{t(exp.company)}</p>
-                      <p className="text-xs font-mono" style={{ color: tintText(exp.accent) }}>{t(exp.role)}</p>
+                      <p className="text-sm font-bold text-ink">{exp.company}</p>
+                      <p className="text-xs font-mono" style={{ color: tintText(exp.accent) }}>{exp.role}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 sm:flex-col sm:items-end">
-                    <span className="text-xs font-mono text-ink-dim">{t(exp.period)}</span>
+                    <span className="text-xs font-mono text-ink-dim">{exp.period}</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full"
                       style={{ background: tintBg(exp.accent), color: tintTextSoft(exp.accent), border: `1px solid ${tintLine(exp.accent)}` }}>
-                      {t(exp.type)}
+                      {exp.type}
                     </span>
                   </div>
                 </div>
 
                 {/* body */}
                 <div className="px-6 py-5">
-                  <p className="text-xs text-ink-dim leading-relaxed mb-5">{t(exp.description)}</p>
+                  <p className="text-xs text-ink-dim leading-relaxed mb-5">{exp.description}</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {exp.highlights.map((h, hi) => (
@@ -2216,9 +2169,9 @@ function ExperienceSection() {
                         <div className="rounded-lg border border-hair bg-elevate p-4 hover:border-hair-2 hover:bg-elevate transition-all duration-200">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.accent }} />
-                            <p className="text-xs font-semibold text-ink-soft">{t(h.app)}</p>
+                            <p className="text-xs font-semibold text-ink-soft">{h.app}</p>
                           </div>
-                          <p className="text-xs text-ink-dim leading-relaxed mb-3">{t(h.detail)}</p>
+                          <p className="text-xs text-ink-dim leading-relaxed mb-3">{h.detail}</p>
                           <div className="flex flex-wrap gap-1.5">
                             {h.tags.map((t) => <Pill key={t} color={exp.accent}>{t}</Pill>)}
                           </div>
@@ -2257,7 +2210,6 @@ const OTHER_TECH: { name: string; neon: string }[] = [
 ];
 
 function NeonBoard() {
-  const { t } = useLang();
   return (
     <FadeUp delay={0.35}>
       <div className="mt-4 rounded-xl overflow-hidden neon-board">
@@ -2270,7 +2222,7 @@ function NeonBoard() {
             }}
           />
           <p className="neon-label text-[10px] font-mono tracking-widest uppercase text-white/45">
-            {t("Also worked with")}
+            Also worked with
           </p>
         </div>
 
@@ -2304,7 +2256,6 @@ function NeonBoard() {
 }
 
 function SkillsSection() {
-  const { t } = useLang();
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
@@ -2312,9 +2263,9 @@ function SkillsSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("03 — Skills")}
-          title={t("What I know")}
-          sub={t("I pick the right tool for each project — not just the familiar one.")}
+          index="03 — Skills"
+          title="What I know"
+          sub="I pick the right tool for each project — not just the familiar one."
         />
 
         {/* SM strip */}
@@ -2327,7 +2278,7 @@ function SkillsSection() {
               className="text-[10px] font-mono tracking-widest uppercase mb-4"
               style={{ color: "var(--accent-dim)" }}
             >
-              {t("State management — all of these")}
+              State management — all of these
             </p>
             <div className="flex flex-wrap gap-2">
               {[
@@ -2377,7 +2328,7 @@ function SkillsSection() {
         <FadeUp delay={0.3}>
           <div className="mt-4 p-5 rounded-xl bg-surface border border-hair">
             <p className="text-[10px] font-mono tracking-widest uppercase mb-4 text-ink-faint">
-              {t("Architecture patterns")}
+              Architecture patterns
             </p>
             <div className="flex flex-wrap gap-2">
               {[
@@ -2416,7 +2367,6 @@ function SkillCard({
 }: {
   group: (typeof SKILLS)[number];
 }) {
-  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -3 }}
@@ -2435,7 +2385,7 @@ function SkillCard({
           </span>
         </div>
         <p className="text-xs font-semibold text-ink-mute">
-          {t(group.title)}
+          {group.title}
         </p>
       </div>
       <ul className="space-y-2">
@@ -2492,7 +2442,6 @@ const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
 const ALL = "All";
 
 function ProjectsSection() {
-  const { t } = useLang();
   const [active, setActive] = useState(ALL);
   const [open, setOpen] = useState<Project | null>(null);
 
@@ -2524,9 +2473,9 @@ function ProjectsSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("04 — Projects")}
-          title={t("What I've built")}
-          sub={t("Production mobile architectures, offline storage engines, and published store applications.")}
+          index="04 — Projects"
+          title="What I've built"
+          sub="Real projects with real functionality — still building."
         />
 
         {/* filter chips */}
@@ -2588,7 +2537,7 @@ function ProjectsSection() {
                 <GitLabIcon size={14} />
               </div>
               <p className="text-sm text-ink-dim">
-                {t("More repos and experiments on GitHub & GitLab")}
+                More repos and experiments on GitHub &amp; GitLab
               </p>
             </div>
             <motion.a
@@ -2605,7 +2554,7 @@ function ProjectsSection() {
                 (e.currentTarget.style.color = "var(--accent-soft)")
               }
             >
-              {t("View all")} <ArrowRight size={11} />
+              View all <ArrowRight size={11} />
             </motion.a>
           </div>
         </FadeUp>
@@ -2648,7 +2597,6 @@ function FilterChip({
   active: boolean;
   onClick: () => void;
 }) {
-  const { t } = useLang();
   return (
     <button
       type="button"
@@ -2661,7 +2609,7 @@ function FilterChip({
         color: active ? tintText(A) : "var(--ink-dim)",
       }}
     >
-      {t(label)}
+      {label}
       <span
         className="text-[9px]"
         style={{ color: active ? tintText(A) : "var(--ink-faint)" }}
@@ -2708,7 +2656,7 @@ function ProjectIcon({
           width: size,
           height: size,
           borderRadius: radius,
-          fontFamily: "var(--font-display)",
+          fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: size * 0.4,
           letterSpacing: "0.02em",
           color: "#fff",
@@ -2861,7 +2809,6 @@ const openOnKey =
   };
 
 function ProjectCardLarge({ project, onOpen }: CardProps) {
-  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -2899,7 +2846,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                     }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    {t("Live on APKPure")}
+                    Live on APKPure
                   </span>
                 )}
                 {project.live && !project.apkPure && (
@@ -2912,14 +2859,14 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                     }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-                    {t("Live Web App")}
+                    Live Web App
                   </span>
                 )}
               </div>
               <h3
                 className="font-bold text-ink"
                 style={{
-                  fontFamily: "var(--font-display)",
+                  fontFamily: "'Barlow Condensed', sans-serif",
                   fontSize: "1.35rem",
                 }}
               >
@@ -2930,7 +2877,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
           <CardActions project={project} onOpen={onOpen} size={14} />
         </div>
         <p className="text-xs text-ink-dim leading-relaxed mb-5">
-          {t(project.description)}
+          {project.description}
         </p>
         <div className="grid grid-cols-2 gap-1.5 mb-5">
           {project.highlights.map((h) => (
@@ -2942,7 +2889,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                 className="w-1 h-1 rounded-full shrink-0"
                 style={{ background: tintFill(project.accent) }}
               />{" "}
-              {t(h)}
+              {h}
             </div>
           ))}
         </div>
@@ -2964,7 +2911,6 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
 }
 
 function ProjectCardSmall({ project, onOpen }: CardProps) {
-  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -3 }}
@@ -2987,7 +2933,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
             <h3
               className="font-bold text-ink-soft"
               style={{
-                fontFamily: "var(--font-display)",
+                fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: "1.2rem",
               }}
             >
@@ -2998,7 +2944,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
         <CardActions project={project} onOpen={onOpen} size={13} />
       </div>
       <p className="text-xs text-ink-dim leading-relaxed mb-4">
-        {t(project.description)}
+        {project.description}
       </p>
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-1.5">
@@ -3009,7 +2955,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
           ))}
         </div>
         <span className="text-[10px] font-mono text-ink-faint">
-          {t(project.status)}
+          {project.status}
         </span>
       </div>
     </motion.div>
@@ -3024,7 +2970,6 @@ function ProjectDetails({
   project: Project;
   onClose: () => void;
 }) {
-  const { t } = useLang();
   const images = project.images ?? [];
   const total = images.length;
   const [idx, setIdx] = useState(0);
@@ -3099,7 +3044,7 @@ function ProjectDetails({
                 <p
                   className="font-bold text-ink"
                   style={{
-                    fontFamily: "var(--font-display)",
+                    fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: "1.1rem",
                   }}
                 >
@@ -3201,7 +3146,7 @@ function ProjectDetails({
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  {t("Live on APKPure")}
+                  Live on APKPure
                 </span>
               )}
               {project.live && !project.apkPure && (
@@ -3214,14 +3159,14 @@ function ProjectDetails({
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-                  {t("Live Web App")}
+                  Live Web App
                 </span>
               )}
             </div>
             <h3
               className="font-bold text-ink mb-3 pr-8"
               style={{
-                fontFamily: "var(--font-display)",
+                fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: "1.8rem",
                 lineHeight: 1.1,
               }}
@@ -3231,7 +3176,7 @@ function ProjectDetails({
             <div className="flex items-center gap-3 text-[10px] font-mono text-ink-faint mb-5 flex-wrap">
               <span>{project.year}</span>
               <span className="w-1 h-1 rounded-full bg-current" />
-              <span>{t(project.status)}</span>
+              <span>{project.status}</span>
               {project.apkPure && (
                 <>
                   <span className="w-1 h-1 rounded-full bg-current" />
@@ -3244,7 +3189,7 @@ function ProjectDetails({
                 <>
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="text-violet-400 font-medium">
-                    {t("Live on Firebase Hosting")}
+                    Live on Firebase Hosting
                   </span>
                 </>
               )}
@@ -3283,18 +3228,18 @@ function ProjectDetails({
                   className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-sm shrink-0"
                 >
                   <Download size={12} />
-                  {t("Download APK")}
+                  Download APK
                   <ArrowUpRight size={10} />
                 </motion.a>
               </div>
             )}
 
             <p className="text-sm text-ink-dim leading-relaxed mb-6">
-              {t(project.description)}
+              {project.description}
             </p>
 
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
-              {t("Highlights")}
+              Highlights
             </p>
             <ul className="space-y-2 mb-6">
               {project.highlights.map((h) => (
@@ -3306,13 +3251,13 @@ function ProjectDetails({
                     className="mt-[6px] w-1 h-1 rounded-full shrink-0"
                     style={{ background: tintFill(project.accent) }}
                   />
-                  {t(h)}
+                  {h}
                 </li>
               ))}
             </ul>
 
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
-              {t("Tech stack")}
+              Tech stack
             </p>
             <div className="flex flex-wrap gap-1.5 mb-6">
               {project.tech.map((t) => (
@@ -3336,7 +3281,7 @@ function ProjectDetails({
                     color: "#10B981",
                   }}
                 >
-                  <Download size={13} /> {t("Download APK")}
+                  <Download size={13} /> Download APK
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3353,7 +3298,7 @@ function ProjectDetails({
                     color: "#A78BFA",
                   }}
                 >
-                  <Globe size={13} /> {t("Live Demo")}
+                  <Globe size={13} /> Live Demo
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3375,7 +3320,7 @@ function ProjectDetails({
                   ) : (
                     <Github size={13} />
                   )}{" "}
-                  {t(project.repo.includes("gitlab") ? "View on GitLab" : "View source")}
+                  {project.repo.includes("gitlab") ? "View on GitLab" : "View source"}
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3384,7 +3329,7 @@ function ProjectDetails({
                 onClick={onClose}
                 className="inline-flex items-center text-xs font-mono px-4 py-2 rounded-full border border-hair text-ink-dim hover:text-ink transition-colors"
               >
-                {t("Close")}
+                Close
               </button>
             </div>
           </div>
@@ -3399,15 +3344,14 @@ function ProjectDetails({
 // ─── Credentials ──────────────────────────────────────────────────────────────
 
 function CredentialsSection() {
-  const { t } = useLang();
   return (
     <section id="credentials" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("05 — Credentials")}
-          title={t("Education & Training")}
-          sub={t("Academic background, certifications, and languages.")}
+          index="05 — Credentials"
+          title="Education & Training"
+          sub="Academic background, certifications, and languages."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -3437,25 +3381,25 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  {t("Education")}
+                  Education
                 </p>
               </div>
               {EDUCATION.map((e, i) => (
                 <div key={e.school} className={i > 0 ? "mt-5" : ""}>
                   {e.degree && (
                     <p className="text-sm font-semibold text-ink-soft leading-snug mb-1">
-                      {t(e.degree)}
+                      {e.degree}
                     </p>
                   )}
                   <p className="text-xs text-ink-dim mb-3">
-                    {t(e.school)}
+                    {e.school}
                   </p>
                   <div className="space-y-2">
                     {[
-                      { label: t("Period"), value: e.period },
+                      { label: "Period", value: e.period },
                       {
-                        label: t("Graduated"),
-                        value: e.graduated && t(e.graduated),
+                        label: "Graduated",
+                        value: e.graduated,
                       },
                       { label: "GPA", value: e.gpa },
                     ]
@@ -3514,12 +3458,12 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  {t("Training & Certification")}
+                  Training & Certification
                 </p>
               </div>
               <div className="space-y-4">
-                {TRAINING.map((tr, i) => (
-                  <SlideIn key={tr.title} delay={i * 0.07}>
+                {TRAINING.map((t, i) => (
+                  <SlideIn key={t.title} delay={i * 0.07}>
                     <div
                       className="relative pl-4 border-l-2"
                       style={{ borderColor: tintLine(A) }}
@@ -3529,14 +3473,14 @@ function CredentialsSection() {
                         style={{ background: A }}
                       />
                       <p className="text-sm text-ink-soft font-medium leading-snug">
-                        {t(tr.title)}
+                        {t.title}
                       </p>
                       <p className="text-xs text-ink-dim mt-0.5">
-                        {t(tr.org)}
+                        {t.org}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5">
                         <span className="text-[10px] font-mono text-ink-dim">
-                          {tr.period}
+                          {t.period}
                         </span>
                         <span
                           className="text-[10px] font-mono px-1.5 py-0.5 rounded"
@@ -3545,7 +3489,7 @@ function CredentialsSection() {
                             color: "var(--accent-soft)",
                           }}
                         >
-                          {t(tr.type)}
+                          {t.type}
                         </span>
                       </div>
                     </div>
@@ -3581,7 +3525,7 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  {t("Languages")}
+                  Languages
                 </p>
               </div>
               <div className="space-y-6">
@@ -3590,11 +3534,11 @@ function CredentialsSection() {
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <p className="text-sm text-ink-soft font-medium">
-                          {t(l.lang)}
+                          {l.lang}
                         </p>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-mono text-ink-dim">
-                            {t(l.level)}
+                            {l.level}
                           </span>
                           <span
                             className="text-[10px] font-mono font-semibold"
@@ -3614,6 +3558,25 @@ function CredentialsSection() {
                   </FadeUp>
                 ))}
 
+                {/* Burmese — native, always 100% */}
+                <FadeUp delay={0.35}>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <p className="text-sm text-ink-soft font-medium">
+                        Burmese
+                      </p>
+                      <span className="text-[10px] font-mono text-ink-dim">
+                        <span>Native</span>
+                        <span className="ml-2 font-semibold text-[#10B981]">
+                          100%
+                        </span>
+                      </span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-elevate overflow-hidden">
+                      <ProgressBar pct={100} color="#10B981" />
+                    </div>
+                  </div>
+                </FadeUp>
               </div>
             </div>
           </FadeUp>
@@ -3759,7 +3722,6 @@ function ChipGroup({
   value: string;
   onChange: (v: string) => void;
 }) {
-  const { t } = useLang();
   return (
     <div className="flex flex-col gap-2.5">
       <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint">
@@ -3798,7 +3760,7 @@ function ChipGroup({
               >
                 <Check size={11} />
               </motion.span>
-              {t(o)}
+              {o}
             </motion.button>
           );
         })}
@@ -3808,7 +3770,6 @@ function ChipGroup({
 }
 
 function ContactSection() {
-  const { t } = useLang();
   const [brief, setBrief] = useState<Brief>(EMPTY_BRIEF);
   const [channel, setChannel] = useState<Channel>("Viber");
   const [sent, setSent] = useState(false);
@@ -3842,9 +3803,9 @@ function ContactSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index={t("06 — Contact")}
-          title={t("Get in touch")}
-          sub={t("Open to Flutter roles, collaborations, and interesting projects.")}
+          index="06 — Contact"
+          title="Get in touch"
+          sub="Open to Flutter roles, collaborations, and interesting projects."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -3948,7 +3909,7 @@ function ContactSection() {
                 </div>
                 <div>
                   <p className="text-[10px] font-mono tracking-widest uppercase text-ink-faint">
-                    {t("Resume")}
+                    Resume
                   </p>
                   <p className="text-xs text-ink-mute group-hover:text-ink-mute transition-colors">
                     BhoneMyatHein_Resume.pdf
@@ -3970,18 +3931,21 @@ function ContactSection() {
                 }}
               >
                 <p className="text-[10px] font-mono tracking-widest uppercase mb-3 text-[#10B981]/50">
-                  {t("Collaboration & Availability")}
+                  Auth I&apos;ve built
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {[
-                    "Full-Time Roles",
-                    "Contract & Freelance",
-                    "Remote / On-Site",
-                    "Fast Turnaround",
-                    "Clean Handoff",
+                    "Username/Password",
+                    "Google Sign-In",
+                    "Phone OTP",
+                    "Activation Key",
+                    "Firebase Auth",
+                    "Access Token",
+                    "Refresh",
+                    "Revoke",
                   ].map((a) => (
                     <Pill key={a} color="#10B981">
-                      {t(a)}
+                      {a}
                     </Pill>
                   ))}
                 </div>
@@ -3990,7 +3954,7 @@ function ContactSection() {
 
             <FadeUp delay={0.25}>
               <p className="flex items-center gap-1.5 text-[11px] font-mono text-ink-faint px-1">
-                <MapPin size={10} /> {t(PROFILE.location)} ·
+                <MapPin size={10} /> {PROFILE.location} ·
                 <LocalTime />
               </p>
             </FadeUp>
@@ -4033,19 +3997,17 @@ function ContactSection() {
                   )}
                 </motion.div>
                 <p className="text-ink-soft font-semibold mb-1">
-                  {t(CHANNEL_DONE[channel])}
+                  {CHANNEL_DONE[channel]}
                 </p>
                 <p className="text-xs font-mono text-ink-dim mb-1">
                   {briefSubject(brief)}
                 </p>
                 <p className="text-sm text-ink-dim mb-7 max-w-xs">
-                  {t(
-                    channelPrefills(channel)
-                      ? "It hasn't reached me yet — press send there to finish."
-                      : copied
-                        ? "Your brief is on the clipboard — paste it into the chat and send."
-                        : "Copy your brief below, then paste it into the chat.",
-                  )}
+                  {channelPrefills(channel)
+                    ? "It hasn't reached me yet — press send there to finish."
+                    : copied
+                      ? "Your brief is on the clipboard — paste it into the chat and send."
+                      : "Copy your brief below, then paste it into the chat."}
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-2">
@@ -4058,7 +4020,7 @@ function ContactSection() {
                     ) : (
                       <MessageCircle size={12} />
                     )}{" "}
-                    {t("Open {channel} again", { channel })}
+                    Open {channel} again
                   </a>
                   <button
                     type="button"
@@ -4067,11 +4029,11 @@ function ContactSection() {
                   >
                     {copied ? (
                       <>
-                        <Check size={12} /> {t("Copied")}
+                        <Check size={12} /> Copied
                       </>
                     ) : (
                       <>
-                        <Copy size={12} /> {t("Copy the message")}
+                        <Copy size={12} /> Copy the message
                       </>
                     )}
                   </button>
@@ -4085,19 +4047,19 @@ function ContactSection() {
                   }}
                   className="mt-6 text-xs font-mono text-ink-faint hover:text-ink-dim underline underline-offset-4 transition-colors"
                 >
-                  {t("Start over")}
+                  Start over
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={submit} className="flex flex-col gap-6">
                 <ChipGroup
-                  label={t("What do you need?")}
+                  label="What do you need?"
                   options={BRIEF_INTENTS}
                   value={brief.intent}
                   onChange={set("intent")}
                 />
                 <ChipGroup
-                  label={t("Timeline")}
+                  label="Timeline"
                   options={BRIEF_TIMELINES}
                   value={brief.timeline}
                   onChange={set("timeline")}
@@ -4105,15 +4067,15 @@ function ContactSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <CField
-                    label={t("Name")}
+                    label="Name"
                     type="text"
-                    placeholder={t("Your name")}
+                    placeholder="Your name"
                     value={brief.name}
                     onChange={set("name")}
                     required
                   />
                   <CField
-                    label={t("Email — optional")}
+                    label="Email — optional"
                     type="email"
                     placeholder="you@company.com"
                     value={brief.email}
@@ -4123,11 +4085,11 @@ function ContactSection() {
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint">
-                    {t("A few lines")}
+                    A few lines
                   </label>
                   <textarea
                     rows={4}
-                    placeholder={t("What are you building, and what do you need from me?")}
+                    placeholder="What are you building, and what do you need from me?"
                     value={brief.message}
                     onChange={(e) => set("message")(e.target.value)}
                     required
@@ -4142,7 +4104,7 @@ function ContactSection() {
                 </div>
 
                 <ChipGroup
-                  label={t("Send it via")}
+                  label="Send it via"
                   options={[...CHANNELS]}
                   value={channel}
                   onChange={(v) => setChannel(v as Channel)}
@@ -4157,12 +4119,12 @@ function ContactSection() {
                     style={{ background: A }}
                   >
                     {channel === "Email"
-                      ? t("Compose email")
-                      : t("Send on {channel}", { channel })}{" "}
+                      ? "Compose email"
+                      : `Send on ${channel}`}{" "}
                     <ArrowUpRight size={14} />
                   </motion.button>
                   <p className="text-[10px] font-mono text-ink-faint text-center leading-relaxed">
-                    {t(CHANNEL_HINT[channel])}
+                    {CHANNEL_HINT[channel]}
                   </p>
                 </div>
               </form>
@@ -4215,21 +4177,12 @@ function CField({
 
 export default function App() {
   return (
-    <LangProvider>
-      <Shell />
-    </LangProvider>
-  );
-}
-
-function Shell() {
-  const { t } = useLang();
-  return (
     <div
       className="min-h-screen antialiased"
       style={{
         background: BG,
         color: "var(--foreground)",
-        fontFamily: "var(--font-body)",
+        fontFamily: "'DM Sans', sans-serif",
       }}
     >
       <ScrollProgress />
@@ -4255,14 +4208,14 @@ function Shell() {
               <Smartphone size={10} style={{ color: A }} />
             </div>
             <p className="text-[11px] font-mono text-ink-faint">
-              {PROFILE.name} · {t("Flutter Specialist")}
+              {PROFILE.name} · Flutter Specialist
             </p>
           </div>
           <p
             className="text-[11px] font-mono"
             style={{ color: "var(--hair-2)" }}
           >
-            {t("Yangon, Myanmar")} · {new Date().getFullYear()}
+            Yangon, Myanmar · {new Date().getFullYear()}
           </p>
         </div>
       </footer>
