@@ -566,6 +566,11 @@ const TRAINING = [
 
 const LANGUAGES = [
   {
+    lang: "Burmese",
+    level: "Native / Mother Tongue",
+    pct: 100,
+  },
+  {
     lang: "English",
     level: "B2 — Upper Intermediate",
     pct: 60,
