@@ -1796,11 +1796,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("ui")}
-            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
-              activeTab === "ui"
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${activeTab === "ui"
                 ? "bg-surface text-ink-strong shadow-xs font-semibold"
                 : "text-ink-dim hover:text-ink-mute"
-            }`}
+              }`}
             style={activeTab === "ui" ? { color: "var(--accent-soft)" } : {}}
           >
             <Smartphone size={12} className="shrink-0" />
@@ -1809,11 +1808,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("bloc")}
-            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
-              activeTab === "bloc"
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${activeTab === "bloc"
                 ? "bg-surface text-ink-strong shadow-xs font-semibold"
                 : "text-ink-dim hover:text-ink-mute"
-            }`}
+              }`}
             style={activeTab === "bloc" ? { color: "var(--accent-soft)" } : {}}
           >
             <Code2 size={12} className="shrink-0" />
@@ -1822,11 +1820,10 @@ function BlocAuthShowcase() {
           <button
             type="button"
             onClick={() => setActiveTab("state")}
-            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${
-              activeTab === "state"
+            className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg font-medium transition-all ${activeTab === "state"
                 ? "bg-surface text-ink-strong shadow-xs font-semibold"
                 : "text-ink-dim hover:text-ink-mute"
-            }`}
+              }`}
             style={activeTab === "state" ? { color: "var(--accent-soft)" } : {}}
           >
             <Layers size={12} className="shrink-0" />
@@ -1888,21 +1885,21 @@ function BlocAuthShowcase() {
                   style={
                     authState === "initial"
                       ? {
-                          background: tintBg(A),
-                          color: tintText(A),
-                          border: `1px solid ${tintLine(A)}`,
-                        }
+                        background: tintBg(A),
+                        color: tintText(A),
+                        border: `1px solid ${tintLine(A)}`,
+                      }
                       : authState === "loading"
                         ? {
-                            background: "rgba(245, 158, 11, 0.15)",
-                            color: "#F59E0B",
-                            border: "1px solid rgba(245, 158, 11, 0.3)",
-                          }
+                          background: "rgba(245, 158, 11, 0.15)",
+                          color: "#F59E0B",
+                          border: "1px solid rgba(245, 158, 11, 0.3)",
+                        }
                         : {
-                            background: "rgba(16, 185, 129, 0.15)",
-                            color: "#10B981",
-                            border: "1px solid rgba(16, 185, 129, 0.3)",
-                          }
+                          background: "rgba(16, 185, 129, 0.15)",
+                          color: "#10B981",
+                          border: "1px solid rgba(16, 185, 129, 0.3)",
+                        }
                   }
                 >
                   {authState === "initial" && "AuthInitial()"}
