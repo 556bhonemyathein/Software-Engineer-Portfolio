@@ -306,4 +306,53 @@ export const MM: Record<string, string> = {
   Copied: "ကူးယူပြီး",
   "Copy the message": "စာကို ကူးယူရန်",
   "Start over": "အစမှ ပြန်စရန်",
+  // ── Additional Highlights, Skills & Projects ──────────────────────────────
+  "Started Flutter in 2024 — building and shipping consistently since.":
+    "၂၀၂၄ ခုနှစ်တွင် Flutter စတင်ခဲ့ပြီး ထိုအချိန်မှစ၍ အက်ပ်များကို စဉ်ဆက်မပြတ် တည်ဆောက်ထုတ်လွှင့်လျက်ရှိပါသည်။",
+  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.":
+    "Pocket Pilot အက်ပ်အား APKPure ပေါ်တွင် offline-first architecture ဖြင့် တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ခဲ့ပါသည်။",
+  "Knows all major state management patterns; picks the right one for each project.":
+    "အဓိက State Management ပုံစံအားလုံးကို နားလည်ပြီး ပရောဂျက်တစ်ခုချင်းစီအတွက် အသင့်တော်ဆုံးကို ရွေးချယ်အသုံးပြုပါသည်။",
+  "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.":
+    "AI ကိရိယာများ (Copilot၊ Claude၊ Gemini၊ Codex) ဖြင့် လုပ်ငန်းပိုမိုမြန်ဆန်စေသော်လည်း code တစ်ကြောင်းချင်းစီကို သေချာနားလည်စစ်ဆေးပြီးမှ ထုတ်လွှင့်ပါသည်။",
+  "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.":
+    "REST APIs၊ Firebase၊ full auth flow များ၊ image upload နှင့် responsive UI များတွင် လက်တွေ့အတွေ့အကြုံ ကြွယ်ဝပါသည်။",
+  "Worked alongside backend teams on PHP, Firebase, and Odoo — integrating their APIs into Flutter.":
+    "PHP၊ Firebase နှင့် Odoo backend အဖွဲ့များနှင့် ပူးပေါင်း၍ API များကို Flutter အတွင်း ချောမွေ့စွာ ချိတ်ဆက်ခဲ့ပါသည်။",
+  "Engineered 600-level multi-game engine (Quick Puz) with solvable parity algorithms & 38 passing automated widget tests.":
+    "အဆင့် ၆၀၀ ပါဝင်သော Quick Puz game engine ကို ဖြေရှင်းနိုင်မှု အာမခံ parity algorithm နှင့် automated widget test ၃၈ ခုဖြင့် တည်ဆောက်ခဲ့ပါသည်။",
+  "Built real-world IoT telemetry solutions connecting ESP32 hardware, MQTT protocols, MJPEG video streaming, and hardware printing.":
+    "ESP32 hardware၊ MQTT protocol၊ MJPEG video streaming နှင့် hardware printing တို့ကို ချိတ်ဆက်သည့် လက်တွေ့ IoT telemetry စနစ်များကို တည်ဆောက်ခဲ့ပါသည်။",
+
+  "Store Distribution & Publishing": "Store ပေါ် ထုတ်ဝေခြင်းနှင့် ဖြန့်ချိခြင်း",
+  "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.":
+    "Pocket Pilot (v1.0.0) ကို APKPure ပေါ်သို့ တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ခဲ့သည် — release bundling၊ ProGuard/R8၊ APK signing နှင့် Android 7.0+ ကိုက်ညီမှုများကို ပြင်ဆင်ခဲ့သည်။",
+  "Deep-diving Clean Architecture, feature-first structure, and various state management approaches (BLoC, Riverpod, GetX).":
+    "Clean Architecture၊ feature-first structure နှင့် state management ချဉ်းကပ်မှုများ (BLoC၊ Riverpod၊ GetX) ကို အသေးစိတ်လေ့လာအသုံးပြုလျက်ရှိသည်။",
+  "Backend & Auth": "Backend နှင့် Auth စနစ်များ",
+  "Auth against Firebase, Odoo and PHP backends — username/password, Google Sign-In, phone OTP, activation key, and JWT access tokens with refresh and revoke.":
+    "Firebase၊ Odoo နှင့် PHP backend များဖြင့် authentication ပြုလုပ်ခြင်း — username/password၊ Google Sign-In၊ phone OTP၊ activation key နှင့် JWT token refresh/revoke များ ပါဝင်သည်။",
+  "Backend Team Collaboration": "Backend အဖွဲ့နှင့် ပူးပေါင်းဆောင်ရွက်မှု",
+  "Worked with backend developers on PHP, Firebase, and Odoo services — aligning request/response contracts, integrating endpoints into Flutter, and debugging issues across both sides.":
+    "PHP၊ Firebase နှင့် Odoo ဝန်ဆောင်မှုများအတွက် backend developer များနှင့် ပူးပေါင်း၍ request/response contract များ ညှိနှိုင်းခြင်း၊ endpoint များ ချိတ်ဆက်ခြင်းနှင့် ပြဿနာများကို ဖြေရှင်းခဲ့သည်။",
+  "IoT, Telemetry & Hardware": "IoT၊ Telemetry နှင့် Hardware",
+  "Bridged Flutter with ESP32 microcontrollers over MQTT (Adafruit IO) and Blynk Cloud APIs to capture live sensor telemetry, render MJPEG camera feeds, and trigger thermal ticket prints.":
+    "Flutter ကို ESP32 microcontroller များနှင့် MQTT (Adafruit IO) နှင့် Blynk Cloud API များမှတစ်ဆင့် ချိတ်ဆက်၍ live sensor telemetry ရယူခြင်း၊ MJPEG camera feed ပြသခြင်းနှင့် thermal ticket ရိုက်နှိပ်ခြင်းများ ပြုလုပ်ခဲ့သည်။",
+  "Game Engines & Automated Testing": "Game Engine နှင့် အလိုအလျောက် စမ်းသပ်စစ်ဆေးခြင်း",
+  "Designed a 6-puzzle logic game suite with 600 levels, mathematical solvable inversion parity shuffle algorithm, and 38 automated widget/unit tests.":
+    "အဆင့် ၆၀၀ ပါ ၆ မျိုးစပ် puzzle logic game suite ကို သင်္ချာနည်းကျ ဖြေရှင်းနိုင်မှု အာမခံ inversion parity shuffle algorithm နှင့် automated widget/unit test ၃၈ ခုဖြင့် ဒီဇိုင်းရေးဆွဲခဲ့သည်။",
+
+  "A Flutter specialist building real, functional apps — not just UI samples.":
+    "UI နမူနာမျှသာ မဟုတ်ဘဲ လက်တွေ့အလုပ်လုပ်သော အက်ပ်များကို တည်ဆောက်သည့် Flutter အထူးပြုပညာရှင်။",
+  "Real projects with real functionality — still building.":
+    "လက်တွေ့လုပ်ဆောင်ချက်များ ပါဝင်သော တကယ့်ပရောဂျက်များ — ဆက်လက်တည်ဆောက်ဆဲ။",
+  "Auth I've built": "တည်ဆောက်ခဲ့သည့် Auth စနစ်များ",
+  "Username/Password": "Username/Password",
+  "Google Sign-In": "Google Sign-In",
+  "Phone OTP": "ဖုန်း OTP",
+  "Activation Key": "Activation Key",
+  "Firebase Auth": "Firebase Auth",
+  "Access Token": "Access Token",
+  "Refresh": "Refresh Token",
+  "Revoke": "Token ရုပ်သိမ်းခြင်း",
 };

@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useTheme } from "./useTheme";
+import { LangProvider, useLang } from "./i18n";
 import {
   Github,
   Gitlab,
@@ -44,6 +45,7 @@ import {
   Lock,
   Play,
   RotateCcw,
+  Languages,
 } from "lucide-react";
 
 // ─── Theme accent ─────────────────────────────────────────────────────────────
@@ -81,6 +83,7 @@ const PROFILE = {
   gitlab: "https://gitlab.com/556bhonemyathein",
   linkedin:
     "https://www.linkedin.com/in/556bhonemyathein/",
+  website: "https://556bhonemyathein.tech",
   photo: "/profile.jpg?v=2",
   available: true,
 };
@@ -831,7 +834,7 @@ function SectionLabel({
       <h2
         className="font-bold leading-tight mb-3 text-ink"
         style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
+          fontFamily: "var(--font-display)",
           fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
         }}
       >
@@ -919,6 +922,35 @@ function ThemeToggle({
           )}
         </motion.span>
       </motion.span>
+    </button>
+  );
+}
+
+// ─── Language toggle ─────────────────────────────────────────────────────────
+
+function LangToggle({ className = "" }: { className?: string }) {
+  const { lang, toggle, t } = useLang();
+  const mm = lang === "mm";
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={t(mm ? "Switch to English" : "Switch to Myanmar")}
+      title={mm ? "English" : "မြန်မာ"}
+      className={`flex h-[26px] shrink-0 items-center gap-1.5 rounded-full border border-hair bg-elevate px-2.5 text-[10px] font-mono transition-colors duration-200 hover:border-hair-2 active:scale-95 ${className}`}
+      style={{ WebkitTapHighlightColor: "transparent" }}
+    >
+      <Languages size={11} style={{ color: "var(--ink-dim)" }} />
+      <span style={{ color: mm ? "var(--ink-faint)" : A }}>EN</span>
+      <span className="text-ink-faint">/</span>
+      <span
+        style={{
+          color: mm ? A : "var(--ink-faint)",
+          fontFamily: "var(--font-myanmar)",
+        }}
+      >
+        မြန်မာ
+      </span>
     </button>
   );
 }
@@ -1095,6 +1127,7 @@ function BackToTop() {
 
 function Nav() {
   const y = useScrollY();
+  const { t } = useLang();
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
   const past = y > 80;
@@ -1181,7 +1214,7 @@ function Nav() {
                     }}
                   />
                 )}
-                {l}
+                {t(l)}
               </button>
             );
           })}
@@ -1204,6 +1237,7 @@ function Nav() {
           >
             <GitLabIcon size={14} />
           </a>
+          <LangToggle className="ml-2" />
           <ThemeToggle theme={theme} onToggle={toggle} className="ml-2" />
         </nav>
 
@@ -1212,10 +1246,11 @@ function Nav() {
           className="hidden md:flex items-center gap-1.5 text-xs px-4 py-2 rounded-lg font-semibold text-white transition-all duration-200 hover:brightness-110 active:scale-95"
           style={{ background: A }}
         >
-          Hire me <ArrowUpRight size={11} />
+          {t("Hire me")} <ArrowUpRight size={11} />
         </button>
 
         <div className="md:hidden flex items-center gap-3">
+          <LangToggle />
           <ThemeToggle theme={theme} onToggle={toggle} />
           <button
             type="button"
@@ -1262,7 +1297,7 @@ function Nav() {
               className="text-left py-2.5 px-3 text-xs font-mono text-ink-dim hover:text-ink-soft rounded-lg hover:bg-elevate transition-all"
               style={{ WebkitTapHighlightColor: "transparent" }}
             >
-              {l}
+              {t(l)}
             </button>
           ))}
           <button
@@ -1271,7 +1306,7 @@ function Nav() {
             className="mt-2 py-2.5 px-3 text-xs font-semibold text-white rounded-lg"
             style={{ background: A, WebkitTapHighlightColor: "transparent" }}
           >
-            Hire me
+            {t("Hire me")}
           </button>
         </div>
       </motion.div>
@@ -1304,6 +1339,7 @@ function StatCounter({
   suffix?: string;
   label: string;
 }) {
+  const { t } = useLang();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const val = useCount(target, inView);
@@ -1315,7 +1351,7 @@ function StatCounter({
       <p
         className="font-bold text-ink-strong"
         style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
+          fontFamily: "var(--font-display)",
           fontSize: "1.5rem",
           lineHeight: 1,
         }}
@@ -1324,13 +1360,14 @@ function StatCounter({
         {suffix}
       </p>
       <p className="text-[9px] font-mono text-ink-dim mt-1">
-        {label}
+        {t(label)}
       </p>
     </div>
   );
 }
 
 function HeroSection() {
+  const { t } = useLang();
   return (
     <section
       id="hero"
@@ -1386,7 +1423,7 @@ function HeroSection() {
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
                   <span className="font-mono text-[11px] text-[#10B981]/80">
-                    Available for work
+                    {t("Available for work")}
                   </span>
                 </div>
               </motion.div>
@@ -1396,7 +1433,7 @@ function HeroSection() {
                 variants={fadeUp}
                 className="leading-[0.86] tracking-tight mb-5"
                 style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontFamily: "var(--font-display)",
                   fontSize: "clamp(3.8rem, 10vw, 7.5rem)",
                   fontWeight: 800,
                 }}
@@ -1433,7 +1470,7 @@ function HeroSection() {
                   className="font-mono text-sm"
                   style={{ color: A }}
                 >
-                  {PROFILE.role}
+                  {t(PROFILE.role)}
                 </p>
               </motion.div>
 
@@ -1441,14 +1478,14 @@ function HeroSection() {
                 variants={fadeUp}
                 className="text-sm text-ink-mute leading-relaxed mb-6 max-w-md"
               >
-                {PROFILE.tagline}
+                {t(PROFILE.tagline)}
               </motion.p>
 
               <motion.div
                 variants={fadeUp}
                 className="flex items-center gap-1.5 mb-8 font-mono text-[11px] text-ink-dim"
               >
-                <MapPin size={11} /> {PROFILE.location}
+                <MapPin size={11} /> {t(PROFILE.location)}
               </motion.div>
 
               {/* CTAs */}
@@ -1463,7 +1500,7 @@ function HeroSection() {
                   className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all"
                   style={{ background: A }}
                 >
-                  View projects <ArrowUpRight size={14} />
+                  {t("View projects")} <ArrowUpRight size={14} />
                 </motion.button>
                 <motion.a
                   whileHover={{ scale: 1.03 }}
@@ -1475,7 +1512,7 @@ function HeroSection() {
                     borderColor: "var(--hair-2)",
                   }}
                 >
-                  <Download size={14} /> Resume
+                  <Download size={14} /> {t("Resume")}
                 </motion.a>
               </motion.div>
 
@@ -1543,7 +1580,7 @@ function HeroSection() {
             size={13}
             className="group-hover:translate-y-0.5 transition-transform"
           />
-          scroll to explore
+          {t("scroll to explore")}
         </motion.button>
       </div>
     </section>
@@ -1551,6 +1588,7 @@ function HeroSection() {
 }
 
 function ProfileCard() {
+  const { t } = useLang();
   const [tick, setTick] = useState(true);
   useEffect(() => {
     const t = setInterval(() => setTick((b) => !b), 540);
@@ -1614,7 +1652,7 @@ function ProfileCard() {
                 }}
               />
               <span className="text-[10px] font-mono text-ink-mute">
-                online
+                {t("online")}
               </span>
             </div>
           </div>
@@ -1624,7 +1662,7 @@ function ProfileCard() {
             <h3
               className="text-ink-strong font-bold mb-0.5"
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontSize: "1.3rem",
               }}
             >
@@ -1634,7 +1672,7 @@ function ProfileCard() {
               className="text-xs font-mono mb-4"
               style={{ color: "var(--accent-soft)" }}
             >
-              {PROFILE.role}
+              {t(PROFILE.role)}
             </p>
 
             {/* stats */}
@@ -2023,14 +2061,15 @@ function BlocAuthShowcase() {
 // ─── About ────────────────────────────────────────────────────────────────────
 
 function AboutSection() {
+  const { t } = useLang();
   return (
     <section id="about" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="01 — About"
-          title="Who I am"
-          sub="A Flutter specialist building real, functional apps — not just UI samples."
+          index={t("01 — About")}
+          title={t("Who I am")}
+          sub={t("A Flutter specialist building real, functional apps — not just UI samples.")}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -2048,7 +2087,7 @@ function AboutSection() {
                     <Check size={11} style={{ color: A }} />
                   </div>
                   <p className="text-sm text-ink-mute leading-relaxed">
-                    {pt}
+                    {t(pt)}
                   </p>
                 </div>
               </SlideIn>
@@ -2063,7 +2102,7 @@ function AboutSection() {
                   className="text-[10px] font-mono tracking-widest uppercase mb-3"
                   style={{ color: "var(--accent-dim)" }}
                 >
-                  AI-assisted development
+                  {t("AI-assisted development")}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {AI_TOOLS.map((t) => (
@@ -2121,14 +2160,15 @@ function AboutSection() {
 // ─── Experience ───────────────────────────────────────────────────────────────
 
 function ExperienceSection() {
+  const { t } = useLang();
   return (
     <section id="experience" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="02 — Experience"
-          title="Where I've worked"
-          sub="Professional experience and ongoing self-directed learning."
+          index={t("02 — Experience")}
+          title={t("Where I've worked")}
+          sub={t("Professional experience and ongoing self-directed learning.")}
         />
 
         <div className="space-y-5">
@@ -2146,22 +2186,22 @@ function ExperienceSection() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-ink">{exp.company}</p>
-                      <p className="text-xs font-mono" style={{ color: tintText(exp.accent) }}>{exp.role}</p>
+                      <p className="text-sm font-bold text-ink">{t(exp.company)}</p>
+                      <p className="text-xs font-mono" style={{ color: tintText(exp.accent) }}>{t(exp.role)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 sm:flex-col sm:items-end">
-                    <span className="text-xs font-mono text-ink-dim">{exp.period}</span>
+                    <span className="text-xs font-mono text-ink-dim">{t(exp.period)}</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full"
                       style={{ background: tintBg(exp.accent), color: tintTextSoft(exp.accent), border: `1px solid ${tintLine(exp.accent)}` }}>
-                      {exp.type}
+                      {t(exp.type)}
                     </span>
                   </div>
                 </div>
 
                 {/* body */}
                 <div className="px-6 py-5">
-                  <p className="text-xs text-ink-dim leading-relaxed mb-5">{exp.description}</p>
+                  <p className="text-xs text-ink-dim leading-relaxed mb-5">{t(exp.description)}</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {exp.highlights.map((h, hi) => (
@@ -2169,9 +2209,9 @@ function ExperienceSection() {
                         <div className="rounded-lg border border-hair bg-elevate p-4 hover:border-hair-2 hover:bg-elevate transition-all duration-200">
                           <div className="flex items-center gap-2 mb-2">
                             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.accent }} />
-                            <p className="text-xs font-semibold text-ink-soft">{h.app}</p>
+                            <p className="text-xs font-semibold text-ink-soft">{t(h.app)}</p>
                           </div>
-                          <p className="text-xs text-ink-dim leading-relaxed mb-3">{h.detail}</p>
+                          <p className="text-xs text-ink-dim leading-relaxed mb-3">{t(h.detail)}</p>
                           <div className="flex flex-wrap gap-1.5">
                             {h.tags.map((t) => <Pill key={t} color={exp.accent}>{t}</Pill>)}
                           </div>
@@ -2210,6 +2250,7 @@ const OTHER_TECH: { name: string; neon: string }[] = [
 ];
 
 function NeonBoard() {
+  const { t } = useLang();
   return (
     <FadeUp delay={0.35}>
       <div className="mt-4 rounded-xl overflow-hidden neon-board">
@@ -2222,7 +2263,7 @@ function NeonBoard() {
             }}
           />
           <p className="neon-label text-[10px] font-mono tracking-widest uppercase text-white/45">
-            Also worked with
+            {t("Also worked with")}
           </p>
         </div>
 
@@ -2256,6 +2297,7 @@ function NeonBoard() {
 }
 
 function SkillsSection() {
+  const { t } = useLang();
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
@@ -2263,9 +2305,9 @@ function SkillsSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="03 — Skills"
-          title="What I know"
-          sub="I pick the right tool for each project — not just the familiar one."
+          index={t("03 — Skills")}
+          title={t("What I know")}
+          sub={t("I pick the right tool for each project — not just the familiar one.")}
         />
 
         {/* SM strip */}
@@ -2278,7 +2320,7 @@ function SkillsSection() {
               className="text-[10px] font-mono tracking-widest uppercase mb-4"
               style={{ color: "var(--accent-dim)" }}
             >
-              State management — all of these
+              {t("State management — all of these")}
             </p>
             <div className="flex flex-wrap gap-2">
               {[
@@ -2328,7 +2370,7 @@ function SkillsSection() {
         <FadeUp delay={0.3}>
           <div className="mt-4 p-5 rounded-xl bg-surface border border-hair">
             <p className="text-[10px] font-mono tracking-widest uppercase mb-4 text-ink-faint">
-              Architecture patterns
+              {t("Architecture patterns")}
             </p>
             <div className="flex flex-wrap gap-2">
               {[
@@ -2367,6 +2409,7 @@ function SkillCard({
 }: {
   group: (typeof SKILLS)[number];
 }) {
+  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -3 }}
@@ -2385,7 +2428,7 @@ function SkillCard({
           </span>
         </div>
         <p className="text-xs font-semibold text-ink-mute">
-          {group.title}
+          {t(group.title)}
         </p>
       </div>
       <ul className="space-y-2">
@@ -2442,6 +2485,7 @@ const PROJECT_FILTERS: { label: string; tech: string[] }[] = [
 const ALL = "All";
 
 function ProjectsSection() {
+  const { t } = useLang();
   const [active, setActive] = useState(ALL);
   const [open, setOpen] = useState<Project | null>(null);
 
@@ -2473,9 +2517,9 @@ function ProjectsSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="04 — Projects"
-          title="What I've built"
-          sub="Real projects with real functionality — still building."
+          index={t("04 — Projects")}
+          title={t("What I've built")}
+          sub={t("Real projects with real functionality — still building.")}
         />
 
         {/* filter chips */}
@@ -2537,7 +2581,7 @@ function ProjectsSection() {
                 <GitLabIcon size={14} />
               </div>
               <p className="text-sm text-ink-dim">
-                More repos and experiments on GitHub &amp; GitLab
+                {t("More repos and experiments on GitHub & GitLab")}
               </p>
             </div>
             <motion.a
@@ -2554,7 +2598,7 @@ function ProjectsSection() {
                 (e.currentTarget.style.color = "var(--accent-soft)")
               }
             >
-              View all <ArrowRight size={11} />
+              {t("View all")} <ArrowRight size={11} />
             </motion.a>
           </div>
         </FadeUp>
@@ -2597,6 +2641,7 @@ function FilterChip({
   active: boolean;
   onClick: () => void;
 }) {
+  const { t } = useLang();
   return (
     <button
       type="button"
@@ -2609,7 +2654,7 @@ function FilterChip({
         color: active ? tintText(A) : "var(--ink-dim)",
       }}
     >
-      {label}
+      {t(label)}
       <span
         className="text-[9px]"
         style={{ color: active ? tintText(A) : "var(--ink-faint)" }}
@@ -2656,7 +2701,7 @@ function ProjectIcon({
           width: size,
           height: size,
           borderRadius: radius,
-          fontFamily: "'Barlow Condensed', sans-serif",
+          fontFamily: "var(--font-display)",
           fontSize: size * 0.4,
           letterSpacing: "0.02em",
           color: "#fff",
@@ -2809,6 +2854,7 @@ const openOnKey =
   };
 
 function ProjectCardLarge({ project, onOpen }: CardProps) {
+  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -2846,7 +2892,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                     }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Live on APKPure
+                    {t("Live on APKPure")}
                   </span>
                 )}
                 {project.live && !project.apkPure && (
@@ -2859,14 +2905,14 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                     }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-                    Live Web App
+                    {t("Live Web App")}
                   </span>
                 )}
               </div>
               <h3
                 className="font-bold text-ink"
                 style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontFamily: "var(--font-display)",
                   fontSize: "1.35rem",
                 }}
               >
@@ -2877,7 +2923,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
           <CardActions project={project} onOpen={onOpen} size={14} />
         </div>
         <p className="text-xs text-ink-dim leading-relaxed mb-5">
-          {project.description}
+          {t(project.description)}
         </p>
         <div className="grid grid-cols-2 gap-1.5 mb-5">
           {project.highlights.map((h) => (
@@ -2889,7 +2935,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
                 className="w-1 h-1 rounded-full shrink-0"
                 style={{ background: tintFill(project.accent) }}
               />{" "}
-              {h}
+              {t(h)}
             </div>
           ))}
         </div>
@@ -2911,6 +2957,7 @@ function ProjectCardLarge({ project, onOpen }: CardProps) {
 }
 
 function ProjectCardSmall({ project, onOpen }: CardProps) {
+  const { t } = useLang();
   return (
     <motion.div
       whileHover={{ y: -3 }}
@@ -2933,7 +2980,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
             <h3
               className="font-bold text-ink-soft"
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontSize: "1.2rem",
               }}
             >
@@ -2944,7 +2991,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
         <CardActions project={project} onOpen={onOpen} size={13} />
       </div>
       <p className="text-xs text-ink-dim leading-relaxed mb-4">
-        {project.description}
+        {t(project.description)}
       </p>
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-1.5">
@@ -2955,7 +3002,7 @@ function ProjectCardSmall({ project, onOpen }: CardProps) {
           ))}
         </div>
         <span className="text-[10px] font-mono text-ink-faint">
-          {project.status}
+          {t(project.status)}
         </span>
       </div>
     </motion.div>
@@ -2970,6 +3017,7 @@ function ProjectDetails({
   project: Project;
   onClose: () => void;
 }) {
+  const { t } = useLang();
   const images = project.images ?? [];
   const total = images.length;
   const [idx, setIdx] = useState(0);
@@ -3044,7 +3092,7 @@ function ProjectDetails({
                 <p
                   className="font-bold text-ink"
                   style={{
-                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontSize: "1.1rem",
                   }}
                 >
@@ -3146,7 +3194,7 @@ function ProjectDetails({
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Live on APKPure
+                  {t("Live on APKPure")}
                 </span>
               )}
               {project.live && !project.apkPure && (
@@ -3159,14 +3207,14 @@ function ProjectDetails({
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-                  Live Web App
+                  {t("Live Web App")}
                 </span>
               )}
             </div>
             <h3
               className="font-bold text-ink mb-3 pr-8"
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontSize: "1.8rem",
                 lineHeight: 1.1,
               }}
@@ -3176,7 +3224,7 @@ function ProjectDetails({
             <div className="flex items-center gap-3 text-[10px] font-mono text-ink-faint mb-5 flex-wrap">
               <span>{project.year}</span>
               <span className="w-1 h-1 rounded-full bg-current" />
-              <span>{project.status}</span>
+              <span>{t(project.status)}</span>
               {project.apkPure && (
                 <>
                   <span className="w-1 h-1 rounded-full bg-current" />
@@ -3189,7 +3237,7 @@ function ProjectDetails({
                 <>
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="text-violet-400 font-medium">
-                    Live on Firebase Hosting
+                    {t("Live on Firebase Hosting")}
                   </span>
                 </>
               )}
@@ -3228,18 +3276,18 @@ function ProjectDetails({
                   className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium text-white bg-emerald-600 hover:bg-emerald-500 transition-colors shadow-sm shrink-0"
                 >
                   <Download size={12} />
-                  Download APK
+                  {t("Download APK")}
                   <ArrowUpRight size={10} />
                 </motion.a>
               </div>
             )}
 
             <p className="text-sm text-ink-dim leading-relaxed mb-6">
-              {project.description}
+              {t(project.description)}
             </p>
 
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
-              Highlights
+              {t("Highlights")}
             </p>
             <ul className="space-y-2 mb-6">
               {project.highlights.map((h) => (
@@ -3251,13 +3299,13 @@ function ProjectDetails({
                     className="mt-[6px] w-1 h-1 rounded-full shrink-0"
                     style={{ background: tintFill(project.accent) }}
                   />
-                  {h}
+                  {t(h)}
                 </li>
               ))}
             </ul>
 
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint mb-3">
-              Tech stack
+              {t("Tech stack")}
             </p>
             <div className="flex flex-wrap gap-1.5 mb-6">
               {project.tech.map((t) => (
@@ -3281,7 +3329,7 @@ function ProjectDetails({
                     color: "#10B981",
                   }}
                 >
-                  <Download size={13} /> Download APK
+                  <Download size={13} /> {t("Download APK")}
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3298,7 +3346,7 @@ function ProjectDetails({
                     color: "#A78BFA",
                   }}
                 >
-                  <Globe size={13} /> Live Demo
+                  <Globe size={13} /> {t("Live Demo")}
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3320,7 +3368,7 @@ function ProjectDetails({
                   ) : (
                     <Github size={13} />
                   )}{" "}
-                  {project.repo.includes("gitlab") ? "View on GitLab" : "View source"}
+                  {t(project.repo.includes("gitlab") ? "View on GitLab" : "View source")}
                   <ArrowUpRight size={11} />
                 </motion.a>
               )}
@@ -3329,7 +3377,7 @@ function ProjectDetails({
                 onClick={onClose}
                 className="inline-flex items-center text-xs font-mono px-4 py-2 rounded-full border border-hair text-ink-dim hover:text-ink transition-colors"
               >
-                Close
+                {t("Close")}
               </button>
             </div>
           </div>
@@ -3344,14 +3392,15 @@ function ProjectDetails({
 // ─── Credentials ──────────────────────────────────────────────────────────────
 
 function CredentialsSection() {
+  const { t } = useLang();
   return (
     <section id="credentials" className="py-24 md:py-32">
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="05 — Credentials"
-          title="Education & Training"
-          sub="Academic background, certifications, and languages."
+          index={t("05 — Credentials")}
+          title={t("Education & Training")}
+          sub={t("Academic background, certifications, and languages.")}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -3381,25 +3430,25 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  Education
+                  {t("Education")}
                 </p>
               </div>
               {EDUCATION.map((e, i) => (
                 <div key={e.school} className={i > 0 ? "mt-5" : ""}>
                   {e.degree && (
                     <p className="text-sm font-semibold text-ink-soft leading-snug mb-1">
-                      {e.degree}
+                      {t(e.degree)}
                     </p>
                   )}
                   <p className="text-xs text-ink-dim mb-3">
-                    {e.school}
+                    {t(e.school)}
                   </p>
                   <div className="space-y-2">
                     {[
-                      { label: "Period", value: e.period },
+                      { label: t("Period"), value: e.period },
                       {
-                        label: "Graduated",
-                        value: e.graduated,
+                        label: t("Graduated"),
+                        value: e.graduated && t(e.graduated),
                       },
                       { label: "GPA", value: e.gpa },
                     ]
@@ -3458,12 +3507,12 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  Training & Certification
+                  {t("Training & Certification")}
                 </p>
               </div>
               <div className="space-y-4">
-                {TRAINING.map((t, i) => (
-                  <SlideIn key={t.title} delay={i * 0.07}>
+                {TRAINING.map((tr, i) => (
+                  <SlideIn key={tr.title} delay={i * 0.07}>
                     <div
                       className="relative pl-4 border-l-2"
                       style={{ borderColor: tintLine(A) }}
@@ -3473,14 +3522,14 @@ function CredentialsSection() {
                         style={{ background: A }}
                       />
                       <p className="text-sm text-ink-soft font-medium leading-snug">
-                        {t.title}
+                        {t(tr.title)}
                       </p>
                       <p className="text-xs text-ink-dim mt-0.5">
-                        {t.org}
+                        {t(tr.org)}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5">
                         <span className="text-[10px] font-mono text-ink-dim">
-                          {t.period}
+                          {tr.period}
                         </span>
                         <span
                           className="text-[10px] font-mono px-1.5 py-0.5 rounded"
@@ -3489,7 +3538,7 @@ function CredentialsSection() {
                             color: "var(--accent-soft)",
                           }}
                         >
-                          {t.type}
+                          {t(tr.type)}
                         </span>
                       </div>
                     </div>
@@ -3525,7 +3574,7 @@ function CredentialsSection() {
                   </svg>
                 </div>
                 <p className="text-xs font-semibold text-ink-mute">
-                  Languages
+                  {t("Languages")}
                 </p>
               </div>
               <div className="space-y-6">
@@ -3534,11 +3583,11 @@ function CredentialsSection() {
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <p className="text-sm text-ink-soft font-medium">
-                          {l.lang}
+                          {t(l.lang)}
                         </p>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-mono text-ink-dim">
-                            {l.level}
+                            {t(l.level)}
                           </span>
                           <span
                             className="text-[10px] font-mono font-semibold"
@@ -3722,6 +3771,7 @@ function ChipGroup({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const { t } = useLang();
   return (
     <div className="flex flex-col gap-2.5">
       <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint">
@@ -3760,7 +3810,7 @@ function ChipGroup({
               >
                 <Check size={11} />
               </motion.span>
-              {o}
+              {t(o)}
             </motion.button>
           );
         })}
@@ -3770,6 +3820,7 @@ function ChipGroup({
 }
 
 function ContactSection() {
+  const { t } = useLang();
   const [brief, setBrief] = useState<Brief>(EMPTY_BRIEF);
   const [channel, setChannel] = useState<Channel>("Viber");
   const [sent, setSent] = useState(false);
@@ -3803,9 +3854,9 @@ function ContactSection() {
       <HR />
       <div className="max-w-6xl mx-auto px-5 md:px-10 pt-20 md:pt-28">
         <SectionLabel
-          index="06 — Contact"
-          title="Get in touch"
-          sub="Open to Flutter roles, collaborations, and interesting projects."
+          index={t("06 — Contact")}
+          title={t("Get in touch")}
+          sub={t("Open to Flutter roles, collaborations, and interesting projects.")}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -3909,7 +3960,7 @@ function ContactSection() {
                 </div>
                 <div>
                   <p className="text-[10px] font-mono tracking-widest uppercase text-ink-faint">
-                    Resume
+                    {t("Resume")}
                   </p>
                   <p className="text-xs text-ink-mute group-hover:text-ink-mute transition-colors">
                     BhoneMyatHein_Resume.pdf
@@ -3931,7 +3982,7 @@ function ContactSection() {
                 }}
               >
                 <p className="text-[10px] font-mono tracking-widest uppercase mb-3 text-[#10B981]/50">
-                  Auth I&apos;ve built
+                  {t("Auth I've built")}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {[
@@ -3945,7 +3996,7 @@ function ContactSection() {
                     "Revoke",
                   ].map((a) => (
                     <Pill key={a} color="#10B981">
-                      {a}
+                      {t(a)}
                     </Pill>
                   ))}
                 </div>
@@ -3954,7 +4005,7 @@ function ContactSection() {
 
             <FadeUp delay={0.25}>
               <p className="flex items-center gap-1.5 text-[11px] font-mono text-ink-faint px-1">
-                <MapPin size={10} /> {PROFILE.location} ·
+                <MapPin size={10} /> {t(PROFILE.location)} ·
                 <LocalTime />
               </p>
             </FadeUp>
@@ -3997,17 +4048,19 @@ function ContactSection() {
                   )}
                 </motion.div>
                 <p className="text-ink-soft font-semibold mb-1">
-                  {CHANNEL_DONE[channel]}
+                  {t(CHANNEL_DONE[channel])}
                 </p>
                 <p className="text-xs font-mono text-ink-dim mb-1">
                   {briefSubject(brief)}
                 </p>
                 <p className="text-sm text-ink-dim mb-7 max-w-xs">
-                  {channelPrefills(channel)
-                    ? "It hasn't reached me yet — press send there to finish."
-                    : copied
-                      ? "Your brief is on the clipboard — paste it into the chat and send."
-                      : "Copy your brief below, then paste it into the chat."}
+                  {t(
+                    channelPrefills(channel)
+                      ? "It hasn't reached me yet — press send there to finish."
+                      : copied
+                        ? "Your brief is on the clipboard — paste it into the chat and send."
+                        : "Copy your brief below, then paste it into the chat.",
+                  )}
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-2">
@@ -4020,7 +4073,7 @@ function ContactSection() {
                     ) : (
                       <MessageCircle size={12} />
                     )}{" "}
-                    Open {channel} again
+                    {t("Open {channel} again", { channel })}
                   </a>
                   <button
                     type="button"
@@ -4029,11 +4082,11 @@ function ContactSection() {
                   >
                     {copied ? (
                       <>
-                        <Check size={12} /> Copied
+                        <Check size={12} /> {t("Copied")}
                       </>
                     ) : (
                       <>
-                        <Copy size={12} /> Copy the message
+                        <Copy size={12} /> {t("Copy the message")}
                       </>
                     )}
                   </button>
@@ -4047,19 +4100,19 @@ function ContactSection() {
                   }}
                   className="mt-6 text-xs font-mono text-ink-faint hover:text-ink-dim underline underline-offset-4 transition-colors"
                 >
-                  Start over
+                  {t("Start over")}
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={submit} className="flex flex-col gap-6">
                 <ChipGroup
-                  label="What do you need?"
+                  label={t("What do you need?")}
                   options={BRIEF_INTENTS}
                   value={brief.intent}
                   onChange={set("intent")}
                 />
                 <ChipGroup
-                  label="Timeline"
+                  label={t("Timeline")}
                   options={BRIEF_TIMELINES}
                   value={brief.timeline}
                   onChange={set("timeline")}
@@ -4067,15 +4120,15 @@ function ContactSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <CField
-                    label="Name"
+                    label={t("Name")}
                     type="text"
-                    placeholder="Your name"
+                    placeholder={t("Your name")}
                     value={brief.name}
                     onChange={set("name")}
                     required
                   />
                   <CField
-                    label="Email — optional"
+                    label={t("Email — optional")}
                     type="email"
                     placeholder="you@company.com"
                     value={brief.email}
@@ -4085,11 +4138,11 @@ function ContactSection() {
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-faint">
-                    A few lines
+                    {t("A few lines")}
                   </label>
                   <textarea
                     rows={4}
-                    placeholder="What are you building, and what do you need from me?"
+                    placeholder={t("What are you building, and what do you need from me?")}
                     value={brief.message}
                     onChange={(e) => set("message")(e.target.value)}
                     required
@@ -4104,7 +4157,7 @@ function ContactSection() {
                 </div>
 
                 <ChipGroup
-                  label="Send it via"
+                  label={t("Send it via")}
                   options={[...CHANNELS]}
                   value={channel}
                   onChange={(v) => setChannel(v as Channel)}
@@ -4119,12 +4172,12 @@ function ContactSection() {
                     style={{ background: A }}
                   >
                     {channel === "Email"
-                      ? "Compose email"
-                      : `Send on ${channel}`}{" "}
+                      ? t("Compose email")
+                      : t("Send on {channel}", { channel })}{" "}
                     <ArrowUpRight size={14} />
                   </motion.button>
                   <p className="text-[10px] font-mono text-ink-faint text-center leading-relaxed">
-                    {CHANNEL_HINT[channel]}
+                    {t(CHANNEL_HINT[channel])}
                   </p>
                 </div>
               </form>
@@ -4177,12 +4230,21 @@ function CField({
 
 export default function App() {
   return (
+    <LangProvider>
+      <Shell />
+    </LangProvider>
+  );
+}
+
+function Shell() {
+  const { t } = useLang();
+  return (
     <div
       className="min-h-screen antialiased"
       style={{
         background: BG,
         color: "var(--foreground)",
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
       <ScrollProgress />
@@ -4208,14 +4270,14 @@ export default function App() {
               <Smartphone size={10} style={{ color: A }} />
             </div>
             <p className="text-[11px] font-mono text-ink-faint">
-              {PROFILE.name} · Flutter Specialist
+              {PROFILE.name} · {t("Flutter Specialist")}
             </p>
           </div>
           <p
             className="text-[11px] font-mono"
             style={{ color: "var(--hair-2)" }}
           >
-            Yangon, Myanmar · {new Date().getFullYear()}
+            {t("Yangon, Myanmar")} · {new Date().getFullYear()}
           </p>
         </div>
       </footer>
