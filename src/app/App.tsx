@@ -566,11 +566,6 @@ const TRAINING = [
 
 const LANGUAGES = [
   {
-    lang: "Burmese",
-    level: "Native / Mother Tongue",
-    pct: 100,
-  },
-  {
     lang: "English",
     level: "B2 — Upper Intermediate",
     pct: 60,
@@ -3606,26 +3601,6 @@ function CredentialsSection() {
                     </div>
                   </FadeUp>
                 ))}
-
-                {/* Burmese — native, always 100% */}
-                <FadeUp delay={0.35}>
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <p className="text-sm text-ink-soft font-medium">
-                        Burmese
-                      </p>
-                      <span className="text-[10px] font-mono text-ink-dim">
-                        <span>Native</span>
-                        <span className="ml-2 font-semibold text-[#10B981]">
-                          100%
-                        </span>
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-elevate overflow-hidden">
-                      <ProgressBar pct={100} color="#10B981" />
-                    </div>
-                  </div>
-                </FadeUp>
               </div>
             </div>
           </FadeUp>
