@@ -2,6 +2,12 @@
 
 :root {
   --font-size: 16px;
+  /* Latin faces first; the Myanmar face only fills in glyphs they lack, so
+     English copy is untouched and Burmese copy never falls back to a
+     random system font. */
+  --font-myanmar: 'Noto Sans Myanmar', 'Padauk', 'Myanmar Text', 'Myanmar Sangam MN', sans-serif;
+  --font-body: 'DM Sans', var(--font-myanmar);
+  --font-display: 'Barlow Condensed', var(--font-myanmar);
   --background: #09090F;
   --foreground: #EEEEF5;
   --card: #111118;
@@ -452,3 +458,16 @@ textarea.bg-surface:hover {
     0 1px 2px rgba(60, 40, 80, 0.06);
 }
 
+
+/* ─── Burmese layout tweaks ────────────────────────────────────────────────
+   Myanmar script stacks marks above and below the baseline and reads badly
+   when letter-spaced, so the mono/label styles relax while `mm` is active. */
+:root[data-lang="mm"] .font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, var(--font-myanmar);
+}
+:root[data-lang="mm"] [class*="tracking-"] {
+  letter-spacing: 0.02em;
+}
+:root[data-lang="mm"] .leading-relaxed {
+  line-height: 1.85;
+}
