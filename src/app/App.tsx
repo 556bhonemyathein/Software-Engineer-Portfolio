@@ -94,7 +94,7 @@ const PROFILE = {
 
 const ABOUT_POINTS = [
   "Started Flutter in 2024 — building and shipping consistently since.",
-  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.",
+  "Published 2 apps on APKPure (Pocket Pilot & Quick Puz) as a verified Partner Developer.",
   "Knows all major state management patterns; picks the right one for each project.",
   "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.",
   "Experience across REST APIs, Firebase, full auth flows, image upload, and responsive UI.",
@@ -212,7 +212,7 @@ const SKILLS: {
       title: "Store Ops & Distribution",
       color: "#3B82F6",
       items: [
-        { name: "APKPure Partner Release", note: "v1.0.0 live" },
+        { name: "APKPure Partner Releases", note: "2 apps live" },
         { name: "Keystore release signing", note: "Production AAB" },
         { name: "ProGuard / R8", note: "Code minification" },
         { name: "Android 12+ Splash API", note: "Zero blank frame" },
@@ -270,7 +270,7 @@ const EXPERIENCE = [
     highlights: [
       {
         app: "Store Distribution & Publishing",
-        detail: "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.",
+        detail: "Shipped 2 production Flutter apps (Pocket Pilot & Quick Puz) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.",
         tags: ["APKPure", "Release Signing", "Android 7.0+", "Distribution"],
       },
       {
@@ -314,6 +314,8 @@ type Project = {
   status: string;
   repo?: string;
   apkPure?: string;
+  packageName?: string;
+  releaseMeta?: string;
   live?: string;
   /** App icon under /public/projects/<slug>/ — falls back to an accent tile. */
   icon?: string;
@@ -383,6 +385,8 @@ const PROJECTS: Project[] = [
     year: "2026",
     status: "Published on APKPure",
     apkPure: "https://apkpure.com/p/app.pocketpilot",
+    packageName: "app.pocketpilot",
+    releaseMeta: "v1.0.0 · Android 7.0+ · 65.9 MB",
     repo: "https://github.com/556bhonemyathein/pocket_pilot",
     icon: "/projects/pocket_pilot/icon.png",
     images: [
@@ -497,14 +501,16 @@ const PROJECTS: Project[] = [
   },
   {
     featured: true,
-    tag: "Flutter · Game Engine · Logic Puzzles",
+    tag: "Flutter · Game Engine · Store Release",
     accent: "#4F46E5",
     title: "Quick Puz — 6-in-1 Puzzle Games",
     description:
-      "Cross-platform puzzle game suite built in Flutter and Dart featuring 6 distinct puzzle engines and 100 levels each (600 levels total). Features Sliding Tiles (solvable parity shuffle algorithm), Lights Out, Memory Match, Flood It, Picross / Nonogram, and Pipe Rotate. Engineered with polymorphic puzzle architecture, move counters, par targets, star ratings, fluid staggered entrance animations, and pixel-matched native-to-Flutter splash handover.",
+      "Cross-platform puzzle game suite published on APKPure, built with Flutter and Dart featuring 6 distinct puzzle engines and 100 levels each (600 levels total). Features Sliding Tiles (solvable parity shuffle algorithm), Lights Out, Memory Match, Flood It, Picross / Nonogram, and Pipe Rotate. Engineered with polymorphic puzzle architecture, move counters, par targets, star ratings, fluid staggered entrance animations, and 38 passing automated widget tests.",
     highlights: [
+      "Published on APKPure (v1.0.0 · Verified Developer)",
       "6 puzzle game engines (600 levels total, 100 per game)",
       "Sliding tiles solvable inversion parity shuffle algorithm",
+      "38 passing automated widget tests validating puzzle mechanics",
       "Polymorphic game state architecture (moves, par, stars)",
       "Fluid staggered entrance & spring physics animations",
       "Seamless native splash handover (zero blank frame)",
@@ -513,16 +519,21 @@ const PROJECTS: Project[] = [
     tech: [
       "Flutter",
       "Dart",
+      "APKPure",
       "Material 3",
       "Custom Animations",
       "OOP Game Engine",
       "Cross-Platform",
     ],
     year: "2026",
-    status: "Completed",
+    status: "Published on APKPure",
+    apkPure: "https://apkpure.com/p/com.example.quick_puz",
+    packageName: "com.example.quick_puz",
+    releaseMeta: "v1.0.0 · Android 7.0+ · 38 Automated Tests",
     repo: "https://gitlab.com/556bhonemyathein/quick_puz",
     icon: "/projects/quick_puz/icon.png",
     images: [
+      "/projects/quick_puz/apkpure-console.png",
       "/projects/quick_puz/screenshot-1.png",
       "/projects/quick_puz/screenshot-2.png",
       "/projects/quick_puz/screenshot-3.png",
@@ -1510,7 +1521,7 @@ function HeroSection() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   href="/556_resume.pdf"
-                  download="556_resume.pdf"
+                  download="BhoneMyatHein_Resume.pdf"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-lg border text-ink-mute text-sm hover:text-ink-soft transition-all"
                   style={{
                     borderColor: "var(--hair-2)",
@@ -3287,7 +3298,7 @@ function ProjectDetails({
                 <>
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="text-emerald-500 font-medium">
-                    v1.0.0 · Android 7.0+ · 65.9 MB
+                    {project.releaseMeta ?? "v1.0.0 · Android 7.0+"}
                   </span>
                 </>
               )}
@@ -3321,7 +3332,10 @@ function ProjectDetails({
                       </span>
                     </div>
                     <p className="text-[11px] font-mono text-ink-dim">
-                      Package: <span className="text-ink font-medium">app.pocketpilot</span> · v1.0.0 · 65.9 MB
+                      {project.packageName && (
+                        <>Package: <span className="text-ink font-medium">{project.packageName}</span> · </>
+                      )}
+                      {project.releaseMeta ?? "Verified Release"}
                     </p>
                   </div>
                 </div>

@@ -309,8 +309,8 @@ export const MM: Record<string, string> = {
   // ── Additional Highlights, Skills & Projects ──────────────────────────────
   "Started Flutter in 2024 — building and shipping consistently since.":
     "၂၀၂၄ ခုနှစ်တွင် Flutter စတင်ခဲ့ပြီး ထိုအချိန်မှစ၍ အက်ပ်များကို စဉ်ဆက်မပြတ် တည်ဆောက်ထုတ်လွှင့်လျက်ရှိပါသည်။",
-  "Published Pocket Pilot on APKPure (v1.0.0, Partner Developer) with offline-first architecture.":
-    "Pocket Pilot အက်ပ်အား APKPure ပေါ်တွင် offline-first architecture ဖြင့် တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ခဲ့ပါသည်။",
+  "Published 2 apps on APKPure (Pocket Pilot & Quick Puz) as a verified Partner Developer.":
+    "Pocket Pilot နှင့် Quick Puz အက်ပ် ၂ ခုအား APKPure ပေါ်တွင် တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ထားပါသည်။",
   "Knows all major state management patterns; picks the right one for each project.":
     "အဓိက State Management ပုံစံအားလုံးကို နားလည်ပြီး ပရောဂျက်တစ်ခုချင်းစီအတွက် အသင့်တော်ဆုံးကို ရွေးချယ်အသုံးပြုပါသည်။",
   "Uses AI tools (Copilot, Claude, Gemini, Codex) to move faster — reviews and understands every line before it ships.":
@@ -325,8 +325,8 @@ export const MM: Record<string, string> = {
     "ESP32 hardware၊ MQTT protocol၊ MJPEG video streaming နှင့် hardware printing တို့ကို ချိတ်ဆက်သည့် လက်တွေ့ IoT telemetry စနစ်များကို တည်ဆောက်ခဲ့ပါသည်။",
 
   "Store Distribution & Publishing": "Store ပေါ် ထုတ်ဝေခြင်းနှင့် ဖြန့်ချိခြင်း",
-  "Shipped Pocket Pilot (v1.0.0) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.":
-    "Pocket Pilot (v1.0.0) ကို APKPure ပေါ်သို့ တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ခဲ့သည် — release bundling၊ ProGuard/R8၊ APK signing နှင့် Android 7.0+ ကိုက်ညီမှုများကို ပြင်ဆင်ခဲ့သည်။",
+  "Shipped 2 production Flutter apps (Pocket Pilot & Quick Puz) to APKPure as an official Partner Developer — configured release bundling, ProGuard/R8, APK signing, and Android 7.0+ compatibility.":
+    "ထုတ်လုပ်မှုအဆင့် Flutter အက်ပ် ၂ ခု (Pocket Pilot နှင့် Quick Puz) ကို APKPure ပေါ်သို့ တရားဝင် Partner Developer အဖြစ် ထုတ်လွှင့်ခဲ့သည် — release bundling၊ ProGuard/R8၊ APK signing နှင့် Android 7.0+ ကိုက်ညီမှုများကို ပြင်ဆင်ခဲ့သည်။",
   "Deep-diving Clean Architecture, feature-first structure, and various state management approaches (BLoC, Riverpod, GetX).":
     "Clean Architecture၊ feature-first structure နှင့် state management ချဉ်းကပ်မှုများ (BLoC၊ Riverpod၊ GetX) ကို အသေးစိတ်လေ့လာအသုံးပြုလျက်ရှိသည်။",
   "Backend & Auth": "Backend နှင့် Auth စနစ်များ",
